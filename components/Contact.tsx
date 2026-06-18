@@ -1,0 +1,197 @@
+"use client";
+
+import { useState } from "react";
+import { Reveal } from "./motion";
+import { WhatsAppIcon, PhoneIcon, MailIcon, MapPin, ClockIcon, ArrowRight } from "./icons";
+import { PHONES, EMAIL, ADDRESSES, waLink } from "@/lib/site";
+import { products } from "@/lib/products";
+
+function MiniMap({ accent = "#F59E1F" }: { accent?: string }) {
+  return (
+    <svg viewBox="0 0 120 80" className="h-full w-full" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+      <rect width="120" height="80" fill="#0e2147" />
+      <g stroke="#ffffff" strokeOpacity="0.08" strokeWidth="1">
+        <path d="M0 20H120M0 40H120M0 60H120M20 0V80M40 0V80M60 0V80M80 0V80M100 0V80" />
+      </g>
+      <path d="M-5 55 Q40 35 70 50 T130 45" stroke={accent} strokeOpacity="0.5" strokeWidth="2" fill="none" />
+      <path d="M30 -5 Q45 30 35 60 T55 90" stroke="#ffffff" strokeOpacity="0.12" strokeWidth="6" fill="none" />
+      <circle cx="64" cy="42" r="13" fill={accent} fillOpacity="0.18" />
+      <circle cx="64" cy="42" r="4" fill={accent} />
+    </svg>
+  );
+}
+
+export function Contact() {
+  const [name, setName] = useState("");
+  const [family, setFamily] = useState("");
+  const primary = PHONES.find((p) => p.primary) ?? PHONES[0];
+
+  const waText =
+    `Hi Nawkiran,${name ? ` this is ${name}.` : ""} I'm interested in ` +
+    `${family || "PET"} preforms. Approx. monthly quantity: `;
+
+  const emailHref =
+    `mailto:${EMAIL}?subject=${encodeURIComponent("PET Preform Enquiry")}` +
+    `&body=${encodeURIComponent(
+      `Hello Nawkiran Polyplast,\n\nI would like a quote for the following:\n- Family: ${family || ""}\n- Neck size / weight: \n- Approx. monthly quantity: \n\nName: ${name || ""}\n\nThank you.`,
+    )}`;
+
+  return (
+    <section id="contact" className="relative overflow-hidden bg-night text-white">
+      <div className="grid-texture absolute inset-0 opacity-50" aria-hidden="true" />
+      {/* dawn glow bookend */}
+      <div
+        className="pointer-events-none absolute -bottom-40 left-1/2 h-96 w-[70rem] -translate-x-1/2 rounded-full opacity-40 blur-3xl"
+        style={{ background: "radial-gradient(circle, rgba(243,107,33,0.5), transparent 70%)" }}
+        aria-hidden="true"
+      />
+
+      <div className="shell section relative">
+        <Reveal className="max-w-2xl">
+          <p className="eyebrow">Let’s talk</p>
+          <h2 className="mt-3 text-[clamp(1.9rem,3.8vw,3.25rem)] text-white">
+            Get a quote — <span className="text-gradient-dawn">in minutes</span>, on WhatsApp.
+          </h2>
+          <p className="mt-4 text-lg text-white/70">
+            Tell us the part and your monthly quantity. We typically reply on WhatsApp within minutes
+            during business hours.
+          </p>
+        </Reveal>
+
+        <div className="mt-12 grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
+          {/* quick enquiry → builds WhatsApp prefill */}
+          <Reveal className="rounded-3xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-sm sm:p-8">
+            <h3 className="font-display text-xl font-semibold text-white">Quick enquiry</h3>
+            <p className="mt-1 text-sm text-white/60">No forms to submit — this just opens WhatsApp with your message ready.</p>
+
+            <div className="mt-6 space-y-4">
+              <div>
+                <label htmlFor="c-name" className="mb-1.5 block text-sm font-medium text-white/80">
+                  Your name <span className="text-white/40">(optional)</span>
+                </label>
+                <input
+                  id="c-name"
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="e.g. Rahul Sharma"
+                  className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-white placeholder:text-white/35 focus:border-sunrise focus:bg-white/10 focus:outline-none"
+                />
+              </div>
+              <div>
+                <label htmlFor="c-family" className="mb-1.5 block text-sm font-medium text-white/80">
+                  Which preform family?
+                </label>
+                <select
+                  id="c-family"
+                  value={family}
+                  onChange={(e) => setFamily(e.target.value)}
+                  className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-white focus:border-sunrise focus:bg-white/10 focus:outline-none"
+                >
+                  <option value="" className="bg-night">Select a family…</option>
+                  {products.map((p) => (
+                    <option key={p.id} value={p.name} className="bg-night">
+                      {p.name} — {p.short}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <a
+              href={waLink(waText)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-sunrise px-6 py-4 text-base font-semibold text-white shadow-[0_12px_30px_-10px_rgba(243,107,33,0.8)] transition-all hover:-translate-y-0.5"
+            >
+              <WhatsAppIcon className="h-5 w-5" />
+              Send on WhatsApp
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+            </a>
+
+            <div className="mt-4 grid grid-cols-2 gap-3">
+              <a
+                href={`tel:${primary.tel}`}
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10"
+              >
+                <PhoneIcon className="h-4 w-4" /> Call now
+              </a>
+              <a
+                href={emailHref}
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10"
+              >
+                <MailIcon className="h-4 w-4" /> Email
+              </a>
+            </div>
+          </Reveal>
+
+          {/* direct contact details */}
+          <Reveal delay={0.1} className="space-y-4">
+            {/* phones */}
+            <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-6">
+              <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-white/50">
+                <PhoneIcon className="h-4 w-4" /> Call us directly
+              </p>
+              <div className="mt-4 space-y-2">
+                {PHONES.map((p) => (
+                  <a
+                    key={p.tel}
+                    href={`tel:${p.tel}`}
+                    className={`flex items-center justify-between rounded-xl px-4 py-3 transition-colors ${
+                      p.primary ? "bg-sunrise/15 ring-1 ring-sunrise/40" : "hover:bg-white/5"
+                    }`}
+                  >
+                    <span className="tnum font-display text-lg font-semibold text-white">{p.label}</span>
+                    {p.primary && (
+                      <span className="rounded-full bg-sunrise px-2.5 py-0.5 text-[0.65rem] font-bold uppercase tracking-wide text-white">
+                        Preferred
+                      </span>
+                    )}
+                  </a>
+                ))}
+              </div>
+              <a href={`mailto:${EMAIL}`} className="mt-3 flex items-center gap-2 rounded-xl px-4 py-3 text-white/80 transition-colors hover:bg-white/5">
+                <MailIcon className="h-4 w-4 text-amber" />
+                <span className="text-sm">{EMAIL}</span>
+              </a>
+              <p className="mt-3 flex items-center gap-2 px-4 text-sm text-white/55">
+                <ClockIcon className="h-4 w-4 text-amber" /> Mon – Sat · 10 AM – 7 PM IST
+              </p>
+            </div>
+
+            {/* addresses */}
+            <div className="grid gap-4 sm:grid-cols-2">
+              {[ADDRESSES.office, ADDRESSES.plant].map((a) => (
+                <a
+                  key={a.label}
+                  href={a.maps}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group overflow-hidden rounded-3xl border border-white/10 bg-white/[0.04] transition-colors hover:border-amber/40"
+                >
+                  <div className="h-24 w-full overflow-hidden">
+                    <MiniMap />
+                  </div>
+                  <div className="p-5">
+                    <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.12em] text-amber">
+                      <MapPin className="h-4 w-4" /> {a.label}
+                    </p>
+                    <address className="mt-2 not-italic text-sm leading-relaxed text-white/75">
+                      {a.lines.map((l) => (
+                        <span key={l} className="block">{l}</span>
+                      ))}
+                    </address>
+                    <span className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-white/60 transition-colors group-hover:text-white">
+                      View on Google Maps
+                      <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+                    </span>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </Reveal>
+        </div>
+      </div>
+    </section>
+  );
+}

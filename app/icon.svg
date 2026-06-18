@@ -1,0 +1,9 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <rect width="64" height="64" rx="14" fill="#0b1b3a"/>
+  <g fill="none" stroke-linecap="round" stroke-width="3.4">
+    <path d="M20 42 A12 12 0 0 1 44 42" stroke="#e23b2e"/>
+    <path d="M16 42 A16 16 0 0 1 48 42" stroke="#f7861f"/>
+    <path d="M12 42 A20 20 0 0 1 52 42" stroke="#fbc01f"/>
+  </g>
+  <text x="32" y="55" font-family="Arial, sans-serif" font-size="13" font-weight="800" text-anchor="middle" fill="#ffffff">N</text>
+</svg>

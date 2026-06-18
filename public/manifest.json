@@ -1,0 +1,23 @@
+{
+  "name": "Nawkiran Polyplast — PET Preforms",
+  "short_name": "Nawkiran",
+  "description": "PET preforms for bottles & jars, manufactured to spec in Kolkata.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b1b3a",
+  "theme_color": "#f36b21",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

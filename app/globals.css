@@ -1,0 +1,368 @@
+@import "tailwindcss";
+
+/* ============================================================
+   NAWKIRAN — "New Dawn" design system (Tailwind v4 @theme)
+   Deep-enhanced: glassmorphism, gradient meshes, animated
+   borders, shimmer effects, premium micro-interactions.
+   ============================================================ */
+@theme {
+  /* Brand — navy night → dawn */
+  --color-night: #0b1b3a; /* deepest navy — hero/footer base */
+  --color-navy: #16284d; /* brand NAW navy — headings/ink */
+  --color-indigo: #2a3a6b; /* twilight indigo — gradient mid, dark borders */
+  --color-sunrise: #f36b21; /* dawn orange — KIRAN, primary CTA */
+  --color-amber: #f59e1f; /* amber gold — secondary warm accent, glow */
+  --color-sun: #fbc02d; /* sun yellow — light core, badges */
+
+  /* Surfaces */
+  --color-dawn: #fff6ec; /* warm off-white — editorial sections */
+  --color-cloud: #f1f4f9; /* cool neutral fill — chips, zebra */
+  --color-steel: #d9e0ec; /* hairline borders */
+  --color-slate: #5a6782; /* muted secondary text */
+
+  /* Resin tints (illustration only) */
+  --color-petblue: #bfe3f5;
+  --color-petamber: #d9a24a;
+  --color-whatsapp: #25d366;
+
+  /* Fonts (wired from next/font in layout.tsx) */
+  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+
+  /* Motion */
+  --ease-dawn: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Spacing extensions */
+  --section-padding: clamp(4.5rem, 9vw, 8rem);
+}
+
+/* ---------- Base (layered so Tailwind utilities can override) ---------- */
+@layer base {
+  :root {
+    color-scheme: light;
+    scroll-behavior: smooth;
+  }
+
+  * {
+    scroll-margin-top: 6rem;
+  }
+
+  html,
+  body {
+    background: #ffffff;
+    color: var(--color-navy);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: clip;
+  }
+
+  body {
+    font-size: 1.0625rem;
+    line-height: 1.65;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--color-navy);
+    line-height: 1.05;
+    text-wrap: balance;
+  }
+
+  ::selection {
+    background: var(--color-sunrise);
+    color: #fff;
+  }
+}
+
+/* ---------- Component helpers ---------- */
+@layer components {
+  .tnum {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum" 1;
+  }
+
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 0.8125rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-sunrise);
+  }
+
+  .shell {
+    width: 100%;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+  @media (min-width: 768px) {
+    .shell {
+      padding-inline: 2.5rem;
+    }
+  }
+
+  .section {
+    padding-block: var(--section-padding);
+    position: relative;
+  }
+
+  /* ---------- Gradient text ---------- */
+  .text-gradient-dawn {
+    background: linear-gradient(100deg, var(--color-sunrise), var(--color-amber) 55%, var(--color-sun));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* ---------- Premium card ---------- */
+  .card {
+    background: #fff;
+    border: 1px solid var(--color-steel);
+    border-radius: 1.25rem;
+    transition:
+      box-shadow 0.4s var(--ease-dawn),
+      border-color 0.4s var(--ease-dawn),
+      transform 0.4s var(--ease-dawn);
+  }
+  .card:hover {
+    box-shadow:
+      0 8px 30px rgba(11, 27, 58, 0.06),
+      0 2px 8px rgba(11, 27, 58, 0.04);
+    border-color: rgba(243, 107, 33, 0.2);
+    transform: translateY(-2px);
+  }
+
+  /* ---------- Glassmorphism ---------- */
+  .glass {
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(16px) saturate(1.8);
+    -webkit-backdrop-filter: blur(16px) saturate(1.8);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+  .glass-dark {
+    background: rgba(11, 27, 58, 0.65);
+    backdrop-filter: blur(20px) saturate(1.6);
+    -webkit-backdrop-filter: blur(20px) saturate(1.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  /* ---------- Grid texture ---------- */
+  .grid-texture {
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    background-size: 64px 64px;
+  }
+
+  /* ---------- Dot grid pattern ---------- */
+  .dot-grid {
+    background-image: radial-gradient(circle, rgba(22, 40, 77, 0.07) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+
+  /* ---------- Gradient mesh (aurora) ---------- */
+  .gradient-mesh {
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 80%, rgba(243, 107, 33, 0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 80% at 80% 20%, rgba(42, 58, 107, 0.18) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 50% at 50% 50%, rgba(251, 192, 45, 0.08) 0%, transparent 60%);
+  }
+
+  /* ---------- Animated gradient border ---------- */
+  .gradient-border {
+    position: relative;
+    border: none;
+    background-clip: padding-box;
+  }
+  .gradient-border::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, var(--color-sunrise), var(--color-amber), var(--color-sun), var(--color-sunrise));
+    background-size: 300% 300%;
+    animation: gradient-rotate 6s ease infinite;
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  /* ---------- Section divider (smooth gradient transition) ---------- */
+  .section-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-steel), transparent);
+  }
+  .section-divider-glow {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-sunrise), transparent);
+    opacity: 0.3;
+  }
+
+  /* ---------- Glow effects ---------- */
+  .glow-sunrise {
+    box-shadow: 0 0 40px rgba(243, 107, 33, 0.15), 0 0 80px rgba(243, 107, 33, 0.05);
+  }
+  .glow-whatsapp {
+    box-shadow: 0 4px 20px rgba(37, 211, 102, 0.3), 0 0 60px rgba(37, 211, 102, 0.1);
+  }
+
+  /* ---------- Scrollbar hide ---------- */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* ---------- Stat accent line ---------- */
+  .stat-accent {
+    position: relative;
+  }
+  .stat-accent::after {
+    content: "";
+    display: block;
+    width: 2rem;
+    height: 3px;
+    margin: 0.75rem auto 0;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--color-sunrise), var(--color-amber));
+  }
+}
+
+/* ---------- Focus ring ---------- */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--color-sunrise);
+  outline-offset: 2px;
+  border-radius: 0.4rem;
+}
+
+/* ---------- Keyframe animations ---------- */
+
+/* Marquee scroll */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee var(--marquee-duration, 38s) linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+/* Gradient border rotation */
+@keyframes gradient-rotate {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Shimmer / shine sweep */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.15) 50%, transparent 100%);
+  animation: shimmer 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Float / bob animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Pulse glow */
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.05); }
+}
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+/* Scroll indicator bounce */
+@keyframes bounce-subtle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+.animate-bounce-subtle {
+  animation: bounce-subtle 2s ease-in-out infinite;
+}
+
+/* Staggered fade-in (for CSS-only stagger) */
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Ping (for WhatsApp button) */
+@keyframes ping-slow {
+  0% { transform: scale(1); opacity: 0.6; }
+  75%, 100% { transform: scale(1.8); opacity: 0; }
+}
+.animate-ping-slow {
+  animation: ping-slow 2.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* Aurora / mesh gradient movement */
+@keyframes aurora {
+  0%, 100% {
+    background-position: 0% 50%, 100% 50%, 50% 50%;
+  }
+  33% {
+    background-position: 50% 0%, 0% 100%, 100% 0%;
+  }
+  66% {
+    background-position: 100% 100%, 50% 0%, 0% 100%;
+  }
+}
+.animate-aurora {
+  animation: aurora 15s ease infinite;
+  background-size: 150% 150%, 120% 120%, 100% 100%;
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
