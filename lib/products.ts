@@ -71,7 +71,7 @@ export const products: Product[] = [
       { size: "48 MM", weights: [63, 73] },
       { size: "53 MM", weights: [13, 14.5, 17, 24.5, 28] },
       { size: "63 MM", weights: [18] },
-      { size: "83 MM", weights: [29.5, 33] },
+      { size: "83 MM", weights: [29.5, 33, 40, 47, 51] },
       { size: "96 MM", weights: [34, 50] },
       { size: "120 MM", weights: [70, 74, 75, 80, 82, 85, 90, 95, 101.5] },
     ],
