@@ -2,7 +2,6 @@
 
 import { useRef } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
-import { Preform } from "./Preform";
 import { WhatsAppButton, CallButton } from "./CTA";
 import { PHONES } from "@/lib/site";
 import { DAWN_EASE } from "./motion";
@@ -152,32 +151,67 @@ export function Hero() {
           </motion.div>
         </div>
 
-        {/* right: hero preform */}
-        <div className="relative mx-auto flex h-[420px] w-full max-w-sm items-center justify-center lg:h-[560px]">
+        {/* right: hero product showcase */}
+        <div className="relative mx-auto flex h-[480px] w-full max-w-lg items-center justify-center lg:h-[600px]">
+          {/* Main Showcase Card */}
           <motion.div
-            className="relative h-full"
+            className="relative h-[380px] w-[260px] md:h-[460px] md:w-[320px] rounded-3xl border border-white/10 bg-white/[0.03] p-2.5 backdrop-blur-md shadow-[0_30px_60px_rgba(0,0,0,0.55)] overflow-hidden"
             style={{ y: preY }}
-            initial={reduce ? false : { opacity: 0, scale: 0.96 }}
+            initial={reduce ? false : { opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.4, ease: DAWN_EASE }}
           >
-            <motion.div
-              className="relative h-full"
-              animate={reduce ? undefined : { y: [0, -10, 0] }}
-              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-            >
-              <Preform shape="star" tint="blue" uid="hero" className="h-full w-auto drop-shadow-[0_30px_60px_rgba(0,0,0,0.45)]" />
-              {/* specular glint sweep */}
-              {!reduce && (
-                <div className="pointer-events-none absolute inset-0 overflow-hidden">
-                  <motion.div
-                    className="absolute -inset-y-4 w-1/3 -skew-x-12 bg-gradient-to-r from-transparent via-white/25 to-transparent"
-                    animate={{ x: ["-120%", "320%"] }}
-                    transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", repeatDelay: 1.5 }}
-                  />
-                </div>
-              )}
-            </motion.div>
+            <div className="relative h-full w-full overflow-hidden rounded-2xl">
+              <img
+                src="/hero-preforms.png"
+                alt="Nawkiran Premium PET Preforms"
+                className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
+              />
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-5 text-white">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-sunrise">Featured</span>
+                <h3 className="font-display text-lg font-bold text-white mt-0.5">High-Volume Moulding</h3>
+                <p className="text-xs text-white/75 mt-1">Virgin grade resin preforms for water & soft drinks.</p>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Secondary Floating Card (Offset Close-Up) */}
+          <motion.div
+            className="absolute -bottom-4 -left-4 md:-bottom-8 md:-left-8 h-[160px] w-[160px] md:h-[200px] md:w-[200px] rounded-2xl border border-white/15 bg-white/[0.04] p-2 backdrop-blur-md shadow-[0_20px_45px_rgba(0,0,0,0.45)] overflow-hidden hidden sm:block"
+            style={{ y: useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : -110]) }}
+            initial={reduce ? false : { opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.6, ease: DAWN_EASE }}
+          >
+            <div className="relative h-full w-full overflow-hidden rounded-xl">
+              <img
+                src="/neck-detail.png"
+                alt="Precision thread neck detail"
+                className="h-full w-full object-cover"
+              />
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 to-transparent p-3 text-white">
+                <span className="text-[9px] font-bold uppercase tracking-wider text-amber">Precision</span>
+                <p className="font-display text-xs font-semibold text-white mt-0.5">Perfect Thread Finish</p>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Decorative stats badge floating on the top-right */}
+          <motion.div
+            className="absolute -top-4 -right-2 md:-top-8 md:-right-6 rounded-2xl border border-sunrise/30 bg-night/85 px-4 py-3 backdrop-blur-md shadow-lg flex items-center gap-3"
+            initial={reduce ? false : { opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.8 }}
+          >
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-sunrise/20 text-sunrise">
+              <svg className="h-4.5 w-4.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+              </svg>
+            </span>
+            <div>
+              <p className="text-[10px] font-bold text-white/50 uppercase tracking-wider">Quality Standard</p>
+              <p className="text-xs font-bold text-white">ISO 9001:2015 Process</p>
+            </div>
           </motion.div>
         </div>
       </motion.div>
