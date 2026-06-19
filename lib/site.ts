@@ -6,7 +6,7 @@ export const COMPANY = {
   tagline: "A new dawn in PET preforms",
   meaning: "नव किरण — a new ray of light",
   about:
-    "Nawkiran Polyplast Pvt. Ltd. specializes in manufacturing PET preforms for bottles and jars. We operate 11 preform machines from leading brands such as Ferromatik, Toshiba and Windsor, with a monthly production capacity of nearly 350 tons across 80 product types.",
+    "Nawkiran Polyplast Pvt. Ltd. specializes in manufacturing PET preforms for bottles and jars. We operate 11 preform machines from leading brands such as Ferromatik, Toshiba and Windsor, with a monthly production capacity of over 400 tons across 80 product types.",
 };
 
 export const PHONES = [

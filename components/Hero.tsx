@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import Image from "next/image";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { WhatsAppButton, CallButton } from "./CTA";
 import { PHONES } from "@/lib/site";
@@ -119,7 +120,7 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, delay: 0.82, ease: DAWN_EASE }}
           >
-            11 machines. 80+ product types. <span className="tnum">~350</span> tonnes a month — across 6 preform
+            11 machines. 80+ product types. <span className="tnum">400+</span> tonnes a month — across 6 preform
             families, neck sizes <span className="tnum">22</span>–<span className="tnum">120</span> mm. Reach us on
             WhatsApp and get a quote in minutes.
           </motion.p>
@@ -146,7 +147,7 @@ export function Hero() {
               ))}
             </span>
             <span>
-              Serving <span className="tnum font-semibold text-white">680+</span> buyers across{" "}
+              Serving <span className="tnum font-semibold text-white">250+</span> buyers across{" "}
               <span className="tnum font-semibold text-white">13+</span> Indian states
             </span>
           </motion.div>
@@ -165,9 +166,12 @@ export function Hero() {
               transition={{ duration: 0.8, delay: 0.4, ease: DAWN_EASE }}
             >
               <div className="relative h-full w-full overflow-hidden rounded-2xl">
-                <img
+                <Image
                   src="/hero-preforms.png"
                   alt="Nawkiran Premium PET Preforms"
+                  fill
+                  priority
+                  sizes="(max-width: 768px) 100vw, 50vw"
                   className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
                 />
                 <div className="absolute inset-x-0 top-0 bg-gradient-to-b from-black/90 via-black/40 to-transparent p-5 pr-16 pt-6 pb-14 text-white">
@@ -187,9 +191,11 @@ export function Hero() {
               transition={{ duration: 0.8, delay: 0.6, ease: DAWN_EASE }}
             >
               <div className="relative h-full w-full overflow-hidden rounded-xl">
-                <img
+                <Image
                   src="/neck-detail.png"
                   alt="Precision thread neck detail"
+                  fill
+                  sizes="(max-width: 768px) 30vw, 20vw"
                   className="h-full w-full object-cover"
                 />
                 <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/95 to-transparent p-3 text-white">

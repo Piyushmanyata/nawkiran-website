@@ -16,7 +16,7 @@ const POINTS = [
   },
   {
     title: "Capacity to grow with you",
-    body: "Nearly 350 tonnes a month across 11 machines means real headroom when your demand spikes or a season turns.",
+    body: "Over 400 tonnes a month across 11 machines means real headroom when your demand spikes or a season turns.",
   },
 ];
 

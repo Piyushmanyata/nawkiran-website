@@ -6,7 +6,6 @@ import { Capabilities } from "@/components/Capabilities";
 import { WhyNawkiran } from "@/components/WhyNawkiran";
 import { ProcessTimeline } from "@/components/ProcessTimeline";
 import { Reach } from "@/components/Reach";
-import { Testimonial } from "@/components/Testimonial";
 import { Contact } from "@/components/Contact";
 import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
@@ -28,7 +27,6 @@ export default function Home() {
         <ProcessTimeline />
         <SectionDivider />
         <Reach />
-        <Testimonial />
         <Contact />
         <FinalCTA />
       </main>

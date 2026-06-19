@@ -65,7 +65,7 @@ export function Capabilities() {
           </div>
           <p className="text-sm text-white/50">
             <span className="tnum font-semibold text-white">11</span> preform machines ·{" "}
-            <span className="tnum font-semibold text-white">~350</span> tonnes / month ·{" "}
+            <span className="tnum font-semibold text-white">400+</span> tonnes / month ·{" "}
             <span className="tnum font-semibold text-white">80+</span> product types
           </p>
         </Reveal>

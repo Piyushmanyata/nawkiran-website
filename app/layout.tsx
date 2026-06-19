@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     template: "%s · Nawkiran Polyplast",
   },
   description:
-    "Nawkiran Polyplast manufactures PET preforms for bottles and jars — 11 machines, 80+ product types, ~350 tonnes a month across 6 preform families (neck sizes 22–120mm). Get a quote on WhatsApp in minutes.",
+    "Nawkiran Polyplast manufactures PET preforms for bottles and jars — 11 machines, 80+ product types, 400+ tonnes a month across 6 preform families (neck sizes 22–120mm). Get a quote on WhatsApp in minutes.",
   keywords: [
     "PET preforms",
     "preform manufacturer Kolkata",
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Nawkiran Polyplast — PET Preforms for Bottles & Jars",
     description:
-      "11 machines · 80+ product types · ~350 tonnes/month. PET preforms made to spec in Kolkata. Quote on WhatsApp in minutes.",
+      "11 machines · 80+ product types · 400+ tonnes/month. PET preforms made to spec in Kolkata. Quote on WhatsApp in minutes.",
     type: "website",
     locale: "en_IN",
   },
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Nawkiran Polyplast — PET Preforms for Bottles & Jars",
     description:
-      "11 machines · 80+ product types · ~350 tonnes/month. PET preforms made to spec in Kolkata. Quote on WhatsApp in minutes.",
+      "11 machines · 80+ product types · 400+ tonnes/month. PET preforms made to spec in Kolkata. Quote on WhatsApp in minutes.",
   },
 };
 
