@@ -5,18 +5,19 @@
    ============================================================ */
 @theme {
   /* Brand — navy night → dawn */
-  --color-night: #0b1b3a; /* deepest navy — hero/footer base */
-  --color-navy: #16284d; /* brand NAW navy — headings/ink */
-  --color-indigo: #2a3a6b; /* twilight indigo — gradient mid, dark borders */
-  --color-sunrise: #f36b21; /* dawn orange — KIRAN, primary CTA */
-  --color-amber: #f59e1f; /* amber gold — secondary warm accent, glow */
-  --color-sun: #fbc02d; /* sun yellow — light core, badges */
+  --color-night: #0b1b3c; /* deepest navy — hero/footer base */
+  --color-navy: #152847; /* brand NAW navy — headings/ink */
+  --color-indigo: #253768; /* twilight indigo — gradient mid, dark borders */
+  --color-sunrise: #e8531a; /* dawn orange — KIRAN, primary CTA (deeper, refined) */
+  --color-amber: #f09210; /* amber gold — secondary warm accent, glow */
+  --color-sun: #f5ab00; /* warm gold — light core, badges */
 
   /* Surfaces */
-  --color-dawn: #fff6ec; /* warm off-white — editorial sections */
-  --color-cloud: #f1f4f9; /* cool neutral fill — chips, zebra */
-  --color-steel: #d9e0ec; /* hairline borders */
-  --color-slate: #5a6782; /* muted secondary text */
+  --color-dawn: #fef7ef; /* warm off-white — editorial sections */
+  --color-cloud: #f8fafc; /* cool neutral fill — chips, zebra */
+  --color-steel: #cbd5e1; /* hairline borders */
+  --color-slate: #64748b; /* muted secondary text */
+  --color-mist: #e8edf5; /* very light blue — hover states, subtle fills */
 
   /* Resin tints (illustration only) */
   --color-petblue: #bfe3f5;
@@ -24,8 +25,8 @@
   --color-whatsapp: #25d366;
 
   /* Fonts (wired from next/font in layout.tsx) */
-  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-plus-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, monospace;
 
   /* Motion */
@@ -58,7 +59,8 @@
 
   body {
     font-size: 1.0625rem;
-    line-height: 1.65;
+    line-height: 1.72;
+    font-feature-settings: "cv01", "cv02", "cv11";
   }
 
   h1,
@@ -67,10 +69,11 @@
   h4 {
     font-family: var(--font-display);
     font-weight: 700;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.026em;
     color: var(--color-navy);
-    line-height: 1.05;
+    line-height: 1.08;
     text-wrap: balance;
+    font-feature-settings: "ss01";
   }
 
   ::selection {
@@ -90,7 +93,7 @@
     font-family: var(--font-sans);
     font-weight: 600;
     font-size: 0.8125rem;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.11em;
     text-transform: uppercase;
     color: var(--color-sunrise);
   }
