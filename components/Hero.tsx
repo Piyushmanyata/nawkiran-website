@@ -154,48 +154,51 @@ export function Hero() {
 
         {/* right: hero product showcase */}
         <div className="relative mx-auto flex h-[480px] w-full max-w-lg items-center justify-center lg:h-[600px]">
-          {/* Main Showcase Card */}
-          <motion.div
-            className="relative h-[380px] w-[260px] md:h-[460px] md:w-[320px] rounded-3xl border border-white/10 bg-white/[0.03] p-2.5 backdrop-blur-md shadow-[0_30px_60px_rgba(0,0,0,0.55)] overflow-hidden"
-            style={{ y: preY }}
-            initial={reduce ? false : { opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.4, ease: DAWN_EASE }}
-          >
-            <div className="relative h-full w-full overflow-hidden rounded-2xl">
-              <img
-                src="/hero-preforms.png"
-                alt="Nawkiran Premium PET Preforms"
-                className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
-              />
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent p-5 pb-20 md:pb-24 text-white">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-sunrise">Featured</span>
-                <h3 className="font-display text-lg md:text-xl font-bold text-white mt-0.5">High-Volume Moulding</h3>
-                <p className="text-xs text-white/85 mt-1">Virgin grade resin preforms for water & soft drinks.</p>
+          {/* Inner Wrapper to bound coordinates and prevent viewport overflow on small screens */}
+          <div className="relative h-[380px] w-[260px] md:h-[460px] md:w-[320px]">
+            {/* Main Showcase Card */}
+            <motion.div
+              className="h-full w-full rounded-3xl border border-white/10 bg-white/[0.03] p-2.5 backdrop-blur-md shadow-[0_30px_60px_rgba(0,0,0,0.55)] overflow-hidden"
+              style={{ y: preY }}
+              initial={reduce ? false : { opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.4, ease: DAWN_EASE }}
+            >
+              <div className="relative h-full w-full overflow-hidden rounded-2xl">
+                <img
+                  src="/hero-preforms.png"
+                  alt="Nawkiran Premium PET Preforms"
+                  className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
+                />
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent p-5 pb-20 md:pb-24 text-white">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-sunrise">Featured</span>
+                  <h3 className="font-display text-lg md:text-xl font-bold text-white mt-0.5">High-Volume Moulding</h3>
+                  <p className="text-xs text-white/85 mt-1">Virgin grade resin preforms for water & soft drinks.</p>
+                </div>
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
 
-          {/* Secondary Floating Card (Offset Close-Up) */}
-          <motion.div
-            className="absolute -bottom-4 -left-4 md:-bottom-8 md:-left-8 h-[160px] w-[160px] md:h-[200px] md:w-[200px] rounded-2xl border border-white/15 bg-white/[0.04] p-2 backdrop-blur-md shadow-[0_20px_45px_rgba(0,0,0,0.45)] overflow-hidden hidden sm:block z-10"
-            style={{ y: neckDetailY }}
-            initial={reduce ? false : { opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.6, ease: DAWN_EASE }}
-          >
-            <div className="relative h-full w-full overflow-hidden rounded-xl">
-              <img
-                src="/neck-detail.png"
-                alt="Precision thread neck detail"
-                className="h-full w-full object-cover"
-              />
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/95 to-transparent p-3 text-white">
-                <span className="text-[9px] font-bold uppercase tracking-wider text-amber">Precision</span>
-                <p className="font-display text-xs font-semibold text-white mt-0.5">Perfect Thread Finish</p>
+            {/* Secondary Floating Card (Offset Close-Up) */}
+            <motion.div
+              className="absolute -bottom-4 -left-4 min-[480px]:-bottom-6 min-[480px]:-left-6 md:-bottom-8 md:-left-8 h-[110px] w-[110px] min-[480px]:h-[135px] min-[480px]:w-[135px] sm:h-[160px] sm:w-[160px] md:h-[200px] md:w-[200px] rounded-2xl border border-white/15 bg-white/[0.04] p-2 backdrop-blur-md shadow-[0_20px_45px_rgba(0,0,0,0.45)] overflow-hidden z-10"
+              style={{ y: neckDetailY }}
+              initial={reduce ? false : { opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.6, ease: DAWN_EASE }}
+            >
+              <div className="relative h-full w-full overflow-hidden rounded-xl">
+                <img
+                  src="/neck-detail.png"
+                  alt="Precision thread neck detail"
+                  className="h-full w-full object-cover"
+                />
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/95 to-transparent p-3 text-white">
+                  <span className="text-[9px] font-bold uppercase tracking-wider text-amber">Precision</span>
+                  <p className="font-display text-xs font-semibold text-white mt-0.5">Perfect Thread Finish</p>
+                </div>
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
 
           {/* Decorative stats badge floating on the top-right */}
           <motion.div

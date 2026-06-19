@@ -175,7 +175,7 @@ function SpecPanel({
           </div>
         </div>
 
-        <div className="relative mt-8 grid min-h-[24rem] place-items-center rounded-xl bg-white/[0.04] ring-1 ring-white/5">
+        <div className="relative mt-8 grid min-h-[16rem] sm:min-h-[24rem] place-items-center rounded-xl bg-white/[0.04] ring-1 ring-white/5">
           {/* Per-product radial halo behind the preform */}
           <div className="pointer-events-none absolute inset-0 rounded-xl" style={{ background: `radial-gradient(ellipse 55% 50% at 50% 62%, ${p.accent}28 0%, transparent 70%)` }} aria-hidden="true" />
           <div className="absolute left-5 top-5 rounded-xl bg-white/10 px-3 py-2 text-xs font-semibold text-white/80 ring-1 ring-white/10 backdrop-blur-sm">
@@ -187,13 +187,13 @@ function SpecPanel({
             uid={`hero-${p.id}-${neck.size}-${weight}`}
             neckMm={neckMm}
             weightG={weight}
-            className="h-[22rem] w-auto drop-shadow-[0_22px_32px_rgba(0,0,0,0.35)]"
+            className="h-[14rem] sm:h-[22rem] w-auto drop-shadow-[0_22px_32px_rgba(0,0,0,0.35)]"
           />
           <BlownBottle
             shape={p.illustration}
             tint={TINT[p.id]}
             uid={`ghost-${p.id}`}
-            className="pointer-events-none absolute right-3 top-12 h-48 w-auto opacity-20"
+            className="pointer-events-none absolute right-3 top-6 sm:top-12 h-32 sm:h-48 w-auto opacity-20"
           />
         </div>
       </section>
@@ -267,6 +267,17 @@ export function Products() {
   const [selectedNeck, setSelectedNeck] = useState<NeckSpec>(selected.necks[0]);
   const [selectedWeight, setSelectedWeight] = useState<number>(defaultWeight(selected.necks[0]));
 
+  const [showLeftScrollFade, setShowLeftScrollFade] = useState(false);
+  const [showRightScrollFade, setShowRightScrollFade] = useState(true);
+
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const target = e.currentTarget;
+    const scrollLeft = target.scrollLeft;
+    const maxScroll = target.scrollWidth - target.clientWidth;
+    setShowLeftScrollFade(scrollLeft > 8);
+    setShowRightScrollFade(scrollLeft < maxScroll - 8);
+  };
+
   function selectProduct(p: Product) {
     const neck = p.necks[0];
     setSelectedId(p.id);
@@ -295,15 +306,34 @@ export function Products() {
 
         <div className="mt-10 grid min-w-0 gap-6 lg:grid-cols-[minmax(16rem,18rem)_1fr] lg:items-start">
           <aside className="sticky top-[4.75rem] z-30 -mx-6 min-w-0 overflow-hidden border-y border-steel bg-white/95 px-6 py-3 backdrop-blur-xl lg:top-24 lg:mx-0 lg:overflow-visible lg:border-0 lg:bg-transparent lg:p-0 lg:backdrop-blur-0">
-            <div className="no-scrollbar flex w-full min-w-0 gap-3 overflow-x-auto lg:flex-col lg:overflow-visible">
-              {products.map((p) => (
-                <ProductFamilyButton
-                  key={p.id}
-                  p={p}
-                  active={p.id === selected.id}
-                  onSelect={() => selectProduct(p)}
-                />
-              ))}
+            <div className="relative w-full">
+              {/* Left edge fade scroll indicator */}
+              <div
+                className={`pointer-events-none absolute left-0 top-0 bottom-0 z-10 w-10 bg-gradient-to-r from-white to-transparent transition-opacity duration-300 lg:hidden ${
+                  showLeftScrollFade ? "opacity-100" : "opacity-0"
+                }`}
+              />
+
+              <div
+                onScroll={handleScroll}
+                className="no-scrollbar flex w-full min-w-0 gap-3 overflow-x-auto lg:flex-col lg:overflow-visible"
+              >
+                {products.map((p) => (
+                  <ProductFamilyButton
+                    key={p.id}
+                    p={p}
+                    active={p.id === selected.id}
+                    onSelect={() => selectProduct(p)}
+                  />
+                ))}
+              </div>
+
+              {/* Right edge fade scroll indicator */}
+              <div
+                className={`pointer-events-none absolute right-0 top-0 bottom-0 z-10 w-14 bg-gradient-to-l from-white to-transparent transition-opacity duration-300 lg:hidden ${
+                  showRightScrollFade ? "opacity-100" : "opacity-0"
+                }`}
+              />
             </div>
           </aside>
 

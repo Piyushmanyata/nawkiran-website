@@ -27,7 +27,60 @@ export function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
+  // Close mobile menu when screen resizes to desktop width
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        setOpen(false);
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const onDark = !scrolled;
+
+  const containerVariants = {
+    hidden: { opacity: 0, height: 0 },
+    show: {
+      opacity: 1,
+      height: "auto",
+      transition: {
+        height: { duration: 0.35, ease: [0.22, 1, 0.36, 1] },
+        opacity: { duration: 0.25 },
+        staggerChildren: 0.05,
+        delayChildren: 0.05,
+      },
+    },
+    exit: {
+      opacity: 0,
+      height: 0,
+      transition: {
+        height: { duration: 0.3, ease: [0.22, 1, 0.36, 1] },
+        opacity: { duration: 0.2 },
+        staggerChildren: 0.03,
+        staggerDirection: -1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 12 },
+    show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 350, damping: 26 } as const },
+    exit: { opacity: 0, y: -8, transition: { duration: 0.15 } },
+  };
 
   return (
     <header className="fixed inset-x-0 top-0 z-50">
@@ -106,22 +159,23 @@ export function Nav() {
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            variants={containerVariants}
+            initial="hidden"
+            animate="show"
+            exit="exit"
             className="overflow-hidden border-b border-steel bg-white/95 backdrop-blur-xl lg:hidden"
           >
             <div className="shell flex flex-col gap-1 py-4">
               {NAV_LINKS.map((l) => (
-                <a
+                <motion.a
                   key={l.href}
                   href={l.href}
+                  variants={itemVariants}
                   onClick={() => setOpen(false)}
                   className="rounded-xl px-3 py-3 text-base font-medium text-navy transition-colors hover:bg-cloud"
                 >
                   {l.label}
-                </a>
+                </motion.a>
               ))}
             </div>
           </motion.div>

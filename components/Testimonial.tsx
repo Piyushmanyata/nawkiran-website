@@ -34,6 +34,8 @@ const TESTIMONIALS: TestimonialData[] = [
 
 export function Testimonial() {
   const [index, setIndex] = useState(0);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
 
   const next = useCallback(() => {
     setIndex((prev) => (prev + 1) % TESTIMONIALS.length);
@@ -47,6 +49,30 @@ export function Testimonial() {
     const timer = setInterval(next, 6000);
     return () => clearInterval(timer);
   }, [next]);
+
+  // Touch handlers for mobile swipe navigation
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const minSwipeDistance = 50;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe) {
+      next();
+    } else if (isRightSwipe) {
+      prev();
+    }
+  };
 
   return (
     <section id="testimonials" className="relative overflow-hidden bg-dawn py-20 md:py-28">
@@ -98,7 +124,12 @@ export function Testimonial() {
           {/* Right Column: Carousel Box */}
           <div className="relative flex items-center lg:col-span-8">
             <Reveal className="w-full">
-              <div className="relative min-h-[280px] w-full rounded-3xl border border-steel/80 bg-white p-8 md:p-12 shadow-sm">
+              <div
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
+                className="relative min-h-[280px] w-full rounded-3xl border border-steel/80 bg-white p-8 md:p-12 shadow-sm select-none touch-pan-y"
+              >
                 
                 {/* Large Decorative Quote Symbol */}
                 <svg

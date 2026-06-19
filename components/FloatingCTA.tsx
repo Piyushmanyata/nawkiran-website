@@ -60,7 +60,7 @@ export function FloatingCTA() {
             animate={{ y: 0 }}
             exit={{ y: 80 }}
             transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-2 gap-2 border-t border-steel bg-white/95 p-2.5 backdrop-blur-xl sm:hidden"
+            className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-2 gap-2 border-t border-steel bg-white/95 px-3.5 pt-3 pb-[calc(0.625rem+env(safe-area-inset-bottom,0px))] backdrop-blur-xl sm:hidden"
           >
             <a
               href={`tel:${primaryTel}`}
