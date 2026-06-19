@@ -62,27 +62,27 @@ function ProductFamilyButton({
     <button
       type="button"
       onClick={onSelect}
-      className={`group flex min-w-[15.5rem] items-center gap-3 rounded-2xl border p-3 text-left transition-all lg:min-w-0 ${
+      className={`group flex w-full items-center gap-2 sm:gap-3 rounded-xl sm:rounded-2xl border p-2 sm:p-3 text-left transition-all ${
         active
-          ? "border-sunrise bg-white shadow-[0_0_0_1px_rgba(243,107,33,0.15),0_8px_28px_-8px_rgba(243,107,33,0.55)]"
-          : "border-steel bg-white/70 hover:border-sunrise/50 hover:bg-white hover:shadow-[0_4px_16px_-8px_rgba(22,40,77,0.12)]"
+          ? "border-sunrise bg-white shadow-[0_0_0_1px_rgba(243,107,33,0.15),0_6px_20px_-8px_rgba(243,107,33,0.45)]"
+          : "border-steel bg-white/70 hover:border-sunrise/50 hover:bg-white hover:shadow-[0_4px_12px_-8px_rgba(22,40,77,0.10)]"
       }`}
     >
-      <span className="relative grid h-16 w-14 shrink-0 place-items-center overflow-hidden rounded-xl bg-night ring-1 ring-white/5">
+      <span className="relative grid h-12 w-10 sm:h-16 sm:w-14 shrink-0 place-items-center overflow-hidden rounded-lg sm:rounded-xl bg-night ring-1 ring-white/5">
         <span className="grid-texture absolute inset-0 opacity-45" aria-hidden="true" />
-        <span className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: "radial-gradient(ellipse 80% 80% at 50% 80%, rgba(243,107,33,0.18) 0%, transparent 70%)" }} aria-hidden="true" />
+        <span className="absolute inset-0 rounded-lg sm:rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: "radial-gradient(ellipse 80% 80% at 50% 80%, rgba(243,107,33,0.18) 0%, transparent 70%)" }} aria-hidden="true" />
         <Preform
           shape={p.illustration}
           tint={TINT[p.id]}
           uid={`family-${p.id}`}
           neckMm={primaryNeckMm(defaultNeck.size)}
           weightG={(wmin + wmax) / 2}
-          className="relative h-14 w-auto"
+          className="relative h-10 sm:h-14 w-auto"
         />
       </span>
       <span className="min-w-0">
-        <span className="block font-display text-base font-semibold leading-tight text-navy">{p.name}</span>
-        <span className="mt-1 block truncate text-xs font-medium text-slate">{productBadge(p)}</span>
+        <span className="block font-display text-xs sm:text-base font-semibold leading-tight text-navy truncate">{p.name}</span>
+        <span className="mt-0.5 block truncate text-[10px] sm:text-xs font-medium text-slate">{productBadge(p)}</span>
       </span>
     </button>
   );
@@ -175,7 +175,7 @@ function SpecPanel({
           </div>
         </div>
 
-        <div className="relative mt-8 grid min-h-[16rem] sm:min-h-[24rem] place-items-center rounded-xl bg-white/[0.04] ring-1 ring-white/5">
+        <div className="relative mt-8 grid min-h-[12rem] sm:min-h-[24rem] place-items-center rounded-xl bg-white/[0.04] ring-1 ring-white/5">
           {/* Per-product radial halo behind the preform */}
           <div className="pointer-events-none absolute inset-0 rounded-xl" style={{ background: `radial-gradient(ellipse 55% 50% at 50% 62%, ${p.accent}28 0%, transparent 70%)` }} aria-hidden="true" />
           <div className="absolute left-5 top-5 rounded-xl bg-white/10 px-3 py-2 text-xs font-semibold text-white/80 ring-1 ring-white/10 backdrop-blur-sm">
@@ -187,34 +187,26 @@ function SpecPanel({
             uid={`hero-${p.id}-${neck.size}-${weight}`}
             neckMm={neckMm}
             weightG={weight}
-            className="h-[14rem] sm:h-[22rem] w-auto drop-shadow-[0_22px_32px_rgba(0,0,0,0.35)]"
+            className="h-[10rem] sm:h-[22rem] w-auto drop-shadow-[0_22px_32px_rgba(0,0,0,0.35)]"
           />
           <BlownBottle
             shape={p.illustration}
             tint={TINT[p.id]}
             uid={`ghost-${p.id}`}
-            className="pointer-events-none absolute right-3 top-6 sm:top-12 h-32 sm:h-48 w-auto opacity-20"
+            className="pointer-events-none absolute right-3 top-4 sm:top-12 h-24 sm:h-48 w-auto opacity-20"
           />
         </div>
       </section>
 
       <section className="rounded-2xl border border-steel bg-white p-5 sm:p-6">
-        <div className="flex flex-wrap items-start justify-between gap-4 border-b border-steel pb-5">
-          <div>
-            <p className="text-sm font-semibold text-slate">Application</p>
-            <p className="mt-1 text-lg font-semibold text-navy">{p.use}</p>
-          </div>
-          <div className="rounded-xl bg-dawn px-4 py-3 text-right">
-            <p className="text-xs font-semibold uppercase tracking-[0.12em] text-slate">Current spec</p>
-            <p className="tnum mt-1 font-mono text-sm font-semibold text-navy">
-              {formatNeck(neck.size)} / {weight} g
-            </p>
-          </div>
+        <div className="border-b border-steel pb-5">
+          <p className="text-sm font-semibold text-slate">Application</p>
+          <p className="mt-1 text-lg font-semibold text-navy">{p.use}</p>
         </div>
 
         <div className="mt-6">
           <p className="text-sm font-semibold text-navy">Choose neck finish</p>
-          <div className="no-scrollbar mt-3 flex gap-2 overflow-x-auto pb-1">
+          <div className="mt-3 flex flex-wrap gap-2">
             {p.necks.map((n) => (
               <NeckButton
                 key={n.size}
@@ -267,16 +259,7 @@ export function Products() {
   const [selectedNeck, setSelectedNeck] = useState<NeckSpec>(selected.necks[0]);
   const [selectedWeight, setSelectedWeight] = useState<number>(defaultWeight(selected.necks[0]));
 
-  const [showLeftScrollFade, setShowLeftScrollFade] = useState(false);
-  const [showRightScrollFade, setShowRightScrollFade] = useState(true);
-
-  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
-    const target = e.currentTarget;
-    const scrollLeft = target.scrollLeft;
-    const maxScroll = target.scrollWidth - target.clientWidth;
-    setShowLeftScrollFade(scrollLeft > 8);
-    setShowRightScrollFade(scrollLeft < maxScroll - 8);
-  };
+  // Scroll fades removed for grid layout
 
   function selectProduct(p: Product) {
     const neck = p.necks[0];
@@ -305,35 +288,16 @@ export function Products() {
         </Reveal>
 
         <div className="mt-10 grid min-w-0 gap-6 lg:grid-cols-[minmax(16rem,18rem)_1fr] lg:items-start">
-          <aside className="sticky top-[4.75rem] z-30 -mx-6 min-w-0 overflow-hidden border-y border-steel bg-white/95 px-6 py-3 backdrop-blur-xl lg:top-24 lg:mx-0 lg:overflow-visible lg:border-0 lg:bg-transparent lg:p-0 lg:backdrop-blur-0">
-            <div className="relative w-full">
-              {/* Left edge fade scroll indicator */}
-              <div
-                className={`pointer-events-none absolute left-0 top-0 bottom-0 z-10 w-10 bg-gradient-to-r from-white to-transparent transition-opacity duration-300 lg:hidden ${
-                  showLeftScrollFade ? "opacity-100" : "opacity-0"
-                }`}
-              />
-
-              <div
-                onScroll={handleScroll}
-                className="no-scrollbar flex w-full min-w-0 gap-3 overflow-x-auto lg:flex-col lg:overflow-visible"
-              >
-                {products.map((p) => (
-                  <ProductFamilyButton
-                    key={p.id}
-                    p={p}
-                    active={p.id === selected.id}
-                    onSelect={() => selectProduct(p)}
-                  />
-                ))}
-              </div>
-
-              {/* Right edge fade scroll indicator */}
-              <div
-                className={`pointer-events-none absolute right-0 top-0 bottom-0 z-10 w-14 bg-gradient-to-l from-white to-transparent transition-opacity duration-300 lg:hidden ${
-                  showRightScrollFade ? "opacity-100" : "opacity-0"
-                }`}
-              />
+          <aside className="sticky top-[4.75rem] z-30 border-y border-steel bg-white/95 py-3 backdrop-blur-xl lg:top-24 lg:border-0 lg:bg-transparent lg:p-0 lg:backdrop-blur-0">
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:flex lg:flex-col lg:gap-3">
+              {products.map((p) => (
+                <ProductFamilyButton
+                  key={p.id}
+                  p={p}
+                  active={p.id === selected.id}
+                  onSelect={() => selectProduct(p)}
+                />
+              ))}
             </div>
           </aside>
 

@@ -206,23 +206,6 @@ export function Hero() {
             </motion.div>
           </div>
 
-          {/* Decorative stats badge floating on the top-right */}
-          <motion.div
-            className="absolute -top-4 -right-2 md:-top-8 md:-right-6 rounded-2xl border border-sunrise/30 bg-night/85 px-4 py-3 backdrop-blur-md shadow-lg flex items-center gap-3"
-            initial={reduce ? false : { opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.8 }}
-          >
-            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-sunrise/20 text-sunrise">
-              <svg className="h-4.5 w-4.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-              </svg>
-            </span>
-            <div>
-              <p className="text-[10px] font-bold text-white/50 uppercase tracking-wider">Quality Standard</p>
-              <p className="text-xs font-bold text-white">ISO 9001:2015 Process</p>
-            </div>
-          </motion.div>
         </div>
       </motion.div>
 

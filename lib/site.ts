@@ -28,12 +28,12 @@ export const ADDRESSES = {
   office: {
     label: "Registered Office",
     lines: ["Poddar Court, 18 Rabindra Sarani", "Gate No. 3, 5th Floor", "Kolkata – 700001"],
-    maps: "https://www.google.com/maps/search/?api=1&query=Poddar+Court+18+Rabindra+Sarani+Kolkata+700001",
+    maps: "https://maps.app.goo.gl/GBRHrSvco2py9AZf7",
   },
   plant: {
     label: "Manufacturing Plant",
     lines: ["Balaji Complex, Old Delhi Road", "Baidyabati", "West Bengal"],
-    maps: "https://www.google.com/maps/search/?api=1&query=Balaji+Complex+Old+Delhi+Road+Baidyabati+West+Bengal",
+    maps: "https://maps.app.goo.gl/5D8xC9ogbxkVvqedA",
   },
 };
 
