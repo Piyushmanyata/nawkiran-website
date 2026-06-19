@@ -64,12 +64,13 @@ function ProductFamilyButton({
       onClick={onSelect}
       className={`group flex min-w-[15.5rem] items-center gap-3 rounded-2xl border p-3 text-left transition-all lg:min-w-0 ${
         active
-          ? "border-sunrise bg-white shadow-[0_8px_18px_-14px_rgba(243,107,33,0.65)]"
-          : "border-steel bg-white/70 hover:border-sunrise/50 hover:bg-white"
+          ? "border-sunrise bg-white shadow-[0_0_0_1px_rgba(243,107,33,0.15),0_8px_28px_-8px_rgba(243,107,33,0.55)]"
+          : "border-steel bg-white/70 hover:border-sunrise/50 hover:bg-white hover:shadow-[0_4px_16px_-8px_rgba(22,40,77,0.12)]"
       }`}
     >
-      <span className="relative grid h-16 w-14 shrink-0 place-items-center overflow-hidden rounded-xl bg-night">
+      <span className="relative grid h-16 w-14 shrink-0 place-items-center overflow-hidden rounded-xl bg-night ring-1 ring-white/5">
         <span className="grid-texture absolute inset-0 opacity-45" aria-hidden="true" />
+        <span className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: "radial-gradient(ellipse 80% 80% at 50% 80%, rgba(243,107,33,0.18) 0%, transparent 70%)" }} aria-hidden="true" />
         <Preform
           shape={p.illustration}
           tint={TINT[p.id]}
@@ -122,10 +123,10 @@ function WeightChip({
     <button
       type="button"
       onClick={onSelect}
-      className={`tnum rounded-xl border px-3 py-2 font-mono text-sm font-semibold transition-colors ${
+      className={`tnum rounded-xl border px-3 py-2 font-mono text-sm font-semibold transition-all duration-150 ${
         active
-          ? "border-sunrise bg-sunrise text-white"
-          : "border-steel bg-cloud text-navy hover:border-sunrise hover:bg-white"
+          ? "border-sunrise bg-sunrise text-white shadow-[0_4px_14px_-6px_rgba(243,107,33,0.7)] scale-[1.06]"
+          : "border-steel bg-cloud text-navy hover:border-sunrise/70 hover:bg-white hover:scale-[1.04] hover:shadow-sm"
       }`}
     >
       {weight}
@@ -159,22 +160,25 @@ function SpecPanel({
       transition={{ duration: 0.32, ease: DAWN_EASE }}
       className="grid gap-6 xl:grid-cols-[minmax(20rem,0.9fr)_1fr]"
     >
-      <section className="relative overflow-hidden rounded-2xl bg-night p-5 text-white sm:p-6">
-        <div className="grid-texture absolute inset-0 opacity-45" aria-hidden="true" />
-        <div className="absolute -right-16 top-10 h-52 w-52 rounded-full opacity-25 blur-3xl" style={{ background: p.accent }} aria-hidden="true" />
+      <section className="relative overflow-hidden rounded-2xl bg-gradient-to-b from-[#0d1e3e] to-night p-5 text-white sm:p-6">
+        <div className="grid-texture absolute inset-0 opacity-40" aria-hidden="true" />
+        <div className="absolute -right-16 top-10 h-60 w-60 rounded-full opacity-22 blur-[52px]" style={{ background: p.accent }} aria-hidden="true" />
+        <div className="absolute -left-10 bottom-16 h-40 w-40 rounded-full opacity-14 blur-[44px]" style={{ background: p.accent }} aria-hidden="true" />
         <div className="relative flex items-start justify-between gap-5">
           <div>
             <p className="text-sm font-semibold text-white/70">Selected preform</p>
             <h3 className="mt-2 font-display text-[clamp(1.75rem,3vw,2.5rem)] font-semibold text-white">{p.name}</h3>
             <p className="mt-2 max-w-md text-sm leading-relaxed text-white/72">{p.description}</p>
           </div>
-          <div className="rounded-full px-3 py-1 text-xs font-bold text-night" style={{ background: p.accent }}>
-            {weight}g
+          <div className="rounded-full px-3 py-1.5 text-xs font-bold text-night shadow-[0_4px_12px_-4px_rgba(0,0,0,0.4)]" style={{ background: p.accent }}>
+            {weight}&thinsp;g
           </div>
         </div>
 
-        <div className="relative mt-8 grid min-h-[24rem] place-items-center rounded-xl bg-white/[0.04]">
-          <div className="absolute left-5 top-5 rounded-xl bg-white/10 px-3 py-2 text-xs font-semibold text-white/75">
+        <div className="relative mt-8 grid min-h-[24rem] place-items-center rounded-xl bg-white/[0.04] ring-1 ring-white/5">
+          {/* Per-product radial halo behind the preform */}
+          <div className="pointer-events-none absolute inset-0 rounded-xl" style={{ background: `radial-gradient(ellipse 55% 50% at 50% 62%, ${p.accent}28 0%, transparent 70%)` }} aria-hidden="true" />
+          <div className="absolute left-5 top-5 rounded-xl bg-white/10 px-3 py-2 text-xs font-semibold text-white/80 ring-1 ring-white/10 backdrop-blur-sm">
             {formatNeck(neck.size)}
           </div>
           <Preform
@@ -234,8 +238,8 @@ function SpecPanel({
           </div>
         </div>
 
-        <div className="mt-6 rounded-xl border border-steel bg-cloud p-4">
-          <p className="text-xs font-semibold uppercase tracking-[0.12em] text-slate">Coming shortly</p>
+        <div className="mt-6 rounded-xl border border-amber/30 bg-amber/[0.06] p-4">
+          <p className="text-xs font-semibold uppercase tracking-[0.12em] text-amber">Coming shortly</p>
           <p className="mt-2 text-sm leading-relaxed text-navy">{upcoming}</p>
         </div>
 
@@ -282,6 +286,7 @@ export function Products() {
           <div>
             <p className="eyebrow">Catalogue</p>
             <h2 className="mt-3 text-[clamp(1.9rem,3.6vw,3rem)]">Pick the exact preform without losing your place.</h2>
+            <div className="mt-5 h-px w-12 rounded-full bg-gradient-to-r from-sunrise to-amber" />
           </div>
           <p className="text-lg leading-relaxed text-slate">
             Select a family once, then compare neck finishes and gram weights in the same view. The

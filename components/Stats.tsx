@@ -11,7 +11,7 @@ const BLOCKS: Block[] = [
   { to: 680, suffix: "+", label: "Customers served" },
   { to: 13, suffix: "+", label: "States reached" },
   { to: 11, suffix: "", label: "Machines running" },
-  { prefix: "~", to: 350, suffix: " T", label: "Tonnes / month" },
+  { prefix: "~", to: 350, suffix: "", label: "Tonnes / month" },
 ];
 
 export function Stats() {
@@ -31,7 +31,7 @@ export function Stats() {
 
         <Stagger className="mt-12 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-6" gap={0.07}>
           {BLOCKS.map((b) => (
-            <StaggerItem key={b.label} className="text-center">
+            <StaggerItem key={b.label} className="text-center stat-accent">
               <div className="font-display text-[clamp(2.1rem,3.5vw,3rem)] font-bold leading-none tracking-tight text-navy">
                 {b.prefix && <span className="text-amber">{b.prefix}</span>}
                 <CountUp to={b.to} />
