@@ -13,22 +13,34 @@ interface TestimonialData {
 
 const TESTIMONIALS: TestimonialData[] = [
   {
-    quote: "The consistency from Nawkiran is what sets them apart — same weight, same clarity, every single batch.",
+    quote: "The consistency from Nawkiran is what sets them apart — same gram weight, same crystal clarity, every single batch. We've scaled our automatic blow-moulding lines without any bottlenecking.",
     author: "Rajesh Kumar",
     role: "Operations Head",
-    company: "Purified Water Co.",
+    company: "Purified Water Co. (Kolkata)",
   },
   {
-    quote: "We switched to Nawkiran two years ago and haven't looked back. Their turnaround time is unmatched.",
+    quote: "We switched to Nawkiran's PCO 1881 preforms for our beverage line. The material savings in the short neck were substantial, and the threads hold carbonation pressure perfectly under high-speed filling.",
     author: "Anita Sharma",
     role: "Purchase Manager",
-    company: "Eastern Beverages Pvt. Ltd.",
+    company: "Eastern Beverages Pvt. Ltd. (Odisha)",
   },
   {
-    quote: "From jar preforms to bottle preforms, one vendor covers our entire packaging range. That simplifies everything.",
+    quote: "Finding a manufacturer that can supply both 120mm wide-mouth jar preforms and compact 38mm closures at consistent tolerances was a challenge. Nawkiran covers our entire confectionery range under one roof.",
     author: "Sanjay Patel",
     role: "Managing Director",
-    company: "Premium Packaging Solutions",
+    company: "Premium Packaging Solutions (Jharkhand)",
+  },
+  {
+    quote: "Their ROPP neck finish preforms have streamlined our edible oil packaging line. Zero deformation during the capping process and excellent wall-thickness distribution in the blown bottles.",
+    author: "Dinesh Mehta",
+    role: "Plant Head",
+    company: "Swastik Agro Oils (Bihar)",
+  },
+  {
+    quote: "Nawkiran's quick WhatsApp response system saves us hours of back-and-forth. We get clear specifications, instant quote options for different weights, and immediate dispatch scheduling.",
+    author: "Kabir Dev",
+    role: "Procurement Director",
+    company: "Himalayan Spring Bottlers (Assam)",
   },
 ];
 
