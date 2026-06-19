@@ -94,7 +94,7 @@ export function ProcessTimeline() {
 
         <div className="relative mt-16 md:mt-24">
           {/* Connecting line (Desktop) */}
-          <div className="absolute top-[2.25rem] left-[5%] right-[5%] hidden h-0.5 bg-steel md:block" aria-hidden="true">
+          <div className="absolute top-[4.75rem] left-[10%] right-[10%] hidden h-0.5 bg-steel md:block" aria-hidden="true">
             <motion.div
               className="h-full bg-gradient-to-r from-sunrise via-amber to-sun"
               initial={{ scaleX: 0 }}
@@ -106,7 +106,7 @@ export function ProcessTimeline() {
           </div>
 
           {/* Connecting line (Mobile) */}
-          <div className="absolute top-8 bottom-8 left-[2.25rem] w-0.5 bg-steel md:hidden" aria-hidden="true">
+          <div className="absolute top-9 bottom-9 left-[2.25rem] w-0.5 bg-steel md:hidden" aria-hidden="true">
             <motion.div
               className="w-full bg-gradient-to-b from-sunrise via-amber to-sun"
               initial={{ scaleY: 0 }}
@@ -119,7 +119,12 @@ export function ProcessTimeline() {
 
           <Stagger className="grid gap-12 md:grid-cols-5 md:gap-6" gap={0.12}>
             {STEPS.map((s, idx) => (
-              <StaggerItem key={s.number} className="relative flex flex-row gap-6 md:flex-col md:gap-0">
+              <StaggerItem key={s.number} className="relative flex flex-row gap-6 md:flex-col md:items-center md:gap-0">
+                {/* Step indicator tag (Desktop: centered above circle, Mobile: absolute on circle top-right) */}
+                <div className="mb-4 hidden md:flex h-6 w-9 items-center justify-center rounded-full bg-navy text-[11px] font-bold tracking-tight text-white tnum shadow-sm border border-white/10">
+                  {s.number}
+                </div>
+
                 {/* Node circle & Icon */}
                 <div className="relative z-10 flex-shrink-0">
                   <div className="flex h-[4.5rem] w-[4.5rem] items-center justify-center rounded-full border border-steel bg-white text-navy shadow-sm transition-all duration-300 hover:border-sunrise hover:text-sunrise hover:shadow-[0_8px_20px_rgba(243,107,33,0.15)]">
@@ -127,14 +132,14 @@ export function ProcessTimeline() {
                       {s.icon}
                     </span>
                   </div>
-                  {/* Step indicator tag */}
-                  <span className="absolute -top-2 -right-1 flex h-5 w-8 items-center justify-center rounded-full bg-navy text-[10px] font-bold tracking-tight text-white tnum shadow-sm">
+                  {/* Step indicator tag for Mobile only */}
+                  <span className="absolute -top-2 -right-1 flex md:hidden h-5 w-8 items-center justify-center rounded-full bg-navy text-[10px] font-bold tracking-tight text-white tnum shadow-sm">
                     {s.number}
                   </span>
                 </div>
 
                 {/* Content */}
-                <div className="mt-2 md:mt-6">
+                <div className="mt-2 md:mt-6 md:text-center md:px-2">
                   <h3 className="font-display text-lg font-bold text-navy md:text-xl">
                     {s.title}
                   </h3>

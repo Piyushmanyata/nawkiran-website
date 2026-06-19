@@ -11,6 +11,7 @@ const BLOCKS: Block[] = [
   { to: 13, suffix: "+", label: "States reached" },
   { to: 11, suffix: "", label: "Machines running" },
   { to: 400, suffix: "+", label: "Tonnes / month" },
+  { to: 10, suffix: "+", label: "Years of experience" },
 ];
 
 export function Stats() {
@@ -28,7 +29,7 @@ export function Stats() {
           </p>
         </Reveal>
 
-        <Stagger className="mt-12 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-5" gap={0.07}>
+        <Stagger className="mt-12 grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-3 lg:grid-cols-6" gap={0.07}>
           {BLOCKS.map((b) => (
             <StaggerItem key={b.label} className="text-center stat-accent">
               <div className="font-display text-[clamp(2.1rem,3.5vw,3rem)] font-bold leading-none tracking-tight text-navy">
