@@ -18,6 +18,7 @@ type Geo = {
   bottom: number;
   threads: number;
   thread: "fine" | "coarse" | "normal" | "smooth";
+  baseWeight: number;
   gapAboveRing?: boolean;
   flare?: boolean;
 };
@@ -27,17 +28,17 @@ const TOP = 46;
 
 const GEO: Record<Shape, Geo> = {
   // slim, tall tube; short fine threads; thin support ring
-  star: { mouthW: 16, neckW: 16, neckH: 40, ringW: 19, bodyW: 20, bottom: 410, threads: 8, thread: "fine" },
+  star: { mouthW: 16, neckW: 16, neckH: 40, ringW: 19, bodyW: 20, bottom: 410, threads: 8, thread: "fine", baseWeight: 15 },
   // tallest crown, 3 thread turns, big gap above a heavy support ring; stout tube
-  pco1810: { mouthW: 18, neckW: 18, neckH: 58, ringW: 25, bodyW: 22, bottom: 402, threads: 3, thread: "coarse", gapAboveRing: true },
+  pco1810: { mouthW: 18, neckW: 18, neckH: 58, ringW: 25, bodyW: 22, bottom: 402, threads: 3, thread: "coarse", baseWeight: 24, gapAboveRing: true },
   // short/stubby crown, 2 threads, ring snug under; stout tube
-  pco1881: { mouthW: 18, neckW: 18, neckH: 34, ringW: 25, bodyW: 22, bottom: 402, threads: 2, thread: "coarse" },
+  pco1881: { mouthW: 18, neckW: 18, neckH: 34, ringW: 25, bodyW: 22, bottom: 402, threads: 2, thread: "coarse", baseWeight: 22 },
   // wide flared open mouth (mouth as wide as body); short, fat
-  jar: { mouthW: 34, neckW: 33, neckH: 30, ringW: 36, bodyW: 33, bottom: 392, threads: 4, thread: "coarse", flare: true },
+  jar: { mouthW: 34, neckW: 33, neckH: 30, ringW: 36, bodyW: 33, bottom: 392, threads: 4, thread: "coarse", baseWeight: 48, flare: true },
   // medium crown but wider closed neck; fuller body
-  fridge: { mouthW: 21, neckW: 24, neckH: 36, ringW: 27, bodyW: 27, bottom: 404, threads: 5, thread: "normal" },
+  fridge: { mouthW: 21, neckW: 24, neckH: 36, ringW: 27, bodyW: 27, bottom: 404, threads: 5, thread: "normal", baseWeight: 44 },
   // smooth, thread-free collar (roll-on alu cap); slim tube
-  ropp: { mouthW: 15, neckW: 16, neckH: 50, ringW: 18, bodyW: 19, bottom: 410, threads: 0, thread: "smooth" },
+  ropp: { mouthW: 15, neckW: 16, neckH: 50, ringW: 18, bodyW: 19, bottom: 410, threads: 0, thread: "smooth", baseWeight: 22 },
 };
 
 const TINTS: Record<Tint, { top: string; mid: string; bot: string; edge: string }> = {
@@ -46,18 +47,64 @@ const TINTS: Record<Tint, { top: string; mid: string; bot: string; edge: string 
   clear: { top: "#EEF5FB", mid: "#CFE0EE", bot: "#B7CCDF", edge: "#9DB6CC" },
 };
 
+function clamp(n: number, min: number, max: number) {
+  return Math.min(max, Math.max(min, n));
+}
+
+function tunedGeo(shape: Shape, base: Geo, neckMm?: number, weightG?: number): Geo {
+  const w = Number.isFinite(weightG) ? weightG! : base.baseWeight;
+  const weightDelta = w - base.baseWeight;
+
+  if (shape === "jar") {
+    const neck = clamp(neckMm ?? 83, 38, 120);
+    const span = (neck - 38) / (120 - 38);
+    const mouthW = clamp(26 + span * 32, 26, 58);
+    const bodyW = clamp(mouthW * 0.86 + Math.sqrt(Math.max(w, 1)) * 0.36, 30, 58);
+
+    return {
+      ...base,
+      mouthW,
+      neckW: clamp(mouthW - 1.5, 25, 57),
+      neckH: clamp(27 + span * 15, 27, 43),
+      ringW: clamp(mouthW + 3, 29, 62),
+      bodyW,
+      bottom: clamp(352 + Math.sqrt(Math.max(w, 1)) * 5.6, 365, 416),
+      threads: neck >= 83 ? 5 : 4,
+    };
+  }
+
+  const neck = clamp(neckMm ?? 28, 22, 46);
+  const neckScale = clamp(neck / 28, 0.82, 1.38);
+  const isPco = shape === "pco1810" || shape === "pco1881";
+  const bodyW = clamp(base.bodyW + weightDelta * (isPco ? 0.14 : 0.18), base.bodyW - 4.5, base.bodyW + 8.5);
+  const bottom = clamp(base.bottom + weightDelta * 1.05, 360, 424);
+
+  return {
+    ...base,
+    mouthW: clamp(base.mouthW * neckScale, base.mouthW - 3, base.mouthW + 7),
+    neckW: clamp(base.neckW * neckScale, base.neckW - 3, base.neckW + 8),
+    ringW: clamp(base.ringW * neckScale, base.ringW - 3, base.ringW + 10),
+    bodyW,
+    bottom,
+  };
+}
+
 export function Preform({
   shape,
   tint,
   uid,
+  neckMm,
+  weightG,
   className,
 }: {
   shape: Shape;
   tint: Tint;
   uid: string;
+  neckMm?: number;
+  weightG?: number;
   className?: string;
 }) {
-  const g = GEO[shape];
+  const g = tunedGeo(shape, GEO[shape], neckMm, weightG);
   const t = TINTS[tint];
   const ringY = TOP + g.neckH;
   const bodyTop = ringY + 3;
@@ -103,6 +150,11 @@ export function Preform({
           <stop offset="0" stopColor="#000000" stopOpacity="0.35" />
           <stop offset="1" stopColor="#000000" stopOpacity="0" />
         </radialGradient>
+        <linearGradient id={id("wall")} x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stopColor="#ffffff" stopOpacity="0.12" />
+          <stop offset="0.5" stopColor={t.edge} stopOpacity="0.18" />
+          <stop offset="1" stopColor="#ffffff" stopOpacity="0.1" />
+        </linearGradient>
         <clipPath id={id("clip")}>
           <path d={body} />
         </clipPath>
@@ -116,6 +168,8 @@ export function Preform({
       <g clipPath={`url(#${id("clip")})`}>
         {/* centre cavity shading (two-wall realism) */}
         <rect x={CX - g.bodyW * 0.16} y={bodyTop} width={g.bodyW * 0.32} height={g.bottom} fill={t.bot} fillOpacity="0.14" />
+        <path d={`M ${CX - g.bodyW * 0.74} ${bodyTop + 16} L ${CX - g.bodyW * 0.74} ${straightEnd - 6}`} stroke={`url(#${id("wall")})`} strokeWidth="2" />
+        <path d={`M ${CX + g.bodyW * 0.74} ${bodyTop + 16} L ${CX + g.bodyW * 0.74} ${straightEnd - 6}`} stroke={`url(#${id("wall")})`} strokeWidth="2" />
         {/* main specular highlight, left of centre */}
         <rect
           x={CX - g.bodyW * 0.58}
@@ -136,6 +190,7 @@ export function Preform({
 
       {/* ---- NECK ---- */}
       <rect x={CX - g.neckW} y={TOP} width={g.neckW * 2} height={g.neckH} rx={g.flare ? 4 : 3} fill={`url(#${id("neck")})`} stroke={t.edge} strokeWidth="1.4" strokeOpacity="0.6" />
+      <rect x={CX - g.neckW * 0.72} y={TOP + 4} width={g.neckW * 0.16} height={g.neckH - 8} rx="2" fill="#ffffff" fillOpacity="0.34" />
 
       {/* threads (arcs with upper-left highlight) or smooth collar */}
       {g.thread === "smooth" ? (

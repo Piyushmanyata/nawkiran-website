@@ -14,6 +14,7 @@ export function Hero() {
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const sunY = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : -70]);
   const preY = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : -36]);
+  const neckDetailY = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : -110]);
   const contentY = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : 40]);
 
   const stars = [
@@ -107,7 +108,7 @@ export function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55, delay: 0.64, ease: DAWN_EASE }}
             >
-              <span className="text-gradient-dawn">made to spec</span>
+              <span className="text-sun">made to spec</span>
               <span className="text-white"> in Kolkata.</span>
             </motion.span>
           </h1>
@@ -178,7 +179,7 @@ export function Hero() {
           {/* Secondary Floating Card (Offset Close-Up) */}
           <motion.div
             className="absolute -bottom-4 -left-4 md:-bottom-8 md:-left-8 h-[160px] w-[160px] md:h-[200px] md:w-[200px] rounded-2xl border border-white/15 bg-white/[0.04] p-2 backdrop-blur-md shadow-[0_20px_45px_rgba(0,0,0,0.45)] overflow-hidden hidden sm:block"
-            style={{ y: useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : -110]) }}
+            style={{ y: neckDetailY }}
             initial={reduce ? false : { opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.6, ease: DAWN_EASE }}

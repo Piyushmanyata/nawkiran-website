@@ -18,7 +18,7 @@ export const heroStats: Stat[] = [
 ];
 
 export const impactStats: Stat[] = [
-  { value: 23000, suffix: "+ T", label: "Delivered to date", hint: "tonnes of PET preforms dispatched" },
+  { value: 23000, suffix: "+", label: "Delivered to date", hint: "tonnes of PET preforms dispatched" },
   { value: 680, suffix: "+", label: "Customers served", hint: "bottlers, fillers & converters" },
   { value: 40000, suffix: "+", label: "Orders fulfilled", hint: "shipments completed on time" },
   { value: 13, suffix: "+", label: "States reached", hint: "across eastern & northern India" },

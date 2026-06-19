@@ -50,7 +50,7 @@ export function Contact() {
         <Reveal className="max-w-2xl">
           <p className="eyebrow">Let’s talk</p>
           <h2 className="mt-3 text-[clamp(1.9rem,3.8vw,3.25rem)] text-white">
-            Get a quote — <span className="text-gradient-dawn">in minutes</span>, on WhatsApp.
+            Get a quote — <span className="text-sun">in minutes</span>, on WhatsApp.
           </h2>
           <p className="mt-4 text-lg text-white/70">
             Tell us the part and your monthly quantity. We typically reply on WhatsApp within minutes

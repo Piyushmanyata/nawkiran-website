@@ -6,7 +6,7 @@ import { Reveal, Stagger, StaggerItem } from "./motion";
 type Block = { prefix?: string; to: number; suffix: string; label: string };
 
 const BLOCKS: Block[] = [
-  { to: 23000, suffix: "+ T", label: "Tonnes delivered" },
+  { to: 23000, suffix: "+", label: "Tonnes delivered" },
   { to: 40000, suffix: "+", label: "Orders fulfilled" },
   { to: 680, suffix: "+", label: "Customers served" },
   { to: 13, suffix: "+", label: "States reached" },
