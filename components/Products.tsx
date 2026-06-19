@@ -170,7 +170,7 @@ function SpecPanel({
             <h3 className="mt-2 font-display text-[clamp(1.75rem,3vw,2.5rem)] font-semibold text-white">{p.name}</h3>
             <p className="mt-2 max-w-md text-sm leading-relaxed text-white/72">{p.description}</p>
           </div>
-          <div className="rounded-full px-3 py-1.5 text-xs font-bold text-night shadow-[0_4px_12px_-4px_rgba(0,0,0,0.4)]" style={{ background: p.accent }}>
+          <div className="shrink-0 whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-bold text-night shadow-[0_4px_12px_-4px_rgba(0,0,0,0.4)]" style={{ background: p.accent }}>
             {weight}&thinsp;g
           </div>
         </div>
