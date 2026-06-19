@@ -285,13 +285,11 @@ export function Products() {
         <Reveal className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
           <div>
             <p className="eyebrow">Catalogue</p>
-            <h2 className="mt-3 text-[clamp(1.9rem,3.6vw,3rem)]">Pick the exact preform without losing your place.</h2>
+            <h2 className="mt-3 text-[clamp(1.9rem,3.6vw,3rem)]">Select your exact preform specifications.</h2>
             <div className="mt-5 h-px w-12 rounded-full bg-gradient-to-r from-sunrise to-amber" />
           </div>
           <p className="text-lg leading-relaxed text-slate">
-            Select a family once, then compare neck finishes and gram weights in the same view. The
-            product image updates with the selected spec, so buyers do not need to scroll back up to
-            check what they chose.
+            Explore our complete range of PET preforms by product family. Select a family to compare available neck finishes and gram weights instantly in the same view. The specimen visualization updates in real time to match your selected configurations.
           </p>
         </Reveal>
 
