@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { products, upcoming, weightRange, type NeckSpec, type Product } from "@/lib/products";
 import { BlownBottle, Preform, type Tint } from "./Preform";
@@ -43,9 +43,54 @@ function productBadge(p: Product): string {
   const [nmin, nmax] = neckMinMax(p);
   const [wmin, wmax] = weightRange(p);
   const neck = nmin === nmax ? `${nmin} mm` : `${nmin}-${nmax} mm`;
-  return `${neck} necks / ${wmin}-${wmax} g`;
+  return `${neck} / ${wmin}-${wmax} g`;
 }
 
+/* ─── Mobile horizontal tab strip ─────────────────────────────────────── */
+function MobileProductStrip({
+  products,
+  selectedId,
+  onSelect,
+}: {
+  products: Product[];
+  selectedId: string;
+  onSelect: (p: Product) => void;
+}) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  return (
+    <div
+      ref={scrollRef}
+      className="flex gap-2 overflow-x-auto pb-1 scrollbar-none"
+      style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}
+    >
+      {products.map((p) => {
+        const active = p.id === selectedId;
+        return (
+          <button
+            key={p.id}
+            type="button"
+            onClick={() => onSelect(p)}
+            className={`inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3.5 py-2 text-sm font-semibold transition-all duration-200 ${
+              active
+                ? "border-transparent text-white shadow-[0_4px_12px_-4px_rgba(0,0,0,0.3)]"
+                : "border-steel bg-white text-navy"
+            }`}
+            style={active ? { background: p.accent } : undefined}
+          >
+            <span
+              className="h-2 w-2 shrink-0 rounded-full"
+              style={{ background: active ? "rgba(255,255,255,0.55)" : p.accent }}
+            />
+            {p.name}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+/* ─── Desktop sidebar card ─────────────────────────────────────────────── */
 function ProductFamilyButton({
   p,
   active,
@@ -62,41 +107,38 @@ function ProductFamilyButton({
     <button
       type="button"
       onClick={onSelect}
-      className={`group flex w-full items-center gap-2 sm:gap-3 rounded-xl sm:rounded-2xl border p-2 sm:p-3 text-left transition-all ${
+      className={`group flex w-full items-center gap-3 rounded-2xl border p-3 text-left transition-all ${
         active
           ? "border-sunrise bg-white shadow-[0_0_0_1px_rgba(243,107,33,0.15),0_6px_20px_-8px_rgba(243,107,33,0.45)]"
           : "border-steel bg-white/70 hover:border-sunrise/50 hover:bg-white hover:shadow-[0_4px_12px_-8px_rgba(22,40,77,0.10)]"
       }`}
     >
-      <span className="relative grid h-12 w-10 sm:h-16 sm:w-14 shrink-0 place-items-center overflow-hidden rounded-lg sm:rounded-xl bg-night ring-1 ring-white/5">
+      <span className="relative grid h-16 w-14 shrink-0 place-items-center overflow-hidden rounded-xl bg-night ring-1 ring-white/5">
         <span className="grid-texture absolute inset-0 opacity-45" aria-hidden="true" />
-        <span className="absolute inset-0 rounded-lg sm:rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: "radial-gradient(ellipse 80% 80% at 50% 80%, rgba(243,107,33,0.18) 0%, transparent 70%)" }} aria-hidden="true" />
+        <span
+          className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          style={{ background: "radial-gradient(ellipse 80% 80% at 50% 80%, rgba(243,107,33,0.18) 0%, transparent 70%)" }}
+          aria-hidden="true"
+        />
         <Preform
           shape={p.illustration}
           tint={TINT[p.id]}
           uid={`family-${p.id}`}
           neckMm={primaryNeckMm(defaultNeck.size)}
           weightG={(wmin + wmax) / 2}
-          className="relative h-10 sm:h-14 w-auto"
+          className="relative h-14 w-auto"
         />
       </span>
       <span className="min-w-0">
-        <span className="block font-display text-xs sm:text-base font-semibold leading-tight text-navy truncate">{p.name}</span>
-        <span className="mt-0.5 block truncate text-[10px] sm:text-xs font-medium text-slate">{productBadge(p)}</span>
+        <span className="block font-display text-base font-semibold leading-tight text-navy">{p.name}</span>
+        <span className="mt-0.5 block truncate text-xs font-medium text-slate">{productBadge(p)}</span>
       </span>
     </button>
   );
 }
 
-function NeckButton({
-  neck,
-  active,
-  onSelect,
-}: {
-  neck: NeckSpec;
-  active: boolean;
-  onSelect: () => void;
-}) {
+/* ─── Neck & weight controls ───────────────────────────────────────────── */
+function NeckButton({ neck, active, onSelect }: { neck: NeckSpec; active: boolean; onSelect: () => void }) {
   return (
     <button
       type="button"
@@ -110,20 +152,12 @@ function NeckButton({
   );
 }
 
-function WeightChip({
-  weight,
-  active,
-  onSelect,
-}: {
-  weight: number;
-  active: boolean;
-  onSelect: () => void;
-}) {
+function WeightChip({ weight, active, onSelect }: { weight: number; active: boolean; onSelect: () => void }) {
   return (
     <button
       type="button"
       onClick={onSelect}
-      className={`tnum rounded-xl border px-3 py-2 font-mono text-sm font-semibold transition-all duration-150 ${
+      className={`tnum rounded-xl border px-2.5 py-2 font-mono text-sm font-semibold transition-all duration-150 ${
         active
           ? "border-sunrise bg-sunrise text-white shadow-[0_4px_14px_-6px_rgba(243,107,33,0.7)] scale-[1.06]"
           : "border-steel bg-cloud text-navy hover:border-sunrise/70 hover:bg-white hover:scale-[1.04] hover:shadow-sm"
@@ -135,6 +169,7 @@ function WeightChip({
   );
 }
 
+/* ─── Spec panel ───────────────────────────────────────────────────────── */
 function SpecPanel({
   p,
   neck,
@@ -158,27 +193,45 @@ function SpecPanel({
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -8 }}
       transition={{ duration: 0.32, ease: DAWN_EASE }}
-      className="grid gap-6 xl:grid-cols-[minmax(20rem,0.9fr)_1fr]"
+      className="grid grid-cols-1 min-w-0 w-full gap-4 xl:grid-cols-[minmax(20rem,0.9fr)_1fr]"
     >
-      <section className="relative overflow-hidden rounded-2xl bg-gradient-to-b from-[#0d1e3e] to-night p-5 text-white sm:p-6">
+      {/* Dark preview card */}
+      <section className="relative min-w-0 overflow-hidden rounded-2xl bg-gradient-to-b from-[#0d1e3e] to-night p-4 sm:p-6 text-white">
         <div className="grid-texture absolute inset-0 opacity-40" aria-hidden="true" />
-        <div className="absolute -right-16 top-10 h-60 w-60 rounded-full opacity-22 blur-[52px]" style={{ background: p.accent }} aria-hidden="true" />
-        <div className="absolute -left-10 bottom-16 h-40 w-40 rounded-full opacity-14 blur-[44px]" style={{ background: p.accent }} aria-hidden="true" />
-        <div className="relative flex items-start justify-between gap-5">
-          <div>
-            <p className="text-sm font-semibold text-white/70">Selected preform</p>
-            <h3 className="mt-2 font-display text-[clamp(1.75rem,3vw,2.5rem)] font-semibold text-white">{p.name}</h3>
-            <p className="mt-2 max-w-md text-sm leading-relaxed text-white/72">{p.description}</p>
+        <div
+          className="absolute -right-16 top-10 h-60 w-60 rounded-full opacity-22 blur-[52px]"
+          style={{ background: p.accent }}
+          aria-hidden="true"
+        />
+        <div
+          className="absolute -left-10 bottom-16 h-40 w-40 rounded-full opacity-14 blur-[44px]"
+          style={{ background: p.accent }}
+          aria-hidden="true"
+        />
+
+        {/* Header row — name + weight badge */}
+        <div className="relative flex items-start justify-between gap-4">
+          <div className="min-w-0">
+            <p className="text-xs font-semibold text-white/70">Selected preform</p>
+            <h3 className="mt-1 font-display text-[clamp(1.4rem,4vw,2.5rem)] font-semibold text-white leading-tight">{p.name}</h3>
+            <p className="mt-1.5 max-w-md text-xs sm:text-sm leading-relaxed text-white/72 line-clamp-2 sm:line-clamp-none">{p.description}</p>
           </div>
-          <div className="shrink-0 whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-bold text-night shadow-[0_4px_12px_-4px_rgba(0,0,0,0.4)]" style={{ background: p.accent }}>
+          <div
+            className="shrink-0 whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-bold text-night shadow-[0_4px_12px_-4px_rgba(0,0,0,0.4)] mt-0.5"
+            style={{ background: p.accent }}
+          >
             {weight}&thinsp;g
           </div>
         </div>
 
-        <div className="relative mt-8 grid min-h-[12rem] sm:min-h-[24rem] place-items-center rounded-xl bg-white/[0.04] ring-1 ring-white/5">
-          {/* Per-product radial halo behind the preform */}
-          <div className="pointer-events-none absolute inset-0 rounded-xl" style={{ background: `radial-gradient(ellipse 55% 50% at 50% 62%, ${p.accent}28 0%, transparent 70%)` }} aria-hidden="true" />
-          <div className="absolute left-5 top-5 rounded-xl bg-white/10 px-3 py-2 text-xs font-semibold text-white/80 ring-1 ring-white/10 backdrop-blur-sm">
+        {/* Preform visualization */}
+        <div className="relative mt-4 sm:mt-8 grid min-h-[9rem] sm:min-h-[24rem] place-items-center rounded-xl bg-white/[0.04] ring-1 ring-white/5">
+          <div
+            className="pointer-events-none absolute inset-0 rounded-xl"
+            style={{ background: `radial-gradient(ellipse 55% 50% at 50% 62%, ${p.accent}28 0%, transparent 70%)` }}
+            aria-hidden="true"
+          />
+          <div className="absolute left-3 top-3 sm:left-5 sm:top-5 rounded-xl bg-white/10 px-2.5 py-1.5 text-xs font-semibold text-white/80 ring-1 ring-white/10 backdrop-blur-sm">
             {formatNeck(neck.size)}
           </div>
           <Preform
@@ -187,79 +240,74 @@ function SpecPanel({
             uid={`hero-${p.id}-${neck.size}-${weight}`}
             neckMm={neckMm}
             weightG={weight}
-            className="h-[10rem] sm:h-[22rem] w-auto drop-shadow-[0_22px_32px_rgba(0,0,0,0.35)]"
+            className="h-[8rem] sm:h-[22rem] w-auto drop-shadow-[0_22px_32px_rgba(0,0,0,0.35)]"
           />
           <BlownBottle
             shape={p.illustration}
             tint={TINT[p.id]}
             uid={`ghost-${p.id}`}
-            className="pointer-events-none absolute right-3 top-4 sm:top-12 h-24 sm:h-48 w-auto opacity-20"
+            className="pointer-events-none absolute right-3 top-3 sm:top-12 h-16 sm:h-48 w-auto opacity-20"
           />
         </div>
       </section>
 
-      <section className="rounded-2xl border border-steel bg-white p-5 sm:p-6">
-        <div className="border-b border-steel pb-5">
-          <p className="text-sm font-semibold text-slate">Application</p>
-          <p className="mt-1 text-lg font-semibold text-navy">{p.use}</p>
+      {/* Spec selection card */}
+      <section className="min-w-0 rounded-2xl border border-steel bg-white p-4 sm:p-6">
+        <div className="border-b border-steel pb-4">
+          <p className="text-xs font-semibold text-slate">Application</p>
+          <p className="mt-1 text-base sm:text-lg font-semibold text-navy">{p.use}</p>
         </div>
 
-        <div className="mt-6">
+        <div className="mt-5">
           <p className="text-sm font-semibold text-navy">Choose neck finish</p>
-          <div className="mt-3 flex flex-wrap gap-2">
+          <div className="mt-2.5 flex flex-wrap gap-2">
             {p.necks.map((n) => (
-              <NeckButton
-                key={n.size}
-                neck={n}
-                active={n.size === neck.size}
-                onSelect={() => onNeck(n)}
-              />
+              <NeckButton key={n.size} neck={n} active={n.size === neck.size} onSelect={() => onNeck(n)} />
             ))}
           </div>
         </div>
 
-        <div className="mt-6">
+        <div className="mt-5">
           <div className="flex items-end justify-between gap-4">
             <p className="text-sm font-semibold text-navy">Choose gram weight</p>
             <p className="text-xs text-slate">{neck.weights.length} options</p>
           </div>
-          <div className="mt-3 grid grid-cols-3 gap-2 sm:grid-cols-4 lg:grid-cols-5">
+          <div className="mt-2.5 grid grid-cols-4 gap-1.5 sm:grid-cols-4 lg:grid-cols-5">
             {neck.weights.map((w) => (
               <WeightChip key={w} weight={w} active={w === weight} onSelect={() => onWeight(w)} />
             ))}
           </div>
         </div>
 
-        <div className="mt-6 rounded-xl border border-amber/30 bg-amber/[0.06] p-4">
+        <div className="mt-5 rounded-xl border border-amber/30 bg-amber/[0.06] p-3.5">
           <p className="text-xs font-semibold uppercase tracking-[0.12em] text-amber">Coming shortly</p>
-          <p className="mt-2 text-sm leading-relaxed text-navy">{upcoming}</p>
+          <p className="mt-1.5 text-sm leading-relaxed text-navy">{upcoming}</p>
         </div>
 
-        <div className="mt-6 flex flex-wrap items-center gap-3">
+        <div className="mt-5 flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-3">
           <a
             href={waLink(quoteText)}
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex items-center gap-2 rounded-full bg-sunrise px-5 py-3 text-sm font-semibold text-white shadow-[0_8px_18px_-10px_rgba(243,107,33,0.85)] transition-transform hover:-translate-y-0.5"
+            className="group inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-full bg-sunrise px-5 py-3 text-sm font-semibold text-white shadow-[0_8px_18px_-10px_rgba(243,107,33,0.85)] transition-transform hover:-translate-y-0.5 active:scale-[0.98]"
           >
             <WhatsAppIcon className="h-[1.1rem] w-[1.1rem]" />
             Quote this spec
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
           </a>
-          <p className="text-sm text-slate">Message includes product, neck and gram weight.</p>
+          <p className="text-xs sm:text-sm text-slate text-center sm:text-left">Message includes product, neck &amp; gram weight.</p>
         </div>
       </section>
     </motion.div>
   );
 }
 
+/* ─── Main export ──────────────────────────────────────────────────────── */
 export function Products() {
   const [selectedId, setSelectedId] = useState<string>(products[0].id);
   const selected = products.find((p) => p.id === selectedId) ?? products[0];
   const [selectedNeck, setSelectedNeck] = useState<NeckSpec>(selected.necks[0]);
   const [selectedWeight, setSelectedWeight] = useState<number>(defaultWeight(selected.necks[0]));
-
-  // Scroll fades removed for grid layout
 
   function selectProduct(p: Product) {
     const neck = p.necks[0];
@@ -283,24 +331,27 @@ export function Products() {
             <div className="mt-5 h-px w-12 rounded-full bg-gradient-to-r from-sunrise to-amber" />
           </div>
           <p className="text-lg leading-relaxed text-slate">
-            Explore our complete range of PET preforms by product family. Select a family to compare available neck finishes and gram weights instantly in the same view. The specimen visualization updates in real time to match your selected configurations.
+            Explore our complete range of PET preforms by product family. Select a family to compare available neck finishes and gram weights instantly. The specimen visualization updates in real time.
           </p>
         </Reveal>
 
-        <div className="mt-10 grid min-w-0 gap-6 lg:grid-cols-[minmax(16rem,18rem)_1fr] lg:items-start">
-          <aside className="sticky top-[4.75rem] z-30 border-y border-steel bg-white/95 py-3 backdrop-blur-xl lg:top-24 lg:border-0 lg:bg-transparent lg:p-0 lg:backdrop-blur-0">
-            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:flex lg:flex-col lg:gap-3">
+        <div className="mt-8 grid grid-cols-1 min-w-0 w-full gap-4 lg:gap-6 lg:grid-cols-[minmax(16rem,18rem)_1fr] lg:items-start">
+          {/* ── Sidebar / strip selector ── */}
+          <aside className="sticky top-[4.75rem] z-30 bg-white/95 backdrop-blur-xl lg:top-24 lg:bg-transparent lg:backdrop-blur-0">
+            {/* Mobile: horizontal scroll strip */}
+            <div className="border-y border-steel py-3 lg:hidden">
+              <MobileProductStrip products={products} selectedId={selected.id} onSelect={selectProduct} />
+            </div>
+
+            {/* Desktop: vertical sidebar cards */}
+            <div className="hidden lg:flex lg:flex-col lg:gap-3">
               {products.map((p) => (
-                <ProductFamilyButton
-                  key={p.id}
-                  p={p}
-                  active={p.id === selected.id}
-                  onSelect={() => selectProduct(p)}
-                />
+                <ProductFamilyButton key={p.id} p={p} active={p.id === selected.id} onSelect={() => selectProduct(p)} />
               ))}
             </div>
           </aside>
 
+          {/* ── Spec panel ── */}
           <AnimatePresence mode="wait">
             <SpecPanel
               key={selected.id}
