@@ -57,10 +57,9 @@ function ReachPie() {
                 fill={COLORS[i % COLORS.length]}
                 stroke="#ffffff"
                 strokeWidth="3"
-                initial={reduce ? false : { opacity: 0, scale: 0.96 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.45, delay: i * 0.07, ease: DAWN_EASE }}
+                initial={reduce ? false : { opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, delay: i * 0.05, ease: DAWN_EASE }}
               />
             );
           })}
@@ -74,16 +73,15 @@ function ReachPie() {
           </text>
         </svg>
       </div>
-
+ 
       <div className="grid gap-3 sm:grid-cols-2">
         {slices.map((slice, i) => (
           <motion.div
             key={slice.state}
             className="flex items-center gap-3 rounded-xl border border-steel bg-white px-4 py-3"
             initial={reduce ? false : { opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.36, delay: 0.12 + i * 0.05, ease: DAWN_EASE }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.36, delay: 0.12 + i * 0.04, ease: DAWN_EASE }}
           >
             <span className="h-3 w-3 rounded-full" style={{ background: COLORS[i % COLORS.length] }} aria-hidden="true" />
             <span className="font-medium text-navy">{slice.state}</span>

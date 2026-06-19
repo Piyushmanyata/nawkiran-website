@@ -170,7 +170,7 @@ export function Hero() {
                   alt="Nawkiran Premium PET Preforms"
                   className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
                 />
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent p-5 pb-20 md:pb-24 text-white">
+                <div className="absolute inset-x-0 top-0 bg-gradient-to-b from-black/90 via-black/40 to-transparent p-5 pr-16 pt-6 pb-14 text-white">
                   <span className="text-[10px] font-bold uppercase tracking-wider text-sunrise">Featured</span>
                   <h3 className="font-display text-lg md:text-xl font-bold text-white mt-0.5">High-Volume Moulding</h3>
                   <p className="text-xs text-white/85 mt-1">Virgin grade resin preforms for water & soft drinks.</p>
