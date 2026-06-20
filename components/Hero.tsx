@@ -19,7 +19,14 @@ export function Hero() {
   const contentY = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : 40]);
 
   const stars = [
-    [12, 22], [20, 14], [28, 30], [8, 40], [33, 18], [17, 33], [40, 12], [6, 26],
+    { l: 12, t: 22, d: "0s" },
+    { l: 20, t: 14, d: "1.2s" },
+    { l: 28, t: 30, d: "2.4s" },
+    { l: 8, t: 40, d: "0.6s" },
+    { l: 33, t: 18, d: "1.8s" },
+    { l: 17, t: 33, d: "3.0s" },
+    { l: 40, t: 12, d: "1.5s" },
+    { l: 6, t: 26, d: "0.9s" },
   ];
 
   return (
@@ -27,11 +34,16 @@ export function Hero() {
       {/* faint grid + stars */}
       <div className="grid-texture absolute inset-0 opacity-60" aria-hidden="true" />
       <div className="absolute inset-0" aria-hidden="true">
-        {stars.map(([l, t], i) => (
+        {stars.map((star, i) => (
           <span
             key={i}
-            className="absolute h-[2px] w-[2px] rounded-full bg-white/40"
-            style={{ left: `${l}%`, top: `${t}%` }}
+            className="absolute h-[2.5px] w-[2.5px] rounded-full bg-white/50 animate-pulse"
+            style={{
+              left: `${star.l}%`,
+              top: `${star.t}%`,
+              animationDelay: star.d,
+              animationDuration: "3s",
+            }}
           />
         ))}
       </div>

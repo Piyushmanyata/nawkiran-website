@@ -11,7 +11,7 @@ const BLOCKS: Block[] = [
   { to: 13, suffix: "+", label: "States reached" },
   { to: 11, suffix: "", label: "Machines running" },
   { to: 400, suffix: "+", label: "Tonnes / month" },
-  { to: 10, suffix: "+", label: "Years of experience" },
+  { to: 15, suffix: "+", label: "Years of experience" },
 ];
 
 export function Stats() {
