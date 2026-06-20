@@ -180,10 +180,11 @@ export function Hero() {
               <div className="relative h-full w-full overflow-hidden rounded-2xl">
                 <Image
                   src="/hero-preforms.png"
-                  alt="Nawkiran Premium PET Preforms"
+                  alt="Nawkiran Polyplast premium PET preforms for water bottles and jars"
                   fill
                   priority
-                  sizes="(max-width: 768px) 100vw, 50vw"
+                  fetchPriority="high"
+                  sizes="(max-width: 480px) 260px, (max-width: 768px) 320px, 384px"
                   className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
                 />
                 <div className="absolute inset-x-0 top-0 bg-gradient-to-b from-black/90 via-black/40 to-transparent p-5 pr-16 pt-6 pb-14 text-white">
