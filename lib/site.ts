@@ -46,7 +46,6 @@ export function waLink(text: string = WHATSAPP.defaultText) {
 export const NAV_LINKS = [
   { label: "Products", href: "#products" },
   { label: "Capabilities", href: "#capabilities" },
-  { label: "Reach", href: "#reach" },
   { label: "About", href: "#about" },
   { label: "Contact", href: "#contact" },
 ];

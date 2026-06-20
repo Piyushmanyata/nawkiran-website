@@ -5,7 +5,6 @@ import { Products } from "@/components/Products";
 import { Capabilities } from "@/components/Capabilities";
 import { WhyNawkiran } from "@/components/WhyNawkiran";
 import { ProcessTimeline } from "@/components/ProcessTimeline";
-import { Reach } from "@/components/Reach";
 import { Contact } from "@/components/Contact";
 import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
@@ -26,7 +25,6 @@ export default function Home() {
         <WhyNawkiran />
         <ProcessTimeline />
         <SectionDivider />
-        <Reach />
         <Contact />
         <FinalCTA />
       </main>
