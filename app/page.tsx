@@ -10,6 +10,7 @@ const Capabilities = dynamic(() => import("@/components/Capabilities").then((m) 
 const WhyNawkiran = dynamic(() => import("@/components/WhyNawkiran").then((m) => ({ default: m.WhyNawkiran })));
 const ProcessTimeline = dynamic(() => import("@/components/ProcessTimeline").then((m) => ({ default: m.ProcessTimeline })));
 const Contact = dynamic(() => import("@/components/Contact").then((m) => ({ default: m.Contact })));
+const FAQ = dynamic(() => import("@/components/FAQ").then((m) => ({ default: m.FAQ })));
 const FinalCTA = dynamic(() => import("@/components/FinalCTA").then((m) => ({ default: m.FinalCTA })));
 const Footer = dynamic(() => import("@/components/Footer").then((m) => ({ default: m.Footer })));
 const FloatingCTA = dynamic(() => import("@/components/FloatingCTA").then((m) => ({ default: m.FloatingCTA })));
@@ -27,6 +28,8 @@ export default function Home() {
         <SectionDivider />
         <WhyNawkiran />
         <ProcessTimeline />
+        <SectionDivider />
+        <FAQ />
         <SectionDivider />
         <Contact />
         <FinalCTA />

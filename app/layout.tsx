@@ -82,6 +82,10 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: SITE_URL,
+    languages: {
+      "en-IN": `${SITE_URL}/en-in`,
+      "hi-IN": `${SITE_URL}/hi-in`,
+    },
   },
   openGraph: {
     title: "Nawkiran Polyplast — PET Preforms for Bottles & Jars | Kolkata",
@@ -113,7 +117,6 @@ export const metadata: Metadata = {
     "geo.placename": "Kolkata",
     "geo.position": "22.5726;88.3639",
     "ICBM": "22.5726, 88.3639",
-    "og:locale:alternate": "hi_IN",
   },
 };
 

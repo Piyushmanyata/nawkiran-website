@@ -295,7 +295,14 @@ function SpecPanel({
             Quote this spec
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
           </a>
-          <p className="text-xs sm:text-sm text-slate text-center sm:text-left">Message includes product, neck &amp; gram weight.</p>
+          <a
+            href={`/products/${p.id}`}
+            className="group inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-full border border-steel bg-white hover:border-sunrise px-5 py-3 text-sm font-semibold text-navy transition-all hover:-translate-y-0.5"
+          >
+            View full specs
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+          </a>
+          <p className="text-xs sm:text-sm text-slate text-center sm:text-left w-full mt-1">Message includes product, neck &amp; gram weight.</p>
         </div>
       </section>
     </motion.div>

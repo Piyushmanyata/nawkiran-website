@@ -5,7 +5,7 @@ export function Footer() {
   return (
     <footer className="bg-night text-white">
       <div className="shell border-t border-white/10 py-14 pb-28 sm:pb-14">
-        <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr]">
+        <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
           {/* brand */}
           <div>
             <Logo light />
@@ -24,6 +24,32 @@ export function Footer() {
                 <li key={l.href}>
                   <a href={l.href} className="text-sm text-white/70 transition-colors hover:text-white">
                     {l.label}
+                  </a>
+                </li>
+              ))}
+              <li>
+                <a href="/#faq" className="text-sm text-white/70 transition-colors hover:text-white">
+                  FAQ
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          {/* families */}
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-white/40">Product Families</p>
+            <ul className="mt-4 space-y-2.5">
+              {[
+                { name: "3 Star Water", slug: "3-star" },
+                { name: "1810 PCO CSD", slug: "1810-pco" },
+                { name: "1881 PCO Short CSD", slug: "1881-pco" },
+                { name: "Wide-Mouth Jar", slug: "jar" },
+                { name: "Fridge Bottle", slug: "fridge-bottle" },
+                { name: "ROPP Oil & Pharma", slug: "ropp" },
+              ].map((p) => (
+                <li key={p.slug}>
+                  <a href={`/products/${p.slug}`} className="text-sm text-white/70 transition-colors hover:text-white">
+                    {p.name}
                   </a>
                 </li>
               ))}
