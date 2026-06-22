@@ -93,7 +93,7 @@ export function Nav() {
       >
         <nav className={`shell flex items-center justify-between gap-4 transition-all duration-300 ${scrolled ? "py-2.5" : "py-4"}`}>
           {/* Brand lockup */}
-          <a href="#top" className="flex items-center gap-2.5" aria-label="Nawkiran Polyplast — home">
+          <a href="/" className="flex items-center gap-2.5" aria-label="Nawkiran Polyplast — home">
             <AnimatedArc className="h-6 w-auto" pulse={!reduce} />
             <span className="font-display text-lg font-extrabold leading-none tracking-tight sm:text-xl">
               <span className={onDark ? "text-white" : "text-navy"}>NAW</span>
@@ -106,7 +106,7 @@ export function Nav() {
             {NAV_LINKS.map((l) => (
               <a
                 key={l.href}
-                href={l.href}
+                href={l.href.startsWith("#") ? `/${l.href}` : l.href}
                 className={`text-[0.9375rem] font-medium transition-colors ${
                   onDark ? "text-white/80 hover:text-white" : "text-slate hover:text-navy"
                 }`}
@@ -169,7 +169,7 @@ export function Nav() {
               {NAV_LINKS.map((l) => (
                 <motion.a
                   key={l.href}
-                  href={l.href}
+                  href={l.href.startsWith("#") ? `/${l.href}` : l.href}
                   variants={itemVariants}
                   onClick={() => setOpen(false)}
                   className="rounded-xl px-3 py-3 text-base font-medium text-navy transition-colors hover:bg-cloud"
