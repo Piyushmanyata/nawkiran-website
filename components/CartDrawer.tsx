@@ -116,9 +116,13 @@ export function CartDrawer() {
 
   // Load customer details from localStorage on mount
   useEffect(() => {
-    setName(localStorage.getItem("nawkiran_cust_name") || "");
+    const savedName = localStorage.getItem("nawkiran_cust_name") || "";
+    setName(savedName);
     setCompany(localStorage.getItem("nawkiran_cust_company") || "");
     setState(localStorage.getItem("nawkiran_cust_state") || "");
+    if (!savedName) {
+      setShowForm(true);
+    }
   }, []);
 
   // Save details on change
@@ -287,7 +291,7 @@ export function CartDrawer() {
                     </button>
 
                     <AnimatePresence>
-                      {(showForm || !name) && (
+                      {showForm && (
                         <motion.div
                           initial={{ height: 0, opacity: 0 }}
                           animate={{ height: "auto", opacity: 1 }}
