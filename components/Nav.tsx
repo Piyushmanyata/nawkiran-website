@@ -3,14 +3,17 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { AnimatedArc } from "./SunArc";
-import { WhatsAppIcon, PhoneIcon } from "./icons";
+import { WhatsAppIcon, PhoneIcon, ShoppingBagIcon } from "./icons";
 import { NAV_LINKS, PHONES, waLink } from "@/lib/site";
+import { useCart } from "@/lib/cart";
+import { CartDrawer } from "./CartDrawer";
 
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const reduce = useReducedMotion();
   const primaryTel = PHONES.find((p) => p.primary)?.tel ?? PHONES[0].tel;
+  const { itemCount, toggleCart } = useCart();
 
   useEffect(() => {
     let ticking = false;
@@ -127,6 +130,35 @@ export function Nav() {
               <PhoneIcon className="h-4 w-4" />
               Call
             </a>
+            
+            {/* Cart toggle button */}
+            <button
+              type="button"
+              onClick={toggleCart}
+              className={`relative inline-flex h-10 w-10 items-center justify-center rounded-full border transition-all duration-200 active:scale-95 cursor-pointer ${
+                onDark
+                  ? "border-white/25 text-white hover:bg-white/10"
+                  : "border-steel text-navy hover:border-sunrise hover:text-sunrise hover:bg-cloud"
+              }`}
+              aria-label="Open quote cart"
+            >
+              <ShoppingBagIcon className="h-4.5 w-4.5" />
+              <AnimatePresence>
+                {itemCount > 0 && (
+                  <motion.span
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    exit={{ scale: 0 }}
+                    key={itemCount}
+                    transition={{ type: "spring", stiffness: 500, damping: 15 }}
+                    className="absolute -right-1 -top-1 flex h-4.5 w-4.5 items-center justify-center rounded-full bg-sunrise text-[9px] font-bold text-white shadow-sm"
+                  >
+                    {itemCount}
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </button>
+
             <a
               href={waLink()}
               target="_blank"
@@ -181,6 +213,7 @@ export function Nav() {
           </motion.div>
         )}
       </AnimatePresence>
+      <CartDrawer />
     </header>
   );
 }

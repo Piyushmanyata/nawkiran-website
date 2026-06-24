@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans, DM_Sans, JetBrains_Mono } from "next/font/google";
 import { COMPANY } from "@/lib/site";
+import { CartProvider } from "@/lib/cart";
 import "./globals.css";
 
 const plusJakarta = Plus_Jakarta_Sans({
@@ -288,7 +289,9 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
       <body className={`${plusJakarta.variable} ${dmSans.variable} ${jetbrains.variable}`}>
-        {children}
+        <CartProvider>
+          {children}
+        </CartProvider>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}

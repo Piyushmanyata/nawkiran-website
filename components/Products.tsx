@@ -5,8 +5,9 @@ import { AnimatePresence, motion } from "motion/react";
 import { products, upcoming, weightRange, type NeckSpec, type Product } from "@/lib/products";
 import { BlownBottle, Preform, type Tint } from "./Preform";
 import { Reveal, DAWN_EASE } from "./motion";
-import { WhatsAppIcon, ArrowRight } from "./icons";
+import { WhatsAppIcon, ArrowRight, Plus, ShoppingBagIcon } from "./icons";
 import { waLink } from "@/lib/site";
+import { useCart } from "@/lib/cart";
 
 const TINT: Record<string, Tint> = {
   "3-star": "blue",
@@ -184,7 +185,18 @@ function SpecPanel({
   onWeight: (weight: number) => void;
 }) {
   const neckMm = primaryNeckMm(neck.size);
-  const quoteText = `Hi Nawkiran, I need a quote for ${p.name} ${formatNeck(neck.size)} ${weight}g preforms. Approx. monthly quantity: `;
+  const { addItem } = useCart();
+
+  const [qty, setQty] = useState(500);
+  const [isAdded, setIsAdded] = useState(false);
+
+  const step = 100;
+
+  const handleAdd = () => {
+    addItem(p, neck.size, weight, qty);
+    setIsAdded(true);
+    setTimeout(() => setIsAdded(false), 2000);
+  };
 
   return (
     <motion.div
@@ -279,31 +291,83 @@ function SpecPanel({
           </div>
         </div>
 
+        {/* Quantity Selector (strictly in Kgs) */}
+        <div className="mt-5">
+          <label htmlFor="quantity-input" className="block text-xs font-bold text-slate uppercase tracking-wider">
+            Quantity (in Kilograms)
+          </label>
+          <div className="mt-2 flex items-center rounded-xl border border-steel bg-cloud p-1 max-w-[18rem]">
+            <button
+              type="button"
+              onClick={() => setQty((q) => Math.max(step, q - step))}
+              className="flex h-10 w-12 items-center justify-center rounded-lg text-navy hover:bg-steel/30 active:scale-95 transition-all cursor-pointer font-bold text-lg"
+              aria-label="Decrease quantity"
+            >
+              &minus;
+            </button>
+            <div className="flex-1 flex items-center justify-center gap-1">
+              <input
+                type="number"
+                id="quantity-input"
+                value={qty}
+                onChange={(e) => setQty(Math.max(1, parseInt(e.target.value) || 0))}
+                className="w-20 text-right bg-transparent font-mono text-base font-bold text-navy focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+              />
+              <span className="font-sans text-sm font-bold text-slate uppercase select-none">kg</span>
+            </div>
+            <button
+              type="button"
+              onClick={() => setQty((q) => q + step)}
+              className="flex h-10 w-12 items-center justify-center rounded-lg text-navy hover:bg-steel/30 active:scale-95 transition-all cursor-pointer"
+              aria-label="Increase quantity"
+            >
+              <Plus className="h-4 w-4" />
+            </button>
+          </div>
+        </div>
+
         <div className="mt-5 rounded-xl border border-amber/30 bg-amber/[0.06] p-3.5">
           <p className="text-xs font-semibold uppercase tracking-[0.12em] text-amber">Coming shortly</p>
           <p className="mt-1.5 text-sm leading-relaxed text-navy">{upcoming}</p>
         </div>
 
-        <div className="mt-5 flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-3">
-          <a
-            href={waLink(quoteText)}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-full bg-sunrise px-5 py-3 text-sm font-semibold text-white shadow-[0_8px_18px_-10px_rgba(243,107,33,0.85)] transition-transform hover:-translate-y-0.5 active:scale-[0.98]"
+        <div className="mt-5 flex flex-col sm:flex-row sm:items-center gap-3">
+          <button
+            type="button"
+            onClick={handleAdd}
+            disabled={qty <= 0}
+            className={`group relative overflow-hidden inline-flex w-full sm:flex-1 items-center justify-center gap-2 rounded-full py-3.5 text-sm font-semibold text-white shadow-lg transition-all duration-300 active:scale-[0.98] cursor-pointer ${
+              isAdded
+                ? "bg-whatsapp shadow-[0_8px_18px_-8px_rgba(37,211,102,0.6)]"
+                : "bg-sunrise shadow-[0_8px_18px_-10px_rgba(243,107,33,0.85)] hover:-translate-y-0.5"
+            }`}
           >
-            <WhatsAppIcon className="h-[1.1rem] w-[1.1rem]" />
-            Quote this spec
-            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-          </a>
+            {isAdded ? (
+              <motion.span
+                initial={{ scale: 0.5, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                className="flex items-center gap-1.5"
+              >
+                Added ✓
+              </motion.span>
+            ) : (
+              <>
+                <ShoppingBagIcon className="h-4.5 w-4.5" />
+                Add to Cart
+              </>
+            )}
+          </button>
           <a
             href={`/products/${p.id}`}
-            className="group inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-full border border-steel bg-white hover:border-sunrise px-5 py-3 text-sm font-semibold text-navy transition-all hover:-translate-y-0.5"
+            className="group inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-full border border-steel bg-white hover:border-sunrise px-6 py-3.5 text-sm font-semibold text-navy transition-all hover:-translate-y-0.5"
           >
             View full specs
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
           </a>
-          <p className="text-xs sm:text-sm text-slate text-center sm:text-left w-full mt-1">Message includes product, neck &amp; gram weight.</p>
         </div>
+        <p className="text-xs text-slate text-center sm:text-left mt-2.5">
+          Items will accumulate in your enquiry cart. Send the final list on WhatsApp when ready.
+        </p>
       </section>
     </motion.div>
   );

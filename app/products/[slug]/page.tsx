@@ -5,10 +5,8 @@ import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { SpecTable } from "@/components/SpecTable";
-import { Preform, BlownBottle } from "@/components/Preform";
-import { waLink } from "@/lib/site";
-import { WhatsAppIcon, ArrowRight } from "@/components/icons";
 import { SectionDivider } from "@/components/SunArc";
+import { ProductDetailInteractive } from "@/components/ProductDetailInteractive";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -117,93 +115,20 @@ export default async function ProductPage({ params }: Props) {
           {/* Breadcrumbs */}
           <Breadcrumb items={breadcrumbs} />
 
-          {/* Hero Section */}
-          <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] items-start mt-6">
-            {/* Left Column: Product Info & Specs */}
-            <div className="space-y-8">
-              <div>
-                <p className="eyebrow">Product Family</p>
-                <h1 className="mt-3 text-4xl sm:text-5xl font-display font-extrabold text-navy leading-tight">
-                  {product.name} PET Preforms
-                </h1>
-                <p className="mt-4 text-lg text-slate leading-relaxed">
-                  {product.description}
-                </p>
-              </div>
+          {/* Interactive Specification & Order Panel */}
+          <ProductDetailInteractive product={product} />
 
-              {/* Crawlable Specs Table */}
-              <div className="space-y-4">
-                <h2 className="text-xl font-display font-bold text-navy">
-                  Available Neck Sizes &amp; Weights
-                </h2>
-                <SpecTable product={product} />
-              </div>
+          <SectionDivider />
 
-              {/* Dynamic CTA */}
-              <div className="rounded-2xl border border-steel bg-white p-6 shadow-sm">
-                <h3 className="text-lg font-display font-bold text-navy">Request a Bulk Quote</h3>
-                <p className="mt-2 text-sm text-slate">
-                  Nawkiran Polyplast manufactures high-quality PET preforms to exact industrial tolerances. Send us your parameters on WhatsApp to receive a prompt custom quote.
-                </p>
-                <div className="mt-6 flex flex-col sm:flex-row items-center gap-4">
-                  <a
-                    href={waLink(`Hi Nawkiran, I need a bulk quote for ${product.name} PET preforms. Please send specs and pricing.`)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-full bg-sunrise px-6 py-3 text-sm font-semibold text-white shadow-md hover:-translate-y-0.5 transition-all duration-200"
-                  >
-                    <WhatsAppIcon className="h-4.5 w-4.5" />
-                    Enquire on WhatsApp
-                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-                  </a>
-                  <span className="text-xs text-slate font-mono">Typically responds in minutes</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Right Column: Interactive Rendering Card */}
-            <div className="relative sticky top-24 overflow-hidden rounded-3xl bg-gradient-to-b from-[#0d1e3e] to-night p-6 text-white shadow-xl min-h-[30rem] flex flex-col justify-between">
-              <div className="grid-texture absolute inset-0 opacity-40" />
-              <div
-                className="absolute -right-16 top-10 h-60 w-60 rounded-full opacity-22 blur-[52px]"
-                style={{ background: product.accent }}
-              />
-              <div className="relative z-10 flex justify-between items-start">
-                <div>
-                  <span className="text-xs font-semibold text-white/60 uppercase tracking-wider">Visualisation</span>
-                  <h3 className="text-2xl font-display font-bold mt-1">{product.name} Model</h3>
-                </div>
-                <span
-                  className="rounded-full px-3 py-1 text-xs font-bold text-night"
-                  style={{ background: product.accent }}
-                >
-                  Food Grade PET
-                </span>
-              </div>
-
-              {/* Renders */}
-              <div className="relative my-8 flex items-center justify-center flex-1 min-h-[20rem]">
-                <Preform
-                  shape={product.illustration}
-                  tint={TINT[product.id]}
-                  uid={`product-page-${product.id}`}
-                  neckMm={neckMm}
-                  weightG={avgWeight}
-                  className="h-72 sm:h-80 w-auto drop-shadow-[0_22px_32px_rgba(0,0,0,0.45)] z-10"
-                />
-                <BlownBottle
-                  shape={product.illustration}
-                  tint={TINT[product.id]}
-                  uid={`product-page-blown-${product.id}`}
-                  className="pointer-events-none absolute right-4 bottom-4 h-36 sm:h-44 w-auto opacity-15"
-                />
-              </div>
-
-              <div className="relative z-10 border-t border-white/10 pt-4 text-xs text-white/50 flex justify-between">
-                <span>Illustration: Preform &amp; Blown Shape</span>
-                <span>Accurate to scale</span>
-              </div>
-            </div>
+          {/* Crawlable Specs Table Reference */}
+          <div className="mt-12 space-y-6 max-w-3xl">
+            <h2 className="text-2xl font-display font-extrabold text-navy">
+              Available Neck Sizes &amp; Weights
+            </h2>
+            <p className="text-sm text-slate leading-relaxed">
+              Below is the comprehensive list of manufactured configurations for the {product.name} family. Select any specifications in the configurator above to add to your enquiry cart.
+            </p>
+            <SpecTable product={product} />
           </div>
         </div>
       </main>
