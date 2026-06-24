@@ -65,7 +65,7 @@ function CartItemRow({
           <div className="flex items-center rounded-lg border border-steel bg-cloud/50 p-0.5">
             <button
               type="button"
-              onClick={() => onUpdateQty(item.id, item.quantity - 100)}
+              onClick={() => onUpdateQty(item.id, item.quantity - 10)}
               className="flex h-6 w-6 items-center justify-center rounded text-navy transition-colors hover:bg-steel/40 cursor-pointer"
               aria-label="Decrease quantity"
             >
@@ -76,7 +76,7 @@ function CartItemRow({
             </span>
             <button
               type="button"
-              onClick={() => onUpdateQty(item.id, item.quantity + 100)}
+              onClick={() => onUpdateQty(item.id, item.quantity + 10)}
               className="flex h-6 w-6 items-center justify-center rounded text-navy transition-colors hover:bg-steel/40 cursor-pointer"
               aria-label="Increase quantity"
             >

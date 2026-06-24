@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { AnimatedArc } from "./SunArc";
 import { WhatsAppIcon, PhoneIcon, ShoppingBagIcon } from "./icons";
@@ -53,7 +54,10 @@ export function Nav() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const onDark = !scrolled;
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+  const onDark = isHome && !scrolled;
+  const showBg = !isHome || scrolled;
 
   const containerVariants = {
     hidden: { opacity: 0, height: 0 },
@@ -89,7 +93,7 @@ export function Nav() {
     <header className="fixed inset-x-0 top-0 z-50">
       <div
         className={`transition-all duration-300 ${
-          scrolled
+          showBg
             ? "border-b border-steel bg-white/85 backdrop-blur-xl"
             : "border-b border-transparent bg-transparent"
         }`}

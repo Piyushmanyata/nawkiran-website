@@ -190,7 +190,7 @@ function SpecPanel({
   const [qty, setQty] = useState(500);
   const [isAdded, setIsAdded] = useState(false);
 
-  const step = 100;
+  const step = 10;
 
   const handleAdd = () => {
     addItem(p, neck.size, weight, qty);

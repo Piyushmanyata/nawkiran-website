@@ -42,7 +42,7 @@ export function ProductDetailInteractive({ product }: { product: Product }) {
     setSelectedWeight(neck.weights[0]);
   };
 
-  const step = 100;
+  const step = 10;
 
   const handleAdd = () => {
     addItem(product, selectedNeck.size, selectedWeight, qty);
