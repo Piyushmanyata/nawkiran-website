@@ -32,7 +32,7 @@ function formatNeck(size: string): string {
 export function ProductDetailInteractive({ product }: { product: Product }) {
   const [selectedNeck, setSelectedNeck] = useState<NeckSpec>(product.necks[0]);
   const [selectedWeight, setSelectedWeight] = useState<number>(product.necks[0].weights[0]);
-  const [qty, setQty] = useState(500);
+  const [qty, setQty] = useState(100);
   const [isAdded, setIsAdded] = useState(false);
 
   const { addItem } = useCart();

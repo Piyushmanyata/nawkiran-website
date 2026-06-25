@@ -8,6 +8,7 @@ import { WhatsAppIcon, PhoneIcon, ShoppingBagIcon } from "./icons";
 import { NAV_LINKS, PHONES, waLink } from "@/lib/site";
 import { useCart } from "@/lib/cart";
 import { CartDrawer } from "./CartDrawer";
+import { AddedToCartToast } from "./AddedToCartToast";
 
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
@@ -218,6 +219,7 @@ export function Nav() {
         )}
       </AnimatePresence>
       <CartDrawer />
+      <AddedToCartToast />
     </header>
   );
 }

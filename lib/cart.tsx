@@ -22,6 +22,8 @@ interface CartContextType {
   setIsOpen: (open: boolean) => void;
   toggleCart: () => void;
   itemCount: number;
+  lastAddedItem: CartItem | null;
+  setLastAddedItem: (item: CartItem | null) => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -30,6 +32,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const [lastAddedItem, setLastAddedItem] = useState<CartItem | null>(null);
 
   // Safely load from localStorage on client mount
   useEffect(() => {
@@ -58,6 +61,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     quantity: number
   ) => {
     const id = `${product.id}-${neckSize.replace(/\s+/g, "")}-${weight}-kgs`;
+    const newItem: CartItem = { id, product, neckSize, weight, quantity, unit: "kgs" };
     setItems((prev) => {
       const existing = prev.find((item) => item.id === id);
       if (existing) {
@@ -65,9 +69,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
           item.id === id ? { ...item, quantity: item.quantity + quantity } : item
         );
       }
-      return [...prev, { id, product, neckSize, weight, quantity, unit: "kgs" }];
+      return [...prev, newItem];
     });
-    setIsOpen(true); // Auto-open cart drawer on addition for cinematic feedback
+    
+    // Set last added item for Amazon-style notification
+    setLastAddedItem(newItem);
   };
 
   const removeItem = (itemId: string) => {
@@ -104,6 +110,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         setIsOpen,
         toggleCart,
         itemCount,
+        lastAddedItem,
+        setLastAddedItem,
       }}
     >
       {children}

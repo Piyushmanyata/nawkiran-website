@@ -187,7 +187,7 @@ function SpecPanel({
   const neckMm = primaryNeckMm(neck.size);
   const { addItem } = useCart();
 
-  const [qty, setQty] = useState(500);
+  const [qty, setQty] = useState(100);
   const [isAdded, setIsAdded] = useState(false);
 
   const step = 10;
