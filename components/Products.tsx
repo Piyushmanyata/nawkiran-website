@@ -305,13 +305,13 @@ function SpecPanel({
             >
               &minus;
             </button>
-            <div className="flex-1 flex items-center justify-center gap-1">
+            <div className="flex-1 flex items-center justify-center gap-1.5">
               <input
                 type="number"
                 id="quantity-input"
                 value={qty}
                 onChange={(e) => setQty(Math.max(1, parseInt(e.target.value) || 0))}
-                className="w-20 text-right bg-transparent font-mono text-base font-bold text-navy focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                className="w-16 text-center bg-transparent font-mono text-base font-bold text-navy focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
               />
               <span className="font-sans text-sm font-bold text-slate uppercase select-none">kg</span>
             </div>
