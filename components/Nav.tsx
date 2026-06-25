@@ -99,7 +99,10 @@ export function Nav() {
             : "border-b border-transparent bg-transparent"
         }`}
       >
-        <nav className={`shell flex items-center justify-between gap-4 transition-all duration-300 ${scrolled ? "py-2.5" : "py-4"}`}>
+        <nav
+          aria-label="Primary"
+          className={`shell flex items-center justify-between gap-4 transition-all duration-300 ${scrolled ? "py-2.5" : "py-4"}`}
+        >
           {/* Brand lockup */}
           <a href="/" className="flex items-center gap-2.5" aria-label="Nawkiran Polyplast — home">
             <AnimatedArc className="h-6 w-auto" pulse={!reduce} />
@@ -168,10 +171,12 @@ export function Nav() {
               href={waLink()}
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="WhatsApp Nawkiran Polyplast"
+              title="WhatsApp Nawkiran Polyplast"
               className="group relative inline-flex items-center gap-2 rounded-full bg-sunrise px-4 py-2.5 text-sm font-semibold text-white shadow-[0_8px_24px_-10px_rgba(243,107,33,0.8)] transition-all hover:-translate-y-0.5"
             >
               <WhatsAppIcon className="h-[1.1rem] w-[1.1rem]" />
-              <span className="hidden sm:inline">WhatsApp</span>
+              <span className="sr-only sm:not-sr-only">WhatsApp</span>
             </a>
 
             {/* Mobile menu toggle */}
@@ -180,6 +185,8 @@ export function Nav() {
               onClick={() => setOpen((v) => !v)}
               aria-label="Toggle menu"
               aria-expanded={open}
+              aria-haspopup="menu"
+              aria-controls="mobile-menu"
               className={`inline-flex h-10 w-10 items-center justify-center rounded-full transition-colors lg:hidden ${
                 onDark ? "text-white hover:bg-white/10" : "text-navy hover:bg-cloud"
               }`}
@@ -196,6 +203,7 @@ export function Nav() {
       <AnimatePresence>
         {open && (
           <motion.div
+            id="mobile-menu"
             variants={containerVariants}
             initial="hidden"
             animate="show"

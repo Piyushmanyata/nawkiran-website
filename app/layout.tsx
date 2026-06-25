@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans, DM_Sans, JetBrains_Mono } from "next/font/google";
-import { COMPANY } from "@/lib/site";
+import { COMPANY, SITE_URL } from "@/lib/site";
 import { CartProvider } from "@/lib/cart";
 import "./globals.css";
 
@@ -30,7 +30,6 @@ const jetbrains = JetBrains_Mono({
   preload: false,
 });
 
-const SITE_URL = "https://nawkiran.com";
 const OG_IMAGE = `${SITE_URL}/hero-preforms.png`;
 
 export const viewport: Viewport = {
@@ -92,10 +91,6 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: SITE_URL,
-    languages: {
-      "en-IN": `${SITE_URL}/en-in`,
-      "hi-IN": `${SITE_URL}/hi-in`,
-    },
   },
   openGraph: {
     title: "Nawkiran Polyplast — PET Preforms for Bottles & Jars | Kolkata",
@@ -284,10 +279,6 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-      </head>
       <body className={`${plusJakarta.variable} ${dmSans.variable} ${jetbrains.variable}`}>
         <CartProvider>
           {children}

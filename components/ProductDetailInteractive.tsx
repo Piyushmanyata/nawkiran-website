@@ -71,9 +71,9 @@ export function ProductDetailInteractive({ product }: { product: Product }) {
         <div className="rounded-2xl border border-steel bg-white p-6 shadow-sm space-y-6">
           {/* Neck Selector */}
           <div>
-            <h3 className="text-sm font-bold text-navy uppercase tracking-wider">
+            <h2 className="text-sm font-bold text-navy uppercase tracking-wider">
               Choose Neck Size
-            </h3>
+            </h2>
             <div className="mt-3 flex flex-wrap gap-2">
               {product.necks.map((n) => {
                 const active = n.size === selectedNeck.size;
@@ -98,9 +98,9 @@ export function ProductDetailInteractive({ product }: { product: Product }) {
           {/* Weight Selector */}
           <div>
             <div className="flex items-end justify-between gap-4">
-              <h3 className="text-sm font-bold text-navy uppercase tracking-wider">
+              <h2 className="text-sm font-bold text-navy uppercase tracking-wider">
                 Choose Weight
-              </h3>
+              </h2>
               <span className="text-xs text-slate font-medium">
                 {selectedNeck.weights.length} weights available
               </span>
@@ -209,9 +209,9 @@ export function ProductDetailInteractive({ product }: { product: Product }) {
             <span className="text-xs font-semibold text-white/60 uppercase tracking-wider">
               Visualisation
             </span>
-            <h3 className="text-2xl font-display font-bold mt-1">
+            <h2 className="text-2xl font-display font-bold mt-1">
               {product.name} Model
-            </h3>
+            </h2>
           </div>
           <span
             className="rounded-full px-3 py-1 text-xs font-bold text-night"

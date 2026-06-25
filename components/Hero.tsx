@@ -189,7 +189,7 @@ export function Hero() {
                 />
                 <div className="absolute inset-x-0 top-0 bg-gradient-to-b from-black/90 via-black/40 to-transparent p-5 pr-16 pt-6 pb-14 text-white">
                   <span className="text-[10px] font-bold uppercase tracking-wider text-sunrise">Featured</span>
-                  <h3 className="font-display text-lg md:text-xl font-bold text-white mt-0.5">High-Volume Moulding</h3>
+                  <p className="font-display text-lg md:text-xl font-bold text-white mt-0.5">High-Volume Moulding</p>
                   <p className="text-xs text-white/85 mt-1">Virgin grade resin preforms for water & soft drinks.</p>
                 </div>
               </div>

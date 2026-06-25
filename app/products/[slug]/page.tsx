@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { products, type Product } from "@/lib/products";
+import { SITE_URL } from "@/lib/site";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { Breadcrumb } from "@/components/Breadcrumb";
@@ -46,15 +47,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title,
     description,
     alternates: {
-      canonical: `https://nawkiran.com/products/${slug}`,
+      canonical: `${SITE_URL}/products/${slug}`,
     },
     openGraph: {
       title,
       description,
-      url: `https://nawkiran.com/products/${slug}`,
+      url: `${SITE_URL}/products/${slug}`,
       images: [
         {
-          url: "https://nawkiran.com/hero-preforms.png",
+          url: `${SITE_URL}/hero-preforms.png`,
           width: 1200,
           height: 630,
           alt: `${product.name} PET Preforms`,
@@ -82,7 +83,7 @@ export default async function ProductPage({ params }: Props) {
     "@context": "https://schema.org",
     "@type": "Product",
     "name": `${product.name} PET Preform`,
-    "image": "https://nawkiran.com/hero-preforms.png",
+    "image": `${SITE_URL}/hero-preforms.png`,
     "description": product.description,
     "category": "PET Preforms",
     "offers": {

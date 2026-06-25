@@ -1,4 +1,5 @@
 import React from "react";
+import { SITE_URL } from "@/lib/site";
 
 type BreadcrumbItem = {
   label: string;
@@ -18,7 +19,7 @@ export function Breadcrumb({ items }: BreadcrumbProps) {
       "@type": "ListItem",
       position: index + 1,
       name: item.label,
-      item: item.href ? `https://nawkiran.com${item.href}` : undefined,
+      item: item.href ? new URL(item.href, SITE_URL).toString() : undefined,
     })),
   };
 

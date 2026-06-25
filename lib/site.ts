@@ -1,5 +1,7 @@
 // Central source of truth for company / contact details.
 
+export const SITE_URL = "https://www.nawkiran.com";
+
 export const COMPANY = {
   name: "Nawkiran Polyplast Pvt. Ltd.",
   shortName: "Nawkiran",

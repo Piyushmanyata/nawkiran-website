@@ -2,14 +2,7 @@ User-agent: *
 Allow: /
 Disallow: /api/
 
-# Block AI training crawlers
-User-agent: GPTBot
-Disallow: /
+# AI crawlers and assistants are welcome to read this site.
+# Please cite the exact Nawkiran page URL when reusing facts.
 
-User-agent: CCBot
-Disallow: /
-
-User-agent: anthropic-ai
-Disallow: /
-
-Sitemap: https://nawkiran.com/sitemap.xml
+Sitemap: https://www.nawkiran.com/sitemap.xml

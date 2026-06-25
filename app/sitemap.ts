@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { SITE_URL } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const productUrls = [
@@ -9,7 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "fridge-bottle",
     "ropp"
   ].map((slug) => ({
-    url: `https://nawkiran.com/products/${slug}`,
+    url: `${SITE_URL}/products/${slug}`,
     lastModified: new Date().toISOString().split("T")[0],
     changeFrequency: "monthly" as const,
     priority: 0.8,
@@ -17,8 +18,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return [
     {
-      url: "https://nawkiran.com",
-      lastModified: "2026-06-22",
+      url: SITE_URL,
+      lastModified: new Date().toISOString().split("T")[0],
       changeFrequency: "monthly",
       priority: 1,
     },
