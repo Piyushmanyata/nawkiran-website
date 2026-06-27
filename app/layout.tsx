@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans, DM_Sans, JetBrains_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import { COMPANY, SITE_URL } from "@/lib/site";
 import { CartProvider } from "@/lib/cart";
 import "./globals.css";
@@ -283,6 +284,7 @@ export default function RootLayout({
         <CartProvider>
           {children}
         </CartProvider>
+        <Analytics />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
