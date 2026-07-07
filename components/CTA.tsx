@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
-import { waLink, EMAIL } from "@/lib/site";
-import { WhatsAppIcon, PhoneIcon, MailIcon, ArrowRight } from "./icons";
+import { waLink } from "@/lib/site";
+import { WhatsAppIcon, PhoneIcon, ArrowRight } from "./icons";
 
 type Variant = "primary" | "ghost" | "ghost-dark" | "soft";
 
@@ -93,27 +93,6 @@ export function CallButton({
   return (
     <Button href={`tel:${tel}`} variant={variant} className={className}>
       <PhoneIcon className="h-[1.05rem] w-[1.05rem]" />
-      {label}
-    </Button>
-  );
-}
-
-export function EmailButton({
-  subject = "PET Preform Enquiry",
-  body = "Hello Nawkiran Polyplast,%0D%0A%0D%0AI would like a quote for the following PET preforms:%0D%0A- Family / neck size / weight:%0D%0A- Approx. monthly quantity:%0D%0A%0D%0AThank you.",
-  label = "Email us",
-  variant = "ghost",
-  className,
-}: {
-  subject?: string;
-  body?: string;
-  label?: string;
-  variant?: Variant;
-  className?: string;
-}) {
-  return (
-    <Button href={`mailto:${EMAIL}?subject=${encodeURIComponent(subject)}&body=${body}`} variant={variant} className={className}>
-      <MailIcon className="h-[1.05rem] w-[1.05rem]" />
       {label}
     </Button>
   );
