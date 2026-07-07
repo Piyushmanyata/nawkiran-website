@@ -2,19 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { useCart, type CartItem } from "@/lib/cart";
-import { Preform, type Tint } from "./Preform";
+import { useCart, type CartItem, QTY_STEP, QTY_MIN, QTY_MAX } from "@/lib/cart";
+import { Preform } from "./Preform";
+import { PRODUCT_TINT, primaryNeckMm, formatNeck } from "@/lib/products";
 import { WhatsAppIcon, Plus } from "./icons";
 import { waLink } from "@/lib/site";
-
-const TINT: Record<string, Tint> = {
-  "3-star": "blue",
-  "1810-pco": "clear",
-  "1881-pco": "clear",
-  jar: "amber",
-  "fridge-bottle": "blue",
-  ropp: "amber",
-};
 
 // Subcomponent for cart items to support smooth exit transitions
 function CartItemRow({
@@ -26,8 +18,8 @@ function CartItemRow({
   onUpdateQty: (id: string, q: number) => void;
   onRemove: (id: string) => void;
 }) {
-  const tint = TINT[item.product.id] || "clear";
-  const neckMm = Math.max(...(item.neckSize.match(/\d+/g) ?? []).map(Number));
+  const tint = PRODUCT_TINT[item.product.id] || "clear";
+  const neckMm = primaryNeckMm(item.neckSize);
 
   return (
     <motion.div
@@ -57,7 +49,7 @@ function CartItemRow({
           {item.product.name} Preform
         </h4>
         <p className="text-xs text-slate font-medium mt-0.5">
-          {item.neckSize.replace(" MM", " mm")} &middot; {item.weight}g
+          {formatNeck(item.neckSize)} &middot; {item.weight}g
         </p>
 
         {/* Quantity editor */}
@@ -65,8 +57,9 @@ function CartItemRow({
           <div className="flex items-center rounded-lg border border-steel bg-cloud/50 p-0.5">
             <button
               type="button"
-              onClick={() => onUpdateQty(item.id, item.quantity - 10)}
-              className="flex h-6 w-6 items-center justify-center rounded text-navy transition-colors hover:bg-steel/40 cursor-pointer"
+              onClick={() => onUpdateQty(item.id, Math.max(QTY_MIN, item.quantity - QTY_STEP))}
+              className="flex h-6 w-6 items-center justify-center rounded text-navy transition-colors hover:bg-steel/40 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+              disabled={item.quantity <= QTY_MIN}
               aria-label="Decrease quantity"
             >
               &minus;
@@ -76,7 +69,7 @@ function CartItemRow({
             </span>
             <button
               type="button"
-              onClick={() => onUpdateQty(item.id, item.quantity + 10)}
+              onClick={() => onUpdateQty(item.id, Math.min(QTY_MAX, item.quantity + QTY_STEP))}
               className="flex h-6 w-6 items-center justify-center rounded text-navy transition-colors hover:bg-steel/40 cursor-pointer"
               aria-label="Increase quantity"
             >
@@ -106,7 +99,7 @@ function CartItemRow({
 }
 
 export function CartDrawer() {
-  const { isOpen, setIsOpen, items, updateQuantity, removeItem, clearCart, itemCount } = useCart();
+  const { isOpen, setIsOpen, items, updateQuantity, removeItem, clearCart, itemCount, totalKgs } = useCart();
 
   // Customer info form inputs
   const [name, setName] = useState("");
@@ -167,7 +160,7 @@ export function CartDrawer() {
 
     message += `*Requested Specifications:*\n`;
     items.forEach((item, index) => {
-      message += `${index + 1}. ${item.product.name} (${item.neckSize.replace(" MM", " mm")} / ${item.weight}g)\n`;
+      message += `${index + 1}. ${item.product.name} (${formatNeck(item.neckSize)} / ${item.weight}g)\n`;
       message += `   - Quantity: ${item.quantity.toLocaleString()} ${item.unit.toUpperCase()}\n`;
     });
 
@@ -353,7 +346,7 @@ export function CartDrawer() {
                 <div className="flex items-center justify-between text-navy">
                   <span className="text-sm font-semibold text-slate">Total Quantity</span>
                   <span className="tnum text-base font-bold">
-                    {items.reduce((s, item) => s + item.quantity, 0).toLocaleString()}&nbsp;kg
+                    {totalKgs.toLocaleString()}&nbsp;kg
                   </span>
                 </div>
 

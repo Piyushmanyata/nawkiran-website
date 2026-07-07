@@ -3,6 +3,12 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { type Product, type NeckSpec } from "./products";
 
+// Quantity is expressed in kilograms. These bounds are shared by the
+// configurator inputs (Products, ProductDetailInteractive) and the cart editor.
+export const QTY_STEP = 10;
+export const QTY_MIN = 10;
+export const QTY_MAX = 1_000_000; // 1,000 tonnes — sanity ceiling for a single line
+
 export interface CartItem {
   id: string; // generated as ${productId}-${neckSize}-${weight}-kgs
   product: Product;
@@ -22,6 +28,7 @@ interface CartContextType {
   setIsOpen: (open: boolean) => void;
   toggleCart: () => void;
   itemCount: number;
+  totalKgs: number;
   lastAddedItem: CartItem | null;
   setLastAddedItem: (item: CartItem | null) => void;
 }
@@ -96,7 +103,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const toggleCart = () => setIsOpen((prev) => !prev);
 
-  const itemCount = items.reduce((sum, item) => sum + 1, 0); // Count unique specs
+  // Number of distinct specs in the cart (each row is a unique product+neck+weight).
+  const itemCount = items.length;
+
+  // Sum of every line item's quantity, in kilograms.
+  const totalKgs = items.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <CartContext.Provider
@@ -110,6 +121,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         setIsOpen,
         toggleCart,
         itemCount,
+        totalKgs,
         lastAddedItem,
         setLastAddedItem,
       }}

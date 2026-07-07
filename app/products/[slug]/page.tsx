@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { products, type Product } from "@/lib/products";
+import { products, type Product, formatNeck, weightRange, productBadge } from "@/lib/products";
 import { SITE_URL } from "@/lib/site";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
@@ -29,8 +29,8 @@ const TINT: Record<string, "blue" | "clear" | "amber"> = {
   ropp: "amber",
 };
 
-function formatNeck(size: string): string {
-  return size.replace(/\s*\/\s*/g, "/").replace(/\s*MM\b/g, " mm");
+function formatNeckLocal(size: string): string {
+  return formatNeck(size);
 }
 
 // Generate dynamic metadata for SEO targeting
@@ -39,9 +39,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const product = products.find((p) => p.id === slug);
   if (!product) return {};
 
-  const neckText = product.necks.map((n) => formatNeck(n.size)).join(", ");
+  const neckText = product.necks.map((n) => formatNeckLocal(n.size)).join(", ");
+  const [wmin, wmax] = weightRange(product);
+  const variantCount = product.necks.reduce((s, n) => s + n.weights.length, 0);
   const title = `${product.name} PET Preforms Manufacturer Kolkata | Nawkiran`;
-  const description = `Buy high-quality, food-grade ${product.name} PET preforms in Kolkata. Available in neck sizes: ${neckText}. Weight options include ${product.necks[0].weights.join(", ")}g. Request a bulk quote now.`;
+  const description = `Buy food-grade ${product.name} PET preforms in Kolkata. Neck sizes: ${neckText}. Weights ${wmin}–${wmax} g across ${variantCount} variants. ${product.use}. Request a bulk quote on WhatsApp.`;
 
   return {
     title,
@@ -52,6 +54,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title,
       description,
+      type: "website",
       url: `${SITE_URL}/products/${slug}`,
       images: [
         {
@@ -61,6 +64,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
           alt: `${product.name} PET Preforms`,
         },
       ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [`${SITE_URL}/hero-preforms.png`],
     },
   };
 }
@@ -86,11 +95,22 @@ export default async function ProductPage({ params }: Props) {
     "image": `${SITE_URL}/hero-preforms.png`,
     "description": product.description,
     "category": "PET Preforms",
+    "material": "Virgin food-grade PET",
+    "brand": {
+      "@type": "Brand",
+      "name": "Nawkiran Polyplast",
+    },
+    "manufacturer": {
+      "@type": "Organization",
+      "name": "Nawkiran Polyplast Pvt. Ltd.",
+      "url": SITE_URL,
+    },
     "offers": {
       "@type": "AggregateOffer",
       "priceCurrency": "INR",
       "price": "0.00",
       "priceRange": "$$",
+      "availability": "https://schema.org/InStock",
       "seller": {
         "@type": "Organization",
         "name": "Nawkiran Polyplast Pvt. Ltd.",
@@ -130,6 +150,29 @@ export default async function ProductPage({ params }: Props) {
               Below is the comprehensive list of manufactured configurations for the {product.name} family. Select any specifications in the configurator above to add to your enquiry cart.
             </p>
             <SpecTable product={product} />
+          </div>
+
+          {/* Related families — internal linking */}
+          <div className="mt-16">
+            <h2 className="text-sm font-bold text-navy uppercase tracking-wider mb-4">
+              Other preform families
+            </h2>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+              {products
+                .filter((p) => p.id !== product.id)
+                .map((p) => (
+                  <a
+                    key={p.id}
+                    href={`/products/${p.id}`}
+                    className="group rounded-xl border border-steel bg-white p-3 hover:border-sunrise hover:shadow-sm transition-all"
+                  >
+                    <span className="block text-xs font-semibold text-slate">{productBadge(p)}</span>
+                    <span className="mt-1 block font-display text-sm font-bold text-navy group-hover:text-sunrise transition-colors">
+                      {p.name}
+                    </span>
+                  </a>
+                ))}
+            </div>
           </div>
         </div>
       </main>

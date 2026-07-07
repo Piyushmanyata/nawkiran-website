@@ -38,9 +38,9 @@ export function WhyNawkiran() {
             </div>
           </Reveal>
 
-          <Stagger className="grid gap-4 sm:grid-cols-2" gap={0.08}>
+          <Stagger className="grid gap-px overflow-hidden rounded-2xl border border-steel bg-steel sm:grid-cols-2" gap={0.08}>
             {POINTS.map((p) => (
-              <StaggerItem key={p.title} className="card h-full p-5">
+              <StaggerItem key={p.title} className="bg-dawn p-5 sm:p-6">
                 <MiniArc className="h-4 w-auto" />
                 <h3 className="mt-3 font-display text-lg font-semibold text-navy">{p.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-slate">{p.body}</p>

@@ -125,3 +125,46 @@ export function weightRange(p: Product): [number, number] {
 export function neckSizes(p: Product): string {
   return p.necks.map((n) => n.size.replace(" MM", "")).join(" · ") + " mm";
 }
+
+// ── Shared helpers used across Products, ProductDetailInteractive, SpecTable,
+//    CartDrawer, AddedToCartToast — defined once to stay DRY. ──────────────
+
+// Resin tint per product family — single source of truth for all illustrations.
+export const PRODUCT_TINT: Record<string, "blue" | "amber" | "clear"> = {
+  "3-star": "blue",
+  "1810-pco": "clear",
+  "1881-pco": "clear",
+  jar: "amber",
+  "fridge-bottle": "blue",
+  ropp: "amber",
+};
+
+export function neckNumbers(size: string): number[] {
+  return (size.match(/\d+(?:\.\d+)?/g) ?? []).map(Number);
+}
+
+export function primaryNeckMm(size: string): number {
+  const nums = neckNumbers(size);
+  return nums.length ? Math.max(...nums) : 28;
+}
+
+export function formatNeck(size: string): string {
+  return size.replace(/\s*\/\s*/g, "/").replace(/\s*MM\b/g, " mm");
+}
+
+// Mid-weight option — a sensible default when first selecting a neck.
+export function defaultWeight(neck: NeckSpec): number {
+  return neck.weights[Math.floor(neck.weights.length / 2)] ?? neck.weights[0];
+}
+
+export function neckMinMax(p: Product): [number, number] {
+  const nums = p.necks.flatMap((n) => neckNumbers(n.size));
+  return [Math.min(...nums), Math.max(...nums)];
+}
+
+export function productBadge(p: Product): string {
+  const [nmin, nmax] = neckMinMax(p);
+  const [wmin, wmax] = weightRange(p);
+  const neck = nmin === nmax ? `${nmin} mm` : `${nmin}-${nmax} mm`;
+  return `${neck} / ${wmin}-${wmax} g`;
+}

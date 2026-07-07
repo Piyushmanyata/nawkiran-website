@@ -1,51 +1,24 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+import Link from "next/link";
 import { AnimatePresence, motion } from "motion/react";
-import { products, upcoming, weightRange, type NeckSpec, type Product } from "@/lib/products";
-import { BlownBottle, Preform, type Tint } from "./Preform";
+import {
+  products,
+  upcoming,
+  weightRange,
+  PRODUCT_TINT,
+  defaultWeight,
+  primaryNeckMm,
+  formatNeck,
+  productBadge,
+  type NeckSpec,
+  type Product,
+} from "@/lib/products";
+import { BlownBottle, Preform } from "./Preform";
 import { Reveal, DAWN_EASE } from "./motion";
-import { WhatsAppIcon, ArrowRight, Plus, ShoppingBagIcon } from "./icons";
-import { waLink } from "@/lib/site";
-import { useCart } from "@/lib/cart";
-
-const TINT: Record<string, Tint> = {
-  "3-star": "blue",
-  "1810-pco": "clear",
-  "1881-pco": "clear",
-  jar: "amber",
-  "fridge-bottle": "blue",
-  ropp: "amber",
-};
-
-function neckNumbers(size: string): number[] {
-  return (size.match(/\d+(?:\.\d+)?/g) ?? []).map(Number);
-}
-
-function primaryNeckMm(size: string): number {
-  const nums = neckNumbers(size);
-  return nums.length ? Math.max(...nums) : 28;
-}
-
-function formatNeck(size: string): string {
-  return size.replace(/\s*\/\s*/g, "/").replace(/\s*MM\b/g, " mm");
-}
-
-function defaultWeight(neck: NeckSpec): number {
-  return neck.weights[Math.floor(neck.weights.length / 2)] ?? neck.weights[0];
-}
-
-function neckMinMax(p: Product): [number, number] {
-  const nums = p.necks.flatMap((n) => neckNumbers(n.size));
-  return [Math.min(...nums), Math.max(...nums)];
-}
-
-function productBadge(p: Product): string {
-  const [nmin, nmax] = neckMinMax(p);
-  const [wmin, wmax] = weightRange(p);
-  const neck = nmin === nmax ? `${nmin} mm` : `${nmin}-${nmax} mm`;
-  return `${neck} / ${wmin}-${wmax} g`;
-}
+import { ArrowRight, Plus, ShoppingBagIcon } from "./icons";
+import { useCart, QTY_STEP, QTY_MIN, QTY_MAX } from "@/lib/cart";
 
 /* ─── Mobile horizontal tab strip ─────────────────────────────────────── */
 function MobileProductStrip({
@@ -123,7 +96,7 @@ function ProductFamilyButton({
         />
         <Preform
           shape={p.illustration}
-          tint={TINT[p.id]}
+          tint={PRODUCT_TINT[p.id]}
           uid={`family-${p.id}`}
           neckMm={primaryNeckMm(defaultNeck.size)}
           weightG={(wmin + wmax) / 2}
@@ -189,14 +162,16 @@ function SpecPanel({
 
   const [qty, setQty] = useState(100);
   const [isAdded, setIsAdded] = useState(false);
-
-  const step = 10;
+  const addedTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleAdd = () => {
     addItem(p, neck.size, weight, qty);
     setIsAdded(true);
-    setTimeout(() => setIsAdded(false), 2000);
+    if (addedTimer.current) clearTimeout(addedTimer.current);
+    addedTimer.current = setTimeout(() => setIsAdded(false), 2000);
   };
+
+  useEffect(() => () => { if (addedTimer.current) clearTimeout(addedTimer.current); }, []);
 
   return (
     <motion.div
@@ -248,7 +223,7 @@ function SpecPanel({
           </div>
           <Preform
             shape={p.illustration}
-            tint={TINT[p.id]}
+            tint={PRODUCT_TINT[p.id]}
             uid={`hero-${p.id}-${neck.size}-${weight}`}
             neckMm={neckMm}
             weightG={weight}
@@ -256,7 +231,7 @@ function SpecPanel({
           />
           <BlownBottle
             shape={p.illustration}
-            tint={TINT[p.id]}
+            tint={PRODUCT_TINT[p.id]}
             uid={`ghost-${p.id}`}
             className="pointer-events-none absolute right-3 top-3 sm:top-12 h-16 sm:h-48 w-auto opacity-20"
           />
@@ -284,7 +259,7 @@ function SpecPanel({
             <p className="text-sm font-semibold text-navy">Choose gram weight</p>
             <p className="text-xs text-slate">{neck.weights.length} options</p>
           </div>
-          <div className="mt-2.5 grid grid-cols-4 gap-1.5 sm:grid-cols-4 lg:grid-cols-5">
+          <div className="mt-2.5 grid grid-cols-3 gap-1.5 sm:grid-cols-4 lg:grid-cols-5">
             {neck.weights.map((w) => (
               <WeightChip key={w} weight={w} active={w === weight} onSelect={() => onWeight(w)} />
             ))}
@@ -299,8 +274,9 @@ function SpecPanel({
           <div className="mt-2 flex items-center rounded-xl border border-steel bg-cloud p-1 max-w-[18rem]">
             <button
               type="button"
-              onClick={() => setQty((q) => Math.max(step, q - step))}
-              className="flex h-10 w-12 items-center justify-center rounded-lg text-navy hover:bg-steel/30 active:scale-95 transition-all cursor-pointer font-bold text-lg"
+              onClick={() => setQty((q) => Math.max(QTY_MIN, q - QTY_STEP))}
+              className="flex h-10 w-12 items-center justify-center rounded-lg text-navy hover:bg-steel/30 active:scale-95 transition-all cursor-pointer font-bold text-lg disabled:opacity-40 disabled:cursor-not-allowed"
+              disabled={qty <= QTY_MIN}
               aria-label="Decrease quantity"
             >
               &minus;
@@ -310,14 +286,14 @@ function SpecPanel({
                 type="number"
                 id="quantity-input"
                 value={qty}
-                onChange={(e) => setQty(Math.max(1, parseInt(e.target.value) || 0))}
+                onChange={(e) => setQty(Math.min(QTY_MAX, Math.max(QTY_MIN, parseInt(e.target.value, 10) || QTY_MIN)))}
                 className="w-16 text-center bg-transparent font-mono text-base font-bold text-navy focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
               />
               <span className="font-sans text-sm font-bold text-slate uppercase select-none">kg</span>
             </div>
             <button
               type="button"
-              onClick={() => setQty((q) => q + step)}
+              onClick={() => setQty((q) => Math.min(QTY_MAX, q + QTY_STEP))}
               className="flex h-10 w-12 items-center justify-center rounded-lg text-navy hover:bg-steel/30 active:scale-95 transition-all cursor-pointer"
               aria-label="Increase quantity"
             >
@@ -335,7 +311,6 @@ function SpecPanel({
           <button
             type="button"
             onClick={handleAdd}
-            disabled={qty <= 0}
             className={`group relative overflow-hidden inline-flex w-full sm:flex-1 items-center justify-center gap-2 rounded-full py-3.5 text-sm font-semibold text-white shadow-lg transition-all duration-300 active:scale-[0.98] cursor-pointer ${
               isAdded
                 ? "bg-whatsapp shadow-[0_8px_18px_-8px_rgba(37,211,102,0.6)]"
@@ -357,13 +332,13 @@ function SpecPanel({
               </>
             )}
           </button>
-          <a
+          <Link
             href={`/products/${p.id}`}
             className="group inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-full border border-steel bg-white hover:border-sunrise px-6 py-3.5 text-sm font-semibold text-navy transition-all hover:-translate-y-0.5"
           >
             View full specs
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-          </a>
+          </Link>
         </div>
         <p className="text-xs text-slate text-center sm:text-left mt-2.5">
           Items will accumulate in your enquiry cart. Send the final list on WhatsApp when ready.

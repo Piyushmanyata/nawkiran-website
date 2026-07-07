@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans, DM_Sans, JetBrains_Mono } from "next/font/google";
-import { COMPANY, SITE_URL } from "@/lib/site";
+import { COMPANY, SITE_URL, FOUNDING_YEAR } from "@/lib/site";
+import { products } from "@/lib/products";
 import { CartProvider } from "@/lib/cart";
 import "./globals.css";
 
@@ -161,7 +162,7 @@ const structuredData = {
         "@type": "Country",
         name: "India",
       },
-      foundingDate: "2009",
+      foundingDate: String(FOUNDING_YEAR),
       numberOfEmployees: {
         "@type": "QuantitativeValue",
         value: 50,
@@ -214,6 +215,18 @@ const structuredData = {
       },
     },
     {
+      "@type": "ItemList",
+      "@id": `${SITE_URL}/#catalogue`,
+      name: "PET Preform Product Families",
+      description: "Six families of PET preforms manufactured by Nawkiran Polyplast, covering water, CSD, jar, fridge-bottle and ROPP applications.",
+      itemListElement: products.map((p, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        name: `${p.name} PET Preforms`,
+        url: `${SITE_URL}/products/${p.id}`,
+      })),
+    },
+    {
       "@type": "WebPage",
       "@id": `${SITE_URL}/#webpage`,
       url: SITE_URL,
@@ -242,7 +255,7 @@ const structuredData = {
           name: "What types of PET preforms does Nawkiran Polyplast manufacture?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Nawkiran Polyplast manufactures 6 families of PET preforms: 3-Star neck (water bottles), PCO 1810, PCO 1881 (carbonated soft drinks), jar preforms, fridge-bottle preforms, and ROPP (Roll-On Pilfer Proof) neck preforms. Neck sizes range from 22 mm to 120 mm.",
+            text: "Nawkiran Polyplast manufactures 6 families of PET preforms: 3-Star neck (packaged drinking water), PCO 1810 & PCO 1881 (carbonated soft drinks & hot-fill juices), jar preforms (confectionery & dry food), fridge-bottle preforms (reusable water bottles), and ROPP neck preforms (edible oil, pharmaceuticals, liquor). Neck sizes range from 22 mm to 120 mm.",
           },
         },
         {
@@ -286,6 +299,16 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
+        <script
+          type="speculationrules"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              prerender: [
+                { where: { href_matches: "/products/*" }, eagerness: "moderate" },
+              ],
+            }),
+          }}
         />
       </body>
     </html>

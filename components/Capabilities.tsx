@@ -34,19 +34,16 @@ export function Capabilities() {
           </p>
         </Reveal>
 
-        <Stagger className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4" gap={0.08}>
+        <Stagger className="mt-12 grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-2" gap={0.08}>
           {capabilities.map((c, i) => (
-            <StaggerItem
-              key={c.title}
-              className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-sm transition-colors hover:border-amber/40 hover:bg-white/[0.06]"
-            >
-              <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-amber/25 to-sunrise/15 text-amber">
-                <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+            <StaggerItem key={c.title} className="bg-night p-6 sm:p-8">
+              <div className="flex items-center gap-3 text-amber">
+                <svg viewBox="0 0 24 24" className="h-5 w-5 shrink-0" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <path d={ICONS[i]} />
                 </svg>
-              </span>
-              <h3 className="mt-4 font-display text-lg font-semibold text-white">{c.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-white/65">{c.body}</p>
+                <h3 className="font-display text-lg font-semibold text-white">{c.title}</h3>
+              </div>
+              <p className="mt-3 text-sm leading-relaxed text-white/65">{c.body}</p>
             </StaggerItem>
           ))}
         </Stagger>

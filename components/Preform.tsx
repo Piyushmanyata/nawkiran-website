@@ -7,6 +7,9 @@
 export type Shape = "star" | "pco1810" | "pco1881" | "jar" | "fridge" | "ropp";
 export type Tint = "blue" | "amber" | "clear";
 
+// Re-export so consumers import both Tint and the product→tint map from one place.
+export { PRODUCT_TINT as TINT_MAP } from "@/lib/products";
+
 type Geo = {
   mouthW: number;
   neckW: number;

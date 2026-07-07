@@ -1,57 +1,39 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { type Product, type NeckSpec } from "@/lib/products";
-import { Preform, BlownBottle, type Tint } from "./Preform";
-import { useCart } from "@/lib/cart";
+import { type Product, type NeckSpec, PRODUCT_TINT, primaryNeckMm, formatNeck, defaultWeight } from "@/lib/products";
+import { Preform, BlownBottle } from "./Preform";
+import { useCart, QTY_STEP, QTY_MIN, QTY_MAX } from "@/lib/cart";
 import { ShoppingBagIcon, Plus } from "./icons";
-
-const TINT: Record<string, Tint> = {
-  "3-star": "blue",
-  "1810-pco": "clear",
-  "1881-pco": "clear",
-  jar: "amber",
-  "fridge-bottle": "blue",
-  ropp: "amber",
-};
-
-function neckNumbers(size: string): number[] {
-  return (size.match(/\d+(?:\.\d+)?/g) ?? []).map(Number);
-}
-
-function primaryNeckMm(size: string): number {
-  const nums = neckNumbers(size);
-  return nums.length ? Math.max(...nums) : 28;
-}
-
-function formatNeck(size: string): string {
-  return size.replace(/\s*\/\s*/g, "/").replace(/\s*MM\b/g, " mm");
-}
 
 export function ProductDetailInteractive({ product }: { product: Product }) {
   const [selectedNeck, setSelectedNeck] = useState<NeckSpec>(product.necks[0]);
-  const [selectedWeight, setSelectedWeight] = useState<number>(product.necks[0].weights[0]);
+  const [selectedWeight, setSelectedWeight] = useState<number>(defaultWeight(product.necks[0]));
   const [qty, setQty] = useState(100);
   const [isAdded, setIsAdded] = useState(false);
+  const addedTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const { addItem } = useCart();
 
   const handleNeckChange = (neck: NeckSpec) => {
     setSelectedNeck(neck);
-    setSelectedWeight(neck.weights[0]);
+    setSelectedWeight(defaultWeight(neck));
   };
 
-  const step = 10;
+  // QTY_STEP, QTY_MIN, QTY_MAX are imported from lib/cart
 
   const handleAdd = () => {
     addItem(product, selectedNeck.size, selectedWeight, qty);
     setIsAdded(true);
-    setTimeout(() => setIsAdded(false), 2000);
+    if (addedTimer.current) clearTimeout(addedTimer.current);
+    addedTimer.current = setTimeout(() => setIsAdded(false), 2000);
   };
 
+  useEffect(() => () => { if (addedTimer.current) clearTimeout(addedTimer.current); }, []);
+
   const neckMm = primaryNeckMm(selectedNeck.size);
-  const tint = TINT[product.id] || "clear";
+  const tint = PRODUCT_TINT[product.id] || "clear";
 
   return (
     <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] items-start mt-6">
@@ -105,7 +87,7 @@ export function ProductDetailInteractive({ product }: { product: Product }) {
                 {selectedNeck.weights.length} weights available
               </span>
             </div>
-            <div className="mt-3 grid grid-cols-4 gap-2 sm:grid-cols-5">
+            <div className="mt-3 grid grid-cols-3 gap-2 sm:grid-cols-5">
               {selectedNeck.weights.map((w) => {
                 const active = w === selectedWeight;
                 return (
@@ -134,8 +116,9 @@ export function ProductDetailInteractive({ product }: { product: Product }) {
             <div className="mt-2 flex items-center rounded-xl border border-steel bg-cloud p-1 max-w-[18rem]">
               <button
                 type="button"
-                onClick={() => setQty((q) => Math.max(step, q - step))}
-                className="flex h-10 w-12 items-center justify-center rounded-lg text-navy hover:bg-steel/30 active:scale-95 transition-all cursor-pointer font-bold text-lg"
+                onClick={() => setQty((q) => Math.max(QTY_MIN, q - QTY_STEP))}
+                className="flex h-10 w-12 items-center justify-center rounded-lg text-navy hover:bg-steel/30 active:scale-95 transition-all cursor-pointer font-bold text-lg disabled:opacity-40 disabled:cursor-not-allowed"
+                disabled={qty <= QTY_MIN}
                 aria-label="Decrease quantity"
               >
                 &minus;
@@ -145,14 +128,14 @@ export function ProductDetailInteractive({ product }: { product: Product }) {
                   type="number"
                   id="qty-detail-input"
                   value={qty}
-                  onChange={(e) => setQty(Math.max(1, parseInt(e.target.value) || 0))}
+                  onChange={(e) => setQty(Math.min(QTY_MAX, Math.max(QTY_MIN, parseInt(e.target.value, 10) || QTY_MIN)))}
                   className="w-16 text-center bg-transparent font-mono text-base font-bold text-navy focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                 />
                 <span className="font-sans text-sm font-bold text-slate uppercase select-none">kg</span>
               </div>
               <button
                 type="button"
-                onClick={() => setQty((q) => q + step)}
+                onClick={() => setQty((q) => Math.min(QTY_MAX, q + QTY_STEP))}
                 className="flex h-10 w-12 items-center justify-center rounded-lg text-navy hover:bg-steel/30 active:scale-95 transition-all cursor-pointer"
                 aria-label="Increase quantity"
               >
@@ -167,8 +150,7 @@ export function ProductDetailInteractive({ product }: { product: Product }) {
               <button
                 type="button"
                 onClick={handleAdd}
-                disabled={qty <= 0}
-                className={`group relative overflow-hidden inline-flex w-full sm:w-auto px-8 py-3.5 items-center justify-center gap-2 rounded-full text-sm font-semibold text-white shadow-lg transition-all duration-300 active:scale-[0.98] cursor-pointer ${
+                    className={`group relative overflow-hidden inline-flex w-full sm:w-auto px-8 py-3.5 items-center justify-center gap-2 rounded-full text-sm font-semibold text-white shadow-lg transition-all duration-300 active:scale-[0.98] cursor-pointer ${
                   isAdded
                     ? "bg-whatsapp shadow-[0_8px_18px_-8px_rgba(37,211,102,0.6)]"
                     : "bg-sunrise shadow-[0_8px_18px_-10px_rgba(243,107,33,0.85)] hover:-translate-y-0.5"

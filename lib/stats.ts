@@ -1,26 +1,29 @@
 // Headline metrics. Volume figures are derived from real dispatch records
 // (≈45,000 tonnes delivered, 250+ customers across 13+ states);
 // rounded down to conservative, defensible marketing numbers.
+// Years of experience is derived from the founding year so it never goes stale.
 
-export type Stat = {
-  value: number;
-  suffix?: string;
+import { FOUNDING_YEAR } from "./site";
+
+export type CompanyStat = {
   prefix?: string;
-  decimals?: number;
+  to: number;
+  suffix: string;
   label: string;
-  hint: string;
+  detail?: string;
 };
 
-export const heroStats: Stat[] = [
-  { value: 400, suffix: "+ T", label: "Monthly capacity", hint: "tonnes of preforms every month" },
-  { value: 80, suffix: "+", label: "Product types", hint: "neck-size & weight combinations" },
-  { value: 11, label: "Preform machines", hint: "Ferromatik · Toshiba · Windsor" },
-];
+const yearsExperience = new Date().getFullYear() - FOUNDING_YEAR;
 
-export const impactStats: Stat[] = [
-  { value: 45000, suffix: "+", label: "Delivered to date", hint: "tonnes of PET preforms dispatched" },
-  { value: 250, suffix: "+", label: "Customers served", hint: "bottlers, fillers & converters" },
-  { value: 13, suffix: "+", label: "States reached", hint: "across eastern & northern India" },
+// Single source of truth for the "track record" stat grid (Stats.tsx).
+// First three carry provenance copy (the record); the rest are capacity facts.
+export const companyStats: CompanyStat[] = [
+  { to: 45000, suffix: "+", label: "Tonnes delivered", detail: "Cumulative PET preform dispatches from real plant records." },
+  { to: 250, suffix: "+", label: "Customers served", detail: "Bottlers, fillers & converters — repeat buyers, not one-off leads." },
+  { to: 13, suffix: "+", label: "States reached", detail: "Active dispatch network across eastern & northern India." },
+  { to: 11, suffix: "", label: "Machines running" },
+  { to: 400, suffix: "+", label: "Tonnes / month" },
+  { to: yearsExperience, suffix: "+", label: "Years of experience" },
 ];
 
 export const capabilities = [

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { AnimatedArc } from "./SunArc";
@@ -104,13 +105,13 @@ export function Nav() {
           className={`shell flex items-center justify-between gap-4 transition-all duration-300 ${scrolled ? "py-2.5" : "py-4"}`}
         >
           {/* Brand lockup */}
-          <a href="/" className="flex items-center gap-2.5" aria-label="Nawkiran Polyplast — home">
+          <Link href="/" className="flex items-center gap-2.5" aria-label="Nawkiran Polyplast — home">
             <AnimatedArc className="h-6 w-auto" pulse={!reduce} />
             <span className="font-display text-lg font-extrabold leading-none tracking-tight sm:text-xl">
               <span className={onDark ? "text-white" : "text-navy"}>NAW</span>
               <span className="text-sunrise">KIRAN</span>
             </span>
-          </a>
+          </Link>
 
           {/* Desktop links */}
           <div className="hidden items-center gap-7 lg:flex">

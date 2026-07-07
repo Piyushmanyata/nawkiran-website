@@ -1,9 +1,4 @@
-import { type Product, type NeckSpec } from "@/lib/products";
-
-// Format neck helper duplicated if products is client only, but since products is clean TS, we can import or implement formatting here.
-function formatNeckLocal(size: string): string {
-  return size.replace(/\s*\/\s*/g, "/").replace(/\s*MM\b/g, " mm");
-}
+import { type Product, formatNeck } from "@/lib/products";
 
 export function SpecTable({ product }: { product: Product }) {
   return (
@@ -20,7 +15,7 @@ export function SpecTable({ product }: { product: Product }) {
           {product.necks.map((n, i) => (
             <tr key={i} className="hover:bg-mist/30 transition-colors">
               <td className="px-6 py-4.5 font-semibold text-navy">
-                {formatNeckLocal(n.size)}
+                {formatNeck(n.size)}
               </td>
               <td className="px-6 py-4.5 font-mono text-[0.9375rem] text-sunrise font-semibold">
                 {n.weights.map(w => `${w}g`).join(", ")}

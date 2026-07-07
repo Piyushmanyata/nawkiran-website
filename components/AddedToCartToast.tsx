@@ -1,82 +1,74 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useCart } from "@/lib/cart";
-import { Preform, type Tint } from "./Preform";
+import { Preform } from "./Preform";
+import { PRODUCT_TINT, primaryNeckMm, formatNeck } from "@/lib/products";
 import { ShoppingBagIcon } from "./icons";
-
-const TINT: Record<string, Tint> = {
-  "3-star": "blue",
-  "1810-pco": "clear",
-  "1881-pco": "clear",
-  jar: "amber",
-  "fridge-bottle": "blue",
-  ropp: "amber",
-};
+import { waLink } from "@/lib/site";
 
 export function AddedToCartToast() {
-  const { lastAddedItem, setLastAddedItem, setIsOpen, itemCount } = useCart();
-  const [progress, setProgress] = useState(100);
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
-  const progressIntervalRef = useRef<NodeJS.Timeout | null>(null);
-  const isHoveredRef = useRef(false);
-
+  const { lastAddedItem, setLastAddedItem, setIsOpen, itemCount, items } = useCart();
   const DURATION = 6000; // 6 seconds auto-dismiss
   const TICK_RATE = 50;  // Update progress bar every 50ms
+  const [progress, setProgress] = useState(100);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const deadlineRef = useRef(0);
+  const remainingRef = useRef(DURATION);
+  const isHoveredRef = useRef(false);
 
-  const closeToast = () => {
+  const closeToast = useCallback(() => {
     setLastAddedItem(null);
-  };
+  }, [setLastAddedItem]);
 
-  const startTimers = () => {
-    if (timerRef.current) clearTimeout(timerRef.current);
-    if (progressIntervalRef.current) clearInterval(progressIntervalRef.current);
+  const clearTimer = useCallback(() => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+  }, []);
 
-    const startTime = Date.now();
-    const totalRemaining = (progress / 100) * DURATION;
-
-    timerRef.current = setTimeout(() => {
-      closeToast();
-    }, totalRemaining);
-
-    progressIntervalRef.current = setInterval(() => {
+  const startTimers = useCallback(() => {
+    clearTimer();
+    deadlineRef.current = Date.now() + remainingRef.current;
+    intervalRef.current = setInterval(() => {
       if (isHoveredRef.current) return;
-      
-      setProgress((prev) => {
-        const next = prev - (TICK_RATE / DURATION) * 100;
-        if (next <= 0) {
-          if (progressIntervalRef.current) clearInterval(progressIntervalRef.current);
-          return 0;
-        }
-        return next;
-      });
+      const remaining = deadlineRef.current - Date.now();
+      if (remaining <= 0) {
+        setProgress(0);
+        clearTimer();
+        closeToast();
+        return;
+      }
+      setProgress((remaining / DURATION) * 100);
     }, TICK_RATE);
-  };
+  }, [clearTimer, closeToast]);
 
-  const pauseTimers = () => {
-    if (timerRef.current) clearTimeout(timerRef.current);
-    if (progressIntervalRef.current) clearInterval(progressIntervalRef.current);
-  };
+  const pauseTimers = useCallback(() => {
+    remainingRef.current = Math.max(0, deadlineRef.current - Date.now());
+    clearTimer();
+  }, [clearTimer]);
 
   useEffect(() => {
     if (lastAddedItem) {
+      remainingRef.current = DURATION;
       setProgress(100);
       isHoveredRef.current = false;
       startTimers();
     } else {
-      pauseTimers();
+      clearTimer();
     }
 
     return () => {
-      pauseTimers();
+      clearTimer();
     };
-  }, [lastAddedItem]);
+  }, [lastAddedItem, startTimers, clearTimer]);
 
   if (!lastAddedItem) return null;
 
-  const tint = TINT[lastAddedItem.product.id] || "clear";
-  const neckMm = Math.max(...(lastAddedItem.neckSize.match(/\d+/g) ?? []).map(Number));
+  const tint = PRODUCT_TINT[lastAddedItem.product.id] || "clear";
+  const neckMm = primaryNeckMm(lastAddedItem.neckSize);
 
   return (
     <AnimatePresence>
@@ -143,7 +135,7 @@ export function AddedToCartToast() {
                 {lastAddedItem.product.name}
               </h4>
               <p className="text-xs text-slate mt-0.5 font-medium">
-                {lastAddedItem.neckSize.replace(" MM", " mm")} &middot; {lastAddedItem.weight}g
+                {formatNeck(lastAddedItem.neckSize)} &middot; {lastAddedItem.weight}g
               </p>
               <div className="mt-1 flex items-center gap-1.5">
                 <span className="text-[10px] uppercase font-bold text-slate tracking-wider">Qty:</span>
@@ -167,7 +159,13 @@ export function AddedToCartToast() {
             <button
               onClick={() => {
                 closeToast();
-                setIsOpen(true);
+                // Build a quick WhatsApp message with current cart contents
+                let msg = "*Enquiry from Nawkiran Website*\n\n*Specifications:*\n";
+                items.forEach((item, i) => {
+                  msg += `${i + 1}. ${item.product.name} (${formatNeck(item.neckSize)} / ${item.weight}g)\n   Qty: ${item.quantity.toLocaleString()} kg\n`;
+                });
+                msg += "\nPlease provide bulk pricing and availability.";
+                window.open(waLink(msg), "_blank", "noopener,noreferrer");
               }}
               className="rounded-xl bg-sunrise py-2 text-xs font-bold text-white shadow-md shadow-sunrise/20 transition-all hover:-translate-y-0.5 active:scale-95 hover:shadow-lg hover:shadow-sunrise/25 cursor-pointer"
             >

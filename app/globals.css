@@ -18,6 +18,7 @@
   --color-steel: #cbd5e1; /* hairline borders */
   --color-slate: #64748b; /* muted secondary text */
   --color-mist: #e8edf5; /* very light blue — hover states, subtle fills */
+  --color-steel-light: #94a3b8; /* muted text on dark surfaces — WCAG AA on night */
 
   /* Resin tints (illustration only) */
   --color-petblue: #bfe3f5;
@@ -74,6 +75,10 @@
     line-height: 1.08;
     text-wrap: balance;
     font-feature-settings: "ss01";
+  }
+
+  p {
+    text-wrap: pretty;
   }
 
   ::selection {
