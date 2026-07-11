@@ -37,6 +37,17 @@
   --section-padding: clamp(4.5rem, 9vw, 8rem);
 }
 
+/* Aptus visual theme overrides */
+.aptus-theme {
+  --color-night: #052e2b;     /* Deep forest emerald */
+  --color-navy: #093f39;      /* Brand dark emerald */
+  --color-indigo: #11534b;    /* Twilight deep emerald */
+  --color-sunrise: #00b494;   /* Vibrant emerald-teal */
+  --color-amber: #14b8a6;     /* Secondary mint accent */
+  --color-dawn: #f0f7f6;      /* Soft mist/mint off-white */
+  --color-mist: #e2efed;      /* Cool light mint fill */
+}
+
 /* ---------- Base (layered so Tailwind utilities can override) ---------- */
 @layer base {
   :root {

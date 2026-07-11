@@ -4,10 +4,22 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "motion/react";
 import aptusCatalog from "../../Aptus Catalog.png";
-import { ArrowRight, MailIcon, MapPin, PhoneIcon, WhatsAppIcon } from "@/components/icons";
+import {
+  ArrowRight,
+  MailIcon,
+  MapPin,
+  PhoneIcon,
+  WhatsAppIcon,
+  AwardIcon,
+  CpuIcon,
+  FactoryIcon,
+  ShieldCheckIcon,
+} from "@/components/icons";
 import { APTUS, APTUS_SITE_PATH, aptusFamilies, aptusWaLink } from "@/lib/aptus";
 import { AptusCatalogCrop } from "./AptusCatalogCrop";
 import { Reveal, Stagger, StaggerItem, DAWN_EASE } from "@/components/motion";
+import { CountUp } from "@/components/CountUp";
+import aptusHeroProducts from "../../public/aptus-hero-products.png";
 
 export function AptusCatalog() {
   return (
@@ -75,18 +87,18 @@ export function AptusCatalog() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.4, ease: DAWN_EASE }}
           >
-            <div className="relative aspect-[4/3]">
+            <div className="relative aspect-[4/3] bg-night">
               <Image
-                src={aptusCatalog}
-                alt="Aptus Packaging LLP official catalog showing company details and product categories"
+                src={aptusHeroProducts}
+                alt="Aptus Packaging LLP premium cosmetic and pharmaceutical bottles showcase"
                 fill
                 priority
                 sizes="(max-width: 1024px) 90vw, 42vw"
-                className="object-cover object-top"
+                className="object-cover object-center"
               />
             </div>
             <p className="border-t border-steel bg-white px-4 py-3 text-xs font-medium text-slate">
-              Product information sourced from the official Aptus catalog.
+              Premium cosmetic/pharma bottles and closures manufactured by Aptus.
             </p>
           </motion.div>
         </div>
@@ -101,9 +113,11 @@ export function AptusCatalog() {
           >
             {APTUS.claims.map((claim) => (
               <StaggerItem key={claim.label} className="bg-dawn p-6 sm:p-8">
-                <p className="font-display text-[clamp(1.7rem,3vw,2.5rem)] font-extrabold leading-tight text-navy">
-                  {claim.value}
-                </p>
+                <div className="font-display text-[clamp(1.7rem,3vw,2.5rem)] font-extrabold leading-tight text-navy">
+                  {claim.prefix && <span className="text-sunrise">{claim.prefix}</span>}
+                  <CountUp to={claim.to} decimals={claim.decimals ?? 0} />
+                  {claim.suffix && <span className="text-sunrise">{claim.suffix}</span>}
+                </div>
                 <p className="mt-2 text-sm font-semibold text-slate">{claim.label}</p>
               </StaggerItem>
             ))}
@@ -160,12 +174,22 @@ export function AptusCatalog() {
             </p>
           </Reveal>
           <Stagger className="grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-2" gap={0.08}>
-            {APTUS.qualities.map((quality) => (
-              <StaggerItem key={quality} className="bg-night p-6 sm:p-8">
-                <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-sunrise/15 font-bold text-sunrise" aria-hidden="true">✓</span>
-                <p className="mt-4 font-display text-lg font-semibold text-white">{quality}</p>
-              </StaggerItem>
-            ))}
+            {APTUS.qualities.map((q) => {
+              const Icon = q.icon === "award" ? AwardIcon :
+                            q.icon === "cpu" ? CpuIcon :
+                            q.icon === "factory" ? FactoryIcon : ShieldCheckIcon;
+              return (
+                <StaggerItem
+                  key={q.title}
+                  className="bg-night/40 backdrop-blur-md p-6 sm:p-8 hover:scale-[1.02] transition-transform duration-300"
+                >
+                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-sunrise/15 text-sunrise shadow-lg shadow-sunrise/10" aria-hidden="true">
+                    <Icon className="h-5.5 w-5.5" />
+                  </span>
+                  <p className="mt-4 font-display text-lg font-semibold text-white">{q.title}</p>
+                </StaggerItem>
+              );
+            })}
           </Stagger>
         </div>
       </section>
@@ -206,8 +230,13 @@ export function AptusCatalog() {
                   </a>
                 </div>
               </StaggerItem>
-              {Object.values(APTUS.addresses).map((address) => (
-                <StaggerItem key={address.label} className="rounded-3xl border border-steel bg-white p-6">
+              {Object.values(APTUS.addresses).map((address, idx) => (
+                <StaggerItem
+                  key={address.label}
+                  className={`rounded-3xl border border-steel bg-white p-6 ${
+                    idx === 1 ? "sm:col-span-2" : ""
+                  }`}
+                >
                   <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.12em] text-sunrise">
                     <MapPin className="h-4 w-4" /> {address.label}
                   </p>

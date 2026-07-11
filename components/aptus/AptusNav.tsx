@@ -68,8 +68,9 @@ export function AptusNav() {
             </span>
           </Link>
 
+          <CompanySwitcher current="aptus" className="hidden xl:inline-flex" />
+
           <div className="hidden items-center gap-5 xl:flex">
-            <CompanySwitcher current="aptus" />
             {LINKS.map((link) => (
               <Link key={link.href} href={link.href} className="text-sm font-medium text-slate hover:text-navy transition-colors">
                 {link.label}

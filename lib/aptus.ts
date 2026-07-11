@@ -34,15 +34,15 @@ export const APTUS = {
   about:
     "Aptus Packaging LLP is mainly engaged in manufacturing of Pharma Bottles, Cosmetic pet Bottles and compression molding caps (SACMI) for water closures. Aptus has the best machines which manufactures pharma bottles along with we have SACMI machine (APTUS brand) for making water closures for mineral water. The daily production is 7.9 lacs caps per day. Moroover, we have 5 single stage ASB machine for pharma, Cosmetic and oil industry. We are making close to 1,50,000 bottles of all range per day.",
   claims: [
-    { label: "Daily Production", value: "7.9 Lacs Caps" },
-    { label: "Bottle Production", value: "Close to 1,50,000 Bottles Per Day" },
-    { label: "Machines", value: "5 Single Stage ASB Machines" },
+    { label: "Daily Production", prefix: "", to: 7.9, decimals: 1, suffix: " Lacs Caps" },
+    { label: "Bottle Production", prefix: "Close to ", to: 150000, decimals: 0, suffix: " Bottles / Day" },
+    { label: "Machines", prefix: "", to: 5, decimals: 0, suffix: " Single Stage ASB Machines" },
   ],
   qualities: [
-    "Premium Quality",
-    "Advanced Technology",
-    "High Production Capacity",
-    "Reliable & Trusted",
+    { title: "Premium Quality", icon: "award" },
+    { title: "Advanced Technology", icon: "cpu" },
+    { title: "High Production Capacity", icon: "factory" },
+    { title: "Reliable & Trusted", icon: "shield" },
   ],
   machineClaim: "Advanced Machines Quality Assured",
 } as const;
