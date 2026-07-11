@@ -36,6 +36,8 @@ type AptusCartContextValue = {
   removeItem: (variantId: string) => void;
   clearCart: () => void;
   openCart: (trigger?: HTMLElement | null) => void;
+  lastAddedItem: AptusCartItem | null;
+  setLastAddedItem: (item: AptusCartItem | null) => void;
 };
 
 const AptusCartContext = createContext<AptusCartContextValue | null>(null);
@@ -86,6 +88,7 @@ export function AptusCartProvider({ children }: { children: ReactNode }) {
   const [ready, setReady] = useState(false);
   const [open, setOpen] = useState(false);
   const [announcement, setAnnouncement] = useState("");
+  const [lastAddedItem, setLastAddedItem] = useState<AptusCartItem | null>(null);
   const triggerRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
@@ -112,6 +115,7 @@ export function AptusCartProvider({ children }: { children: ReactNode }) {
           : item,
       );
     });
+    setLastAddedItem({ variant, packCount });
     setAnnouncement(`${describeVariant(variant)} added to the Aptus enquiry cart.`);
   }
 
@@ -148,8 +152,10 @@ export function AptusCartProvider({ children }: { children: ReactNode }) {
       removeItem,
       clearCart,
       openCart,
+      lastAddedItem,
+      setLastAddedItem,
     }),
-    [items],
+    [items, lastAddedItem],
   );
 
   return (

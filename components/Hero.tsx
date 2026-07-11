@@ -237,9 +237,15 @@ export function Hero() {
                   sizes="(max-width: 768px) 30vw, 20vw"
                   className="h-full w-full object-cover"
                 />
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/95 to-transparent p-3 text-white">
-                  <span className="text-[9px] font-bold uppercase tracking-wider text-amber">Precision</span>
-                  <p className="font-display text-xs font-semibold text-white mt-0.5">Perfect Thread Finish</p>
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/95 to-transparent">
+                  <div className="px-1.5 py-2">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-amber">
+                      Precision neck
+                    </span>
+                    <p className="font-display text-xs font-bold text-white leading-tight mt-0.5">
+                      Clear thread 28mm
+                    </p>
+                  </div>
                 </div>
               </div>
             </motion.div>

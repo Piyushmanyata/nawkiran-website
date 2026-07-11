@@ -4,6 +4,7 @@ import { APTUS_SITE_PATH } from "@/lib/aptus";
 import { AptusFooter } from "@/components/aptus/AptusFooter";
 import { AptusNav } from "@/components/aptus/AptusNav";
 import { AptusCartProvider } from "@/components/aptus/AptusCart";
+import { AptusAddedToCartToast } from "@/components/aptus/AptusAddedToCartToast";
 
 const APTUS_URL = `${SITE_URL}${APTUS_SITE_PATH}`;
 
@@ -52,6 +53,7 @@ export default function AptusLayout({ children }: Readonly<{ children: React.Rea
       <div className="aptus-theme min-h-screen bg-white">
         <AptusNav />
         {children}
+        <AptusAddedToCartToast />
         <AptusFooter />
       </div>
     </AptusCartProvider>

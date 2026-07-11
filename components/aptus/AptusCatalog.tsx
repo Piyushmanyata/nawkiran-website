@@ -108,7 +108,7 @@ export function AptusCatalog() {
       <section className="bg-dawn">
         <div className="shell section">
           <Stagger
-            className="grid gap-px overflow-hidden rounded-2xl border border-steel bg-steel sm:grid-cols-3"
+            className="grid gap-px overflow-hidden rounded-2xl border border-steel bg-steel sm:grid-cols-2 lg:grid-cols-4"
             gap={0.08}
           >
             {APTUS.claims.map((claim) => (

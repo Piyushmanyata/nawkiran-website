@@ -58,6 +58,14 @@ export const APTUS = {
       suffix: " Single Stage ASB Machines",
       description: "Japanese Nissei ASB technology. Injection and blowing in a single cycle for zero contamination and clinical clarity."
     },
+    {
+      label: "Manufacturing Legacy",
+      prefix: "",
+      to: new Date().getFullYear() - 2009,
+      decimals: 0,
+      suffix: "+ Years",
+      description: "Decades of combined manufacturing expertise in high-precision polymer injection."
+    },
   ],
   qualities: [
     { 
