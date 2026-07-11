@@ -1,7 +1,3 @@
-"use client";
-
-import { useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
 import { Plus } from "./icons";
 import { Reveal } from "./motion";
 
@@ -29,8 +25,6 @@ const FAQS = [
 ];
 
 export function FAQ() {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-
   return (
     <section id="faq" className="bg-white">
       <div className="shell section border-t border-steel">
@@ -43,56 +37,27 @@ export function FAQ() {
         </Reveal>
 
         <div className="max-w-3xl mx-auto space-y-3">
-          {FAQS.map((faq, index) => {
-            const isOpen = openIndex === index;
-            const buttonId = `faq-button-${index}`;
-            const panelId = `faq-panel-${index}`;
-            return (
+          {FAQS.map((faq, index) => (
+            <details
+              key={index}
+              className="group relative overflow-hidden rounded-2xl border border-steel bg-cloud/50 transition-all duration-300 hover:bg-white hover:border-sunrise/20 open:border-sunrise/40 open:bg-white open:shadow-[0_4px_20px_-8px_rgba(243,107,33,0.15)]"
+            >
+              {/* Active left accent bar */}
               <div
-                key={index}
-                className={`overflow-hidden rounded-2xl border transition-all duration-300 ${
-                  isOpen
-                    ? "border-sunrise/40 bg-white shadow-[0_4px_20px_-8px_rgba(243,107,33,0.15)]"
-                    : "border-steel bg-cloud/50 hover:bg-white hover:border-sunrise/20"
-                }`}
-              >
-                {/* Active left accent bar */}
-                <div className={`absolute left-0 top-0 h-full w-0.5 rounded-l-2xl bg-sunrise transition-opacity duration-300 ${isOpen ? "opacity-100" : "opacity-0"}`} aria-hidden="true" />
-                <h3>
-                  <button
-                    type="button"
-                    id={buttonId}
-                    aria-expanded={isOpen}
-                    aria-controls={panelId}
-                    onClick={() => setOpenIndex(isOpen ? null : index)}
-                    className="flex w-full items-center justify-between gap-4 p-5 text-left font-display font-semibold text-navy hover:text-sunrise transition-colors"
-                  >
-                    <span>{faq.question}</span>
-                    <span className={`shrink-0 rounded-full p-1 transition-all duration-300 ${isOpen ? "rotate-45 bg-sunrise/10 text-sunrise" : "text-slate hover:text-sunrise"}`}>
-                      <Plus className="h-4 w-4" />
-                    </span>
-                  </button>
-                </h3>
-                <AnimatePresence initial={false}>
-                  {isOpen && (
-                    <motion.div
-                      id={panelId}
-                      role="region"
-                      aria-labelledby={buttonId}
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.25, ease: "easeInOut" }}
-                    >
-                      <div className="border-t border-steel/60 bg-dawn/30 px-5 py-4 text-[0.9375rem] leading-relaxed text-slate">
-                        {faq.answer}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                className="absolute left-0 top-0 h-full w-0.5 rounded-l-2xl bg-sunrise opacity-0 group-open:opacity-100 transition-opacity duration-300"
+                aria-hidden="true"
+              />
+              <summary className="flex w-full items-center justify-between gap-4 p-5 text-left font-display font-semibold text-navy hover:text-sunrise transition-colors cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+                <span>{faq.question}</span>
+                <span className="shrink-0 rounded-full p-1 transition-all duration-300 text-slate group-hover:text-sunrise group-open:rotate-45 group-open:bg-sunrise/10 group-open:text-sunrise">
+                  <Plus className="h-4 w-4" />
+                </span>
+              </summary>
+              <div className="border-t border-steel/60 bg-dawn/30 px-5 py-4 text-[0.9375rem] leading-relaxed text-slate">
+                {faq.answer}
               </div>
-            );
-          })}
+            </details>
+          ))}
         </div>
       </div>
     </section>

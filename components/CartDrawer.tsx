@@ -127,54 +127,29 @@ export function CartDrawer() {
   const handleCompanyChange = saveField("nawkiran_cust_company", setCompany);
   const handleStateChange = saveField("nawkiran_cust_state", setState);
 
-  // Lock body scroll when drawer is open + Escape to close + focus trap
-  const panelRef = useRef<HTMLDivElement>(null);
-  const previouslyFocused = useRef<HTMLElement | null>(null);
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    if (isOpen) {
-      previouslyFocused.current = document.activeElement as HTMLElement;
-      document.body.style.overflow = "hidden";
-      // Focus the close button or first focusable element
-      const firstFocusable = panelRef.current?.querySelector<HTMLElement>(
-        'button, a, input, select, textarea, [tabindex]:not([tabindex="-1"])'
-      );
-      firstFocusable?.focus();
-
-      const onKeyDown = (e: KeyboardEvent) => {
-        if (e.key === "Escape") {
-          setIsOpen(false);
-          return;
-        }
-        if (e.key === "Tab" && panelRef.current) {
-          const focusables = panelRef.current.querySelectorAll<HTMLElement>(
-            'button, a, input, select, textarea, [tabindex]:not([tabindex="-1"])'
-          );
-          if (focusables.length === 0) return;
-          const first = focusables[0];
-          const last = focusables[focusables.length - 1];
-          if (e.shiftKey && document.activeElement === first) {
-            e.preventDefault();
-            last.focus();
-          } else if (!e.shiftKey && document.activeElement === last) {
-            e.preventDefault();
-            first.focus();
-          }
-        }
-      };
-      document.addEventListener("keydown", onKeyDown);
-      return () => {
-        document.removeEventListener("keydown", onKeyDown);
-        document.body.style.overflow = "";
-        previouslyFocused.current?.focus();
-      };
-    } else {
-      document.body.style.overflow = "";
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+    if (isOpen && !dialog.open) {
+      dialog.showModal();
+      closeRef.current?.focus();
+    } else if (!isOpen && dialog.open) {
+      dialog.close();
     }
-    return () => {
-      document.body.style.overflow = "";
+  }, [isOpen]);
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+    const handleClose = () => {
+      setIsOpen(false);
     };
-  }, [isOpen, setIsOpen]);
+    dialog.addEventListener("close", handleClose);
+    return () => dialog.removeEventListener("close", handleClose);
+  }, [setIsOpen]);
 
   // Construct structured WhatsApp message and open link
   const handleWhatsAppCheckout = () => {
@@ -203,209 +178,192 @@ export function CartDrawer() {
   };
 
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <>
-          {/* Backdrop Overlay */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setIsOpen(false)}
-            aria-hidden="true"
-            className="fixed inset-0 z-50 bg-night/50 backdrop-blur-[4px]"
-          />
+    <dialog
+      ref={dialogRef}
+      aria-label="Enquiry cart"
+      className="m-0 ml-auto h-dvh w-full max-w-[420px] overflow-hidden bg-cloud p-0 text-navy shadow-2xl backdrop:bg-night/50 backdrop:backdrop-blur-[4px]"
+      onClick={(event) => {
+        if (event.target === event.currentTarget) event.currentTarget.close();
+      }}
+    >
+      <div className="flex h-full flex-col">
+        {/* Header */}
+        <div className="flex items-center justify-between border-b border-steel bg-white px-5 py-4.5">
+          <div>
+            <h3 className="font-display text-lg font-extrabold text-navy">
+              Your Enquiry Cart
+            </h3>
+            <p className="text-xs text-slate font-medium mt-0.5">
+              {itemCount} distinct spec{itemCount !== 1 ? "s" : ""} added
+            </p>
+          </div>
+          <div className="flex items-center gap-3">
+            {items.length > 0 && (
+              <button
+                type="button"
+                onClick={clearCart}
+                className="text-xs font-semibold text-slate hover:text-sunrise transition-colors"
+              >
+                Clear All
+              </button>
+            )}
+            <button
+              ref={closeRef}
+              type="button"
+              onClick={() => dialogRef.current?.close()}
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-steel bg-white text-navy hover:bg-cloud hover:border-navy transition-all"
+              aria-label="Close cart"
+            >
+              <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                <path d="M18 6L6 18M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        </div>
 
-          {/* Sliding Panel */}
-          <motion.aside
-            ref={panelRef}
-            role="dialog"
-            aria-modal="true"
-            aria-label="Enquiry cart"
-            initial={{ x: "100%" }}
-            animate={{ x: 0 }}
-            exit={{ x: "100%" }}
-            transition={{ type: "spring", stiffness: 300, damping: 28 }}
-            className="fixed right-0 top-0 bottom-0 z-50 flex h-full w-full max-w-[420px] flex-col border-l border-steel bg-cloud shadow-2xl text-navy"
-          >
-            {/* Header */}
-            <div className="flex items-center justify-between border-b border-steel bg-white px-5 py-4.5">
-              <div>
-                <h3 className="font-display text-lg font-extrabold text-navy">
-                  Your Enquiry Cart
-                </h3>
-                <p className="text-xs text-slate font-medium mt-0.5">
-                  {itemCount} distinct spec{itemCount !== 1 ? "s" : ""} added
-                </p>
+        {/* Scrollable Content */}
+        <div className="flex-1 overflow-y-auto p-5 space-y-5">
+          {items.length === 0 ? (
+            <div className="flex flex-col items-center justify-center h-[60%] text-center px-4">
+              <div className="relative mb-5 flex h-24 w-24 items-center justify-center rounded-full bg-mist text-sunrise/80">
+                <svg viewBox="0 0 24 24" className="h-12 w-12" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                  <line x1="3" y1="6" x2="21" y2="6" />
+                  <path d="M16 10a4 4 0 0 1-8 0" />
+                </svg>
+                <motion.div
+                  animate={{ scale: [1, 1.15, 1], rotate: [0, 10, -10, 0] }}
+                  transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+                  className="absolute -right-1 -top-1 rounded-full bg-sunrise px-2 py-0.5 text-[10px] font-bold text-white shadow-md"
+                >
+                  Empty
+                </motion.div>
               </div>
-              <div className="flex items-center gap-3">
-                {items.length > 0 && (
-                  <button
-                    type="button"
-                    onClick={clearCart}
-                    className="text-xs font-semibold text-slate hover:text-sunrise transition-colors"
-                  >
-                    Clear All
-                  </button>
-                )}
+              <h4 className="font-display text-base font-bold text-navy">No products in cart</h4>
+              <p className="mt-2 text-xs text-slate leading-relaxed">
+                Select your neck size and gram weight from our catalog to add multiple preforms.
+              </p>
+              <button
+                type="button"
+                onClick={() => setIsOpen(false)}
+                className="mt-6 inline-flex rounded-full bg-navy px-5 py-2.5 text-xs font-semibold text-white hover:bg-sunrise transition-colors"
+              >
+                Browse Specifications
+              </button>
+            </div>
+          ) : (
+            <>
+              {/* Cart Items List */}
+              <div className="space-y-3">
+                <AnimatePresence initial={false} mode="popLayout">
+                  {items.map((item) => (
+                    <CartItemRow
+                      key={item.id}
+                      item={item}
+                      onUpdateQty={updateQuantity}
+                      onRemove={removeItem}
+                    />
+                  ))}
+                </AnimatePresence>
+              </div>
+
+              {/* Customer Information Form */}
+              <div className="rounded-xl border border-steel/60 bg-white p-4 shadow-[0_2px_8px_rgba(22,40,77,0.02)]">
                 <button
                   type="button"
-                  onClick={() => setIsOpen(false)}
-                  className="flex h-9 w-9 items-center justify-center rounded-full border border-steel bg-white text-navy hover:bg-cloud hover:border-navy transition-all"
-                  aria-label="Close cart"
+                  onClick={() => setShowForm((prev) => !prev)}
+                  className="flex w-full items-center justify-between font-display text-xs font-bold text-navy"
                 >
-                  <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                    <path d="M18 6L6 18M6 6l12 12" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-
-            {/* Scrollable Content */}
-            <div className="flex-1 overflow-y-auto p-5 space-y-5">
-              {items.length === 0 ? (
-                <div className="flex flex-col items-center justify-center h-[60%] text-center px-4">
-                  <div className="relative mb-5 flex h-24 w-24 items-center justify-center rounded-full bg-mist text-sunrise/80">
-                    <svg viewBox="0 0 24 24" className="h-12 w-12" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
-                      <line x1="3" y1="6" x2="21" y2="6" />
-                      <path d="M16 10a4 4 0 0 1-8 0" />
-                    </svg>
-                    <motion.div
-                      animate={{ scale: [1, 1.15, 1], rotate: [0, 10, -10, 0] }}
-                      transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-                      className="absolute -right-1 -top-1 rounded-full bg-sunrise px-2 py-0.5 text-[10px] font-bold text-white shadow-md"
-                    >
-                      Empty
-                    </motion.div>
-                  </div>
-                  <h4 className="font-display text-base font-bold text-navy">No products in cart</h4>
-                  <p className="mt-2 text-xs text-slate leading-relaxed">
-                    Select your neck size and gram weight from our catalog to add multiple preforms.
-                  </p>
-                  <button
-                    type="button"
-                    onClick={() => setIsOpen(false)}
-                    className="mt-6 inline-flex rounded-full bg-navy px-5 py-2.5 text-xs font-semibold text-white hover:bg-sunrise transition-colors"
-                  >
-                    Browse Specifications
-                  </button>
-                </div>
-              ) : (
-                <>
-                  {/* Cart Items List */}
-                  <div className="space-y-3">
-                    <AnimatePresence initial={false} mode="popLayout">
-                      {items.map((item) => (
-                        <CartItemRow
-                          key={item.id}
-                          item={item}
-                          onUpdateQty={updateQuantity}
-                          onRemove={removeItem}
-                        />
-                      ))}
-                    </AnimatePresence>
-                  </div>
-
-                  {/* Customer Information Form */}
-                  <div className="rounded-xl border border-steel/60 bg-white p-4 shadow-[0_2px_8px_rgba(22,40,77,0.02)]">
-                    <button
-                      type="button"
-                      onClick={() => setShowForm((prev) => !prev)}
-                      className="flex w-full items-center justify-between font-display text-xs font-bold text-navy"
-                    >
-                      <span>CUSTOMER DETAILS &middot; OPTIONAL</span>
-                      <span className="text-sunrise text-[10px] font-semibold">
-                        {showForm ? "HIDE" : "SHOW"}
-                      </span>
-                    </button>
-
-                    <AnimatePresence>
-                      {showForm && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: "auto", opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          className="overflow-hidden mt-3.5 space-y-3"
-                        >
-                          <div>
-                            <label htmlFor="cust_name" className="block text-[10px] font-bold text-slate uppercase tracking-wider">
-                              Your Name
-                            </label>
-                            <input
-                              type="text"
-                              id="cust_name"
-                              value={name}
-                              onChange={(e) => handleNameChange(e.target.value)}
-                              placeholder="e.g. Rahul Sharma"
-                              className="mt-1 block w-full rounded-lg border border-steel bg-cloud px-3 py-2 text-sm text-navy placeholder-slate/50 focus:border-sunrise focus:bg-white focus:outline-none transition-all"
-                            />
-                          </div>
-
-                          <div>
-                            <label htmlFor="cust_company" className="block text-[10px] font-bold text-slate uppercase tracking-wider">
-                              Company Name
-                            </label>
-                            <input
-                              type="text"
-                              id="cust_company"
-                              value={company}
-                              onChange={(e) => handleCompanyChange(e.target.value)}
-                              placeholder="e.g. Pure Water Bottlers"
-                              className="mt-1 block w-full rounded-lg border border-steel bg-cloud px-3 py-2 text-sm text-navy placeholder-slate/50 focus:border-sunrise focus:bg-white focus:outline-none transition-all"
-                            />
-                          </div>
-
-                          <div>
-                            <label htmlFor="cust_state" className="block text-[10px] font-bold text-slate uppercase tracking-wider">
-                              State (Delivery Destination)
-                            </label>
-                            <input
-                              type="text"
-                              id="cust_state"
-                              value={state}
-                              onChange={(e) => handleStateChange(e.target.value)}
-                              placeholder="e.g. West Bengal"
-                              className="mt-1 block w-full rounded-lg border border-steel bg-cloud px-3 py-2 text-sm text-navy placeholder-slate/50 focus:border-sunrise focus:bg-white focus:outline-none transition-all"
-                            />
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                </>
-              )}
-            </div>
-
-            {/* Footer Checkout Panel */}
-            {items.length > 0 && (
-              <div className="border-t border-steel bg-white p-5 space-y-4">
-                <div className="flex items-center justify-between text-navy">
-                  <span className="text-sm font-semibold text-slate">Total Quantity</span>
-                  <span className="tnum text-base font-bold">
-                    {totalKgs.toLocaleString()}&nbsp;kg
+                  <span>CUSTOMER DETAILS &middot; OPTIONAL</span>
+                  <span className="text-sunrise text-[10px] font-semibold">
+                    {showForm ? "HIDE" : "SHOW"}
                   </span>
-                </div>
+                </button>
 
-                <div className="relative group">
-                  <div className="absolute -inset-0.5 rounded-full bg-gradient-to-r from-sunrise to-amber opacity-60 blur transition-all duration-300 group-hover:opacity-100" />
-                  <button
-                    type="button"
-                    onClick={handleWhatsAppCheckout}
-                    className="relative flex w-full items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-[#e8531a] to-[#f09210] py-3.5 text-sm font-bold text-white shadow-lg transition-transform active:scale-[0.98]"
-                  >
-                    <WhatsAppIcon className="h-5 w-5" />
-                    Request Quote on WhatsApp
-                  </button>
-                </div>
-                <p className="text-center text-[10px] font-mono text-slate">
-                  Opens WhatsApp &bull; Typically responds in minutes
-                </p>
+                <AnimatePresence>
+                  {showForm && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      className="overflow-hidden mt-3.5 space-y-3"
+                    >
+                      <div>
+                        <label htmlFor="cust_name" className="block text-[10px] font-bold text-slate uppercase tracking-wider">
+                          Your Name
+                        </label>
+                        <input
+                          type="text"
+                          id="cust_name"
+                          value={name}
+                          onChange={(e) => handleNameChange(e.target.value)}
+                          placeholder="e.g. Rahul Sharma"
+                          className="mt-1 block w-full rounded-lg border border-steel bg-cloud px-3 py-2 text-sm text-navy placeholder-slate/50 focus:border-sunrise focus:bg-white focus:outline-none transition-all"
+                        />
+                      </div>
+
+                      <div>
+                        <label htmlFor="cust_company" className="block text-[10px] font-bold text-slate uppercase tracking-wider">
+                          Company Name
+                        </label>
+                        <input
+                          type="text"
+                          id="cust_company"
+                          value={company}
+                          onChange={(e) => handleCompanyChange(e.target.value)}
+                          placeholder="e.g. Pure Water Bottlers"
+                          className="mt-1 block w-full rounded-lg border border-steel bg-cloud px-3 py-2 text-sm text-navy placeholder-slate/50 focus:border-sunrise focus:bg-white focus:outline-none transition-all"
+                        />
+                      </div>
+
+                      <div>
+                        <label htmlFor="cust_state" className="block text-[10px] font-bold text-slate uppercase tracking-wider">
+                          State (Delivery Destination)
+                        </label>
+                        <input
+                          type="text"
+                          id="cust_state"
+                          value={state}
+                          onChange={(e) => handleStateChange(e.target.value)}
+                          placeholder="e.g. West Bengal"
+                          className="mt-1 block w-full rounded-lg border border-steel bg-cloud px-3 py-2 text-sm text-navy placeholder-slate/50 focus:border-sunrise focus:bg-white focus:outline-none transition-all"
+                        />
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
-            )}
-          </motion.aside>
-        </>
-      )}
-    </AnimatePresence>
+            </>
+          )}
+        </div>
+
+        {/* Footer Checkout Panel */}
+        {items.length > 0 && (
+          <div className="border-t border-steel bg-white p-5 space-y-4">
+            <div className="flex items-center justify-between text-navy">
+              <span className="text-sm font-semibold text-slate">Total Quantity</span>
+              <span className="tnum text-base font-bold">
+                {totalKgs.toLocaleString()}&nbsp;kg
+              </span>
+            </div>
+
+            <div className="relative group">
+              <div className="absolute -inset-0.5 rounded-full bg-gradient-to-r from-sunrise to-amber opacity-60 blur transition-all duration-300 group-hover:opacity-100" />
+              <button
+                type="button"
+                onClick={handleWhatsAppCheckout}
+                className="relative flex w-full items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-[#e8531a] to-[#f09210] py-3.5 text-sm font-bold text-white shadow-lg transition-transform active:scale-[0.98]"
+              >
+                <WhatsAppIcon className="h-5 w-5" />
+                Request Quote on WhatsApp
+              </button>
+            </div>
+            <p className="text-center text-[10px] font-mono text-slate">
+              Opens WhatsApp &bull; Typically responds in minutes
+            </p>
+          </div>
+        )}
+      </div>
+    </dialog>
   );
 }
