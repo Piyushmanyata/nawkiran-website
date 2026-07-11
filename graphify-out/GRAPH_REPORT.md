@@ -1,7 +1,7 @@
 # Graph Report - Nawkiran Website  (2026-07-11)
 
 ## Corpus Check
-- 59 files · ~307,084 words
+- 59 files · ~256,086 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `bd248911`
+- Built from commit: `2ab96833`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
