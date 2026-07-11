@@ -36,11 +36,13 @@ export function Capabilities() {
 
         <Stagger className="mt-12 grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-2" gap={0.08}>
           {capabilities.map((c, i) => (
-            <StaggerItem key={c.title} className="bg-night p-6 sm:p-8">
-              <div className="flex items-center gap-3 text-amber">
-                <svg viewBox="0 0 24 24" className="h-5 w-5 shrink-0" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <path d={ICONS[i]} />
-                </svg>
+            <StaggerItem key={c.title} className="group bg-night p-6 sm:p-8 transition-colors hover:bg-white/[0.03]">
+              <div className="flex items-center gap-3">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-amber/20 bg-amber/10 text-amber transition-all group-hover:border-amber/40 group-hover:bg-amber/15">
+                  <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d={ICONS[i]} />
+                  </svg>
+                </span>
                 <h3 className="font-display text-lg font-semibold text-white">{c.title}</h3>
               </div>
               <p className="mt-3 text-sm leading-relaxed text-white/65">{c.body}</p>
@@ -48,14 +50,17 @@ export function Capabilities() {
           ))}
         </Stagger>
 
-        {/* machine brands */}
+        {/* Machine brands — styled as metallic pill badges */}
         <Reveal delay={0.1} className="mt-14 flex flex-col items-center gap-6 border-t border-white/10 pt-10 text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-white/50">
             Machines we run
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
+          <div className="flex flex-wrap items-center justify-center gap-3">
             {BRANDS.map((b) => (
-              <span key={b} className="font-display text-2xl font-semibold tracking-tight text-white/80 sm:text-3xl">
+              <span
+                key={b}
+                className="inline-flex items-center rounded-full border border-white/15 bg-white/[0.06] px-5 py-2 font-display text-lg font-semibold tracking-tight text-white/85 shadow-inner backdrop-blur-sm transition-colors hover:border-amber/30 hover:bg-white/[0.10] hover:text-white sm:text-xl"
+              >
                 {b}
               </span>
             ))}

@@ -22,22 +22,41 @@ export function Stats() {
           </p>
         </Reveal>
 
-        {/* Primary record — a ruled board, not a card grid */}
+        {/* Primary stats — ruled board with accent glow on first */}
         <Stagger
           className="mt-12 grid gap-px overflow-hidden rounded-2xl border border-steel bg-steel sm:grid-cols-3"
           gap={0.08}
         >
-          {primary.map((b) => (
-            <StaggerItem key={b.label} className="bg-dawn p-6 sm:p-8">
-              <div className="font-display text-[clamp(2.4rem,4vw,3.25rem)] font-extrabold leading-none tracking-tight text-navy">
-                {b.prefix && <span className="text-amber">{b.prefix}</span>}
-                <CountUp to={b.to} />
-                <span className="text-amber">{b.suffix}</span>
-              </div>
-              <div className="mt-3 font-display text-base font-bold text-navy">{b.label}</div>
-              {b.detail && (
-                <p className="mt-1.5 text-sm leading-relaxed text-slate">{b.detail}</p>
+          {primary.map((b, idx) => (
+            <StaggerItem
+              key={b.label}
+              className={`relative overflow-hidden p-6 sm:p-8 ${
+                idx === 0
+                  ? "bg-gradient-to-br from-night to-[#0d1e3e] text-white"
+                  : "bg-dawn"
+              }`}
+            >
+              {idx === 0 && (
+                <>
+                  <div
+                    className="pointer-events-none absolute -right-8 -top-8 h-48 w-48 rounded-full opacity-20 blur-2xl"
+                    style={{ background: "radial-gradient(circle, #F59E1F, transparent 70%)" }}
+                    aria-hidden="true"
+                  />
+                  <div className="grid-texture absolute inset-0 opacity-30" aria-hidden="true" />
+                </>
               )}
+              <div className="relative">
+                <div className={`font-display text-[clamp(2.4rem,4vw,3.25rem)] font-extrabold leading-none tracking-tight ${idx === 0 ? "text-white" : "text-navy"}`}>
+                  {b.prefix && <span className="text-amber">{b.prefix}</span>}
+                  <CountUp to={b.to} />
+                  <span className="text-amber">{b.suffix}</span>
+                </div>
+                <div className={`mt-3 font-display text-base font-bold ${idx === 0 ? "text-white/90" : "text-navy"}`}>{b.label}</div>
+                {b.detail && (
+                  <p className={`mt-1.5 text-sm leading-relaxed ${idx === 0 ? "text-white/60" : "text-slate"}`}>{b.detail}</p>
+                )}
+              </div>
             </StaggerItem>
           ))}
         </Stagger>

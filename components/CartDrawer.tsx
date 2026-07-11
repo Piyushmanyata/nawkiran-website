@@ -118,19 +118,14 @@ export function CartDrawer() {
     }
   }, []);
 
-  // Save details on change
-  const handleNameChange = (val: string) => {
-    setName(val);
-    localStorage.setItem("nawkiran_cust_name", val);
+  // Save customer details on change
+  const saveField = (key: string, setter: (v: string) => void) => (val: string) => {
+    setter(val);
+    localStorage.setItem(key, val);
   };
-  const handleCompanyChange = (val: string) => {
-    setCompany(val);
-    localStorage.setItem("nawkiran_cust_company", val);
-  };
-  const handleStateChange = (val: string) => {
-    setState(val);
-    localStorage.setItem("nawkiran_cust_state", val);
-  };
+  const handleNameChange = saveField("nawkiran_cust_name", setName);
+  const handleCompanyChange = saveField("nawkiran_cust_company", setCompany);
+  const handleStateChange = saveField("nawkiran_cust_state", setState);
 
   // Lock body scroll when drawer is open + Escape to close + focus trap
   const panelRef = useRef<HTMLDivElement>(null);

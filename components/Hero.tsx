@@ -7,6 +7,24 @@ import { WhatsAppButton, CallButton } from "./CTA";
 import { PHONES } from "@/lib/site";
 import { DAWN_EASE } from "./motion";
 
+// Module-level: no re-creation per render
+const STARS = [
+  { l: 12, t: 22, d: "0s" },
+  { l: 20, t: 14, d: "1.2s" },
+  { l: 28, t: 30, d: "2.4s" },
+  { l: 8,  t: 40, d: "0.6s" },
+  { l: 33, t: 18, d: "1.8s" },
+  { l: 17, t: 33, d: "3.0s" },
+  { l: 40, t: 12, d: "1.5s" },
+  { l: 6,  t: 26, d: "0.9s" },
+];
+
+const TRUST_BADGES = [
+  { icon: "M9 12l2 2 4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0z", label: "ISO-grade resin" },
+  { icon: "M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0z", label: "Quotes in minutes" },
+  { icon: "M17 20h5v-2a3 3 0 0 0-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 0 1 5.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 0 1 9.288 0M15 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0z", label: "250+ active buyers" },
+];
+
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
@@ -18,32 +36,16 @@ export function Hero() {
   const neckDetailY = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : -110]);
   const contentY = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : 40]);
 
-  const stars = [
-    { l: 12, t: 22, d: "0s" },
-    { l: 20, t: 14, d: "1.2s" },
-    { l: 28, t: 30, d: "2.4s" },
-    { l: 8, t: 40, d: "0.6s" },
-    { l: 33, t: 18, d: "1.8s" },
-    { l: 17, t: 33, d: "3.0s" },
-    { l: 40, t: 12, d: "1.5s" },
-    { l: 6, t: 26, d: "0.9s" },
-  ];
-
   return (
     <section ref={ref} id="top" className="relative isolate flex min-h-[92vh] items-center overflow-hidden bg-night pt-24 pb-16">
       {/* faint grid + stars */}
       <div className="grid-texture absolute inset-0 opacity-60" aria-hidden="true" />
       <div className="absolute inset-0" aria-hidden="true">
-        {stars.map((star, i) => (
+        {STARS.map((star, i) => (
           <span
             key={i}
             className="absolute h-[2.5px] w-[2.5px] rounded-full bg-white/50 animate-pulse"
-            style={{
-              left: `${star.l}%`,
-              top: `${star.t}%`,
-              animationDelay: star.d,
-              animationDuration: "3s",
-            }}
+            style={{ left: `${star.l}%`, top: `${star.t}%`, animationDelay: star.d, animationDuration: "3s" }}
           />
         ))}
       </div>
@@ -54,8 +56,7 @@ export function Hero() {
         className="pointer-events-none absolute left-1/2 top-[78%] h-[1200px] w-[1200px] -translate-x-1/2 -translate-y-1/2"
         style={{
           y: sunY,
-          background:
-            "repeating-conic-gradient(from 0deg at 50% 50%, rgba(245,158,31,0.11) 0deg 5deg, transparent 5deg 24deg)",
+          background: "repeating-conic-gradient(from 0deg at 50% 50%, rgba(245,158,31,0.11) 0deg 5deg, transparent 5deg 24deg)",
           maskImage: "radial-gradient(closest-side, rgba(0,0,0,0.9), transparent 72%)",
           WebkitMaskImage: "radial-gradient(closest-side, rgba(0,0,0,0.9), transparent 72%)",
         }}
@@ -70,8 +71,7 @@ export function Hero() {
         className="pointer-events-none absolute left-1/2 top-[80%] h-[760px] w-[760px] -translate-x-1/2 -translate-y-1/2 rounded-full lg:left-[62%]"
         style={{
           y: sunY,
-          background:
-            "radial-gradient(circle at 50% 50%, #FBC02D 0%, #F59E1F 20%, rgba(243,107,33,0.6) 40%, rgba(243,107,33,0.12) 60%, transparent 72%)",
+          background: "radial-gradient(circle at 50% 50%, #FBC02D 0%, #F59E1F 20%, rgba(243,107,33,0.6) 40%, rgba(243,107,33,0.12) 60%, transparent 72%)",
         }}
         initial={reduce ? { opacity: 0.95, y: 0 } : { opacity: 0, y: 140 }}
         animate={{ opacity: 0.95 }}
@@ -104,17 +104,22 @@ export function Hero() {
           </motion.p>
 
           <h1 className="mt-4 text-balance font-display text-[clamp(2.6rem,5.4vw,4.5rem)] font-bold leading-[1.02] tracking-[-0.02em] text-white">
-            {["PET preforms for", "bottles & jars,"].map((line, i) => (
-              <motion.span
-                key={i}
-                className="block"
-                initial={reduce ? false : { opacity: 0, y: 18 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.55, delay: 0.5 + i * 0.07, ease: DAWN_EASE }}
-              >
-                {line}
-              </motion.span>
-            ))}
+            <motion.span
+              className="block"
+              initial={reduce ? false : { opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.55, delay: 0.5, ease: DAWN_EASE }}
+            >
+              PET preforms for
+            </motion.span>
+            <motion.span
+              className="block"
+              initial={reduce ? false : { opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.55, delay: 0.57, ease: DAWN_EASE }}
+            >
+              bottles &amp; jars,
+            </motion.span>
             <motion.span
               className="block"
               initial={reduce ? false : { opacity: 0, y: 18 }}
@@ -147,8 +152,28 @@ export function Hero() {
             <CallButton tel={primaryTel} label="Call now" variant="ghost-dark" />
           </motion.div>
 
+          {/* Trust badges strip */}
           <motion.div
-            className="mt-9 flex items-center gap-3 text-sm text-white/65"
+            className="mt-8 flex flex-wrap items-center gap-3"
+            initial={reduce ? false : { opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 1.05, ease: DAWN_EASE }}
+          >
+            {TRUST_BADGES.map((b) => (
+              <span
+                key={b.label}
+                className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-semibold text-white/75 backdrop-blur-sm"
+              >
+                <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 shrink-0 text-amber" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d={b.icon} />
+                </svg>
+                {b.label}
+              </span>
+            ))}
+          </motion.div>
+
+          <motion.div
+            className="mt-6 flex items-center gap-3 text-sm text-white/65"
             initial={reduce ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 1.25 }}
@@ -167,7 +192,6 @@ export function Hero() {
 
         {/* right: hero product showcase */}
         <div className="relative mx-auto flex h-[480px] w-full max-w-lg items-center justify-center lg:h-[600px]">
-          {/* Inner Wrapper to bound coordinates and prevent viewport overflow on small screens */}
           <div className="relative h-[380px] w-[260px] md:h-[460px] md:w-[320px]">
             {/* Main Showcase Card */}
             <motion.div
@@ -187,10 +211,12 @@ export function Hero() {
                   sizes="(max-width: 480px) 260px, (max-width: 768px) 320px, 384px"
                   className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
                 />
+                {/* Gloss overlay */}
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent rounded-2xl" aria-hidden="true" />
                 <div className="absolute inset-x-0 top-0 bg-gradient-to-b from-black/90 via-black/40 to-transparent p-5 pr-16 pt-6 pb-14 text-white">
                   <span className="text-[10px] font-bold uppercase tracking-wider text-sunrise">Featured</span>
                   <p className="font-display text-lg md:text-xl font-bold text-white mt-0.5">High-Volume Moulding</p>
-                  <p className="text-xs text-white/85 mt-1">Virgin grade resin preforms for water & soft drinks.</p>
+                  <p className="text-xs text-white/85 mt-1">Virgin grade resin preforms for water &amp; soft drinks.</p>
                 </div>
               </div>
             </motion.div>
@@ -218,7 +244,6 @@ export function Hero() {
               </div>
             </motion.div>
           </div>
-
         </div>
       </motion.div>
 

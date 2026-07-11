@@ -19,6 +19,7 @@ export function Nav() {
   const primaryTel = PHONES.find((p) => p.primary)?.tel ?? PHONES[0].tel;
   const { itemCount, toggleCart } = useCart();
 
+  // RAF-throttled scroll listener
   useEffect(() => {
     let ticking = false;
     const onScroll = () => {
@@ -34,36 +35,17 @@ export function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Lock body scroll when mobile menu is open + Escape to close
+  // Lock body scroll + Escape to close when mobile menu is open
   useEffect(() => {
-    if (open) {
-      document.body.style.overflow = "hidden";
-      const onKeyDown = (e: KeyboardEvent) => {
-        if (e.key === "Escape") setOpen(false);
-      };
-      document.addEventListener("keydown", onKeyDown);
-      return () => {
-        document.removeEventListener("keydown", onKeyDown);
-        document.body.style.overflow = "";
-      };
-    } else {
-      document.body.style.overflow = "";
-    }
+    if (!open) return;
+    document.body.style.overflow = "hidden";
+    const onKeyDown = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
+    document.addEventListener("keydown", onKeyDown);
     return () => {
+      document.removeEventListener("keydown", onKeyDown);
       document.body.style.overflow = "";
     };
   }, [open]);
-
-  // Close mobile menu when screen resizes to desktop width
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 1024) {
-        setOpen(false);
-      }
-    };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   const pathname = usePathname();
   const isHome = pathname === "/";
@@ -150,7 +132,7 @@ export function Nav() {
               <PhoneIcon className="h-4 w-4" />
               Call
             </a>
-            
+
             {/* Cart toggle button */}
             <button
               type="button"

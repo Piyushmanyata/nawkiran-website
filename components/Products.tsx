@@ -36,7 +36,6 @@ function MobileProductStrip({
     <div
       ref={scrollRef}
       className="flex gap-2 overflow-x-auto pb-1 scrollbar-none"
-      style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}
     >
       {products.map((p) => {
         const active = p.id === selectedId;
