@@ -4,7 +4,7 @@ import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
-const base = "http://localhost:3100";
+const base = "http://localhost:3200";
 const port = 9333;
 const screenshots = "C:/Users/piyus/Downloads/Nawkiran/Nawkiran Website/tmp";
 const profile = mkdtempSync(join(tmpdir(), "codex-aptus-chrome-"));
@@ -153,7 +153,7 @@ try {
     "https://nawkiran.com/aptus/products/cosmetic-bottles",
   );
   assert.ok(
-    await evaluate("[...document.querySelectorAll('button')].find((button) => button.textContent.includes('Add 1 pack'))?.click(); true"),
+    await evaluate("[...document.querySelectorAll('button')].find((button) => button.textContent.includes('Add 10 packs'))?.click(); true"),
   );
   await wait(150);
   assert.match(

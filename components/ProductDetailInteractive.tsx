@@ -205,20 +205,39 @@ export function ProductDetailInteractive({ product }: { product: Product }) {
 
         {/* Real-time Render updating with state */}
         <div className="relative my-8 flex items-center justify-center flex-1 min-h-[20rem]">
-          <Preform
-            shape={product.illustration}
-            tint={tint}
-            uid={`product-page-${product.id}`}
-            neckMm={neckMm}
-            weightG={selectedWeight}
-            className="h-72 sm:h-80 w-auto drop-shadow-[0_22px_32px_rgba(0,0,0,0.45)] z-10 transition-transform duration-300"
-          />
-          <BlownBottle
-            shape={product.illustration}
-            tint={tint}
-            uid={`product-page-blown-${product.id}`}
+          <AnimatePresence mode="popLayout">
+            <motion.div
+              key={`${product.id}-${neckMm}-${selectedWeight}`}
+              initial={{ opacity: 0.85, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1, y: [0, -8, 0] }}
+              exit={{ opacity: 0.85, scale: 0.96 }}
+              transition={{
+                duration: 0.25,
+                y: { duration: 5, repeat: Infinity, ease: "easeInOut" }
+              }}
+              className="z-10 flex items-center justify-center"
+            >
+              <Preform
+                shape={product.illustration}
+                tint={tint}
+                uid={`product-page-${product.id}`}
+                neckMm={neckMm}
+                weightG={selectedWeight}
+                className="h-72 sm:h-80 w-auto drop-shadow-[0_22px_32px_rgba(0,0,0,0.45)] transition-transform duration-300"
+              />
+            </motion.div>
+          </AnimatePresence>
+          <motion.div
+            animate={{ y: [0, -4, 0] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
             className="pointer-events-none absolute right-4 bottom-4 h-36 sm:h-44 w-auto opacity-15"
-          />
+          >
+            <BlownBottle
+              shape={product.illustration}
+              tint={tint}
+              uid={`product-page-blown-${product.id}`}
+            />
+          </motion.div>
         </div>
 
         <div className="relative z-10 border-t border-white/10 pt-4 text-xs text-white/50 flex justify-between">

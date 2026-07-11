@@ -221,20 +221,39 @@ function SpecPanel({
           <div className="absolute left-3 top-3 sm:left-5 sm:top-5 rounded-xl bg-white/10 px-2.5 py-1.5 text-xs font-semibold text-white/80 ring-1 ring-white/10 backdrop-blur-sm">
             {formatNeck(neck.size)}
           </div>
-          <Preform
-            shape={p.illustration}
-            tint={PRODUCT_TINT[p.id]}
-            uid={`hero-${p.id}-${neck.size}-${weight}`}
-            neckMm={neckMm}
-            weightG={weight}
-            className="h-[8rem] sm:h-[22rem] w-auto drop-shadow-[0_22px_32px_rgba(0,0,0,0.35)]"
-          />
-          <BlownBottle
-            shape={p.illustration}
-            tint={PRODUCT_TINT[p.id]}
-            uid={`ghost-${p.id}`}
+          <AnimatePresence mode="popLayout">
+            <motion.div
+              key={`${p.id}-${neckMm}-${weight}`}
+              initial={{ opacity: 0.85, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1, y: [0, -8, 0] }}
+              exit={{ opacity: 0.85, scale: 0.96 }}
+              transition={{
+                duration: 0.25,
+                y: { duration: 5, repeat: Infinity, ease: "easeInOut" }
+              }}
+              className="flex items-center justify-center"
+            >
+              <Preform
+                shape={p.illustration}
+                tint={PRODUCT_TINT[p.id]}
+                uid={`hero-${p.id}-${neck.size}-${weight}`}
+                neckMm={neckMm}
+                weightG={weight}
+                className="h-[8rem] sm:h-[22rem] w-auto drop-shadow-[0_22px_32px_rgba(0,0,0,0.35)]"
+              />
+            </motion.div>
+          </AnimatePresence>
+          <motion.div
+            animate={{ y: [0, -4, 0] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
             className="pointer-events-none absolute right-3 top-3 sm:top-12 h-16 sm:h-48 w-auto opacity-20"
-          />
+          >
+            <BlownBottle
+              shape={p.illustration}
+              tint={PRODUCT_TINT[p.id]}
+              uid={`ghost-${p.id}`}
+            />
+          </motion.div>
         </div>
       </section>
 

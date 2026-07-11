@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { ShoppingBagIcon } from "@/components/icons";
 import {
@@ -12,6 +13,12 @@ import { AptusCatalogCrop } from "./AptusCatalogCrop";
 
 export function AptusProductDetail({ family }: { family: AptusFamily }) {
   const { addItem, openCart, itemCount } = useAptusCart();
+  const [quantities, setQuantities] = useState<Record<string, number>>({});
+
+  const getQty = (id: string) => quantities[id] ?? 10;
+  const updateQty = (id: string, val: number) => {
+    setQuantities((prev) => ({ ...prev, [id]: Math.max(1, val) }));
+  };
 
   return (
     <div className="shell pb-20 pt-8">
@@ -31,12 +38,12 @@ export function AptusProductDetail({ family }: { family: AptusFamily }) {
             <button
               type="button"
               onClick={(event) => openCart(event.currentTarget)}
-              className="inline-flex min-h-12 items-center gap-2 rounded-full border border-steel px-5 text-sm font-semibold text-navy hover:border-sunrise focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sunrise"
+              className="inline-flex min-h-12 items-center gap-2 rounded-full border border-steel px-5 text-sm font-semibold text-navy hover:border-sunrise focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sunrise cursor-pointer"
             >
               <ShoppingBagIcon className="h-4.5 w-4.5" />
               View Aptus cart{itemCount ? ` (${itemCount})` : ""}
             </button>
-            <p className="text-sm text-slate">Add one pack below, then adjust pack count in the cart.</p>
+            <p className="text-sm text-slate">Select packs below, then adjust pack count in the cart.</p>
           </div>
         </div>
       </section>
@@ -63,6 +70,7 @@ export function AptusProductDetail({ family }: { family: AptusFamily }) {
                     "Weight",
                     "Packing size",
                     "Item",
+                    "Packs",
                     "",
                   ].map((heading) => (
                     <th key={heading || "action"} scope="col" className="px-4 py-3 font-semibold">
@@ -72,25 +80,57 @@ export function AptusProductDetail({ family }: { family: AptusFamily }) {
                 </tr>
               </thead>
               <tbody>
-                {family.variants.map((variant) => (
-                  <tr key={variant.id} className="border-t border-steel even:bg-cloud/60">
-                    <td className="px-4 py-3 font-mono font-semibold text-navy">{variant.neckSizeMm} mm</td>
-                    <td className="px-4 py-3 text-slate">{variant.capacityMl} ml</td>
-                    <td className="px-4 py-3 text-slate">{variant.weightG} g</td>
-                    <td className="px-4 py-3 text-slate">{variant.packingSize.toLocaleString("en-IN")} pcs</td>
-                    <td className="px-4 py-3 font-semibold text-navy">{variant.item}</td>
-                    <td className="px-4 py-2 text-right">
-                      <button
-                        type="button"
-                        onClick={() => addItem(variant)}
-                        aria-label={`Add one pack of ${variant.item}, ${variant.capacityMl} millilitres, ${variant.neckSizeMm} millimetre neck, ${variant.weightG} grams`}
-                        className="min-h-10 rounded-full bg-sunrise px-4 text-xs font-semibold text-white hover:brightness-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sunrise"
-                      >
-                        Add 1 pack
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+                {family.variants.map((variant) => {
+                  const qty = getQty(variant.id);
+                  return (
+                    <tr key={variant.id} className="border-t border-steel even:bg-cloud/60">
+                      <td className="px-4 py-3 font-mono font-semibold text-navy">{variant.neckSizeMm} mm</td>
+                      <td className="px-4 py-3 text-slate">{variant.capacityMl} ml</td>
+                      <td className="px-4 py-3 text-slate">{variant.weightG} g</td>
+                      <td className="px-4 py-3 text-slate">{variant.packingSize.toLocaleString("en-IN")} pcs</td>
+                      <td className="px-4 py-3 font-semibold text-navy">{variant.item}</td>
+                      <td className="px-4 py-2">
+                        <div className="flex items-center rounded-lg border border-steel bg-cloud p-0.5 w-fit">
+                          <button
+                            type="button"
+                            onClick={() => updateQty(variant.id, qty - 1)}
+                            className="flex h-7 w-7 items-center justify-center rounded text-navy hover:bg-steel/35 active:scale-90 transition-all cursor-pointer font-bold text-xs"
+                            disabled={qty <= 1}
+                            aria-label="Decrease pack quantity"
+                          >
+                            &minus;
+                          </button>
+                          <input
+                            type="number"
+                            value={qty}
+                            min={1}
+                            onChange={(e) => updateQty(variant.id, parseInt(e.target.value, 10) || 1)}
+                            className="w-8 text-center bg-transparent font-mono text-xs font-bold text-navy focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                            aria-label="Pack quantity"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => updateQty(variant.id, qty + 1)}
+                            className="flex h-7 w-7 items-center justify-center rounded text-navy hover:bg-steel/35 active:scale-90 transition-all cursor-pointer font-bold text-xs"
+                            aria-label="Increase pack quantity"
+                          >
+                            &#43;
+                          </button>
+                        </div>
+                      </td>
+                      <td className="px-4 py-2 text-right">
+                        <button
+                          type="button"
+                          onClick={() => addItem(variant, qty)}
+                          aria-label={`Add ${qty} packs of ${variant.item}, ${variant.capacityMl} millilitres, ${variant.neckSizeMm} millimetre neck, ${variant.weightG} grams`}
+                          className="min-h-10 rounded-full bg-sunrise px-4 text-xs font-semibold text-white hover:brightness-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sunrise cursor-pointer"
+                        >
+                          Add {qty} packs
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           ) : (
@@ -102,6 +142,7 @@ export function AptusProductDetail({ family }: { family: AptusFamily }) {
                     "Product",
                     "Weight",
                     "Packing size",
+                    "Packs",
                     "",
                   ].map((heading) => (
                     <th key={heading || "action"} scope="col" className="px-4 py-3 font-semibold">
@@ -111,24 +152,56 @@ export function AptusProductDetail({ family }: { family: AptusFamily }) {
                 </tr>
               </thead>
               <tbody>
-                {family.variants.map((variant) => (
-                  <tr key={variant.id} className="border-t border-steel even:bg-cloud/60">
-                    <td className="px-4 py-3 font-mono font-semibold text-navy">{variant.sizeMm} mm</td>
-                    <td className="px-4 py-3 font-semibold text-navy">{variant.product}</td>
-                    <td className="px-4 py-3 text-slate">{variant.weightG} g</td>
-                    <td className="px-4 py-3 text-slate">{variant.packingSize.toLocaleString("en-IN")} pcs</td>
-                    <td className="px-4 py-2 text-right">
-                      <button
-                        type="button"
-                        onClick={() => addItem(variant)}
-                        aria-label={`Add one pack of ${variant.product}, ${variant.sizeMm} millimetres, ${variant.weightG} grams`}
-                        className="min-h-10 rounded-full bg-sunrise px-4 text-xs font-semibold text-white hover:brightness-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sunrise"
-                      >
-                        Add 1 pack
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+                {family.variants.map((variant) => {
+                  const qty = getQty(variant.id);
+                  return (
+                    <tr key={variant.id} className="border-t border-steel even:bg-cloud/60">
+                      <td className="px-4 py-3 font-mono font-semibold text-navy">{variant.sizeMm} mm</td>
+                      <td className="px-4 py-3 font-semibold text-navy">{variant.product}</td>
+                      <td className="px-4 py-3 text-slate">{variant.weightG} g</td>
+                      <td className="px-4 py-3 text-slate">{variant.packingSize.toLocaleString("en-IN")} pcs</td>
+                      <td className="px-4 py-2">
+                        <div className="flex items-center rounded-lg border border-steel bg-cloud p-0.5 w-fit">
+                          <button
+                            type="button"
+                            onClick={() => updateQty(variant.id, qty - 1)}
+                            className="flex h-7 w-7 items-center justify-center rounded text-navy hover:bg-steel/35 active:scale-90 transition-all cursor-pointer font-bold text-xs"
+                            disabled={qty <= 1}
+                            aria-label="Decrease pack quantity"
+                          >
+                            &minus;
+                          </button>
+                          <input
+                            type="number"
+                            value={qty}
+                            min={1}
+                            onChange={(e) => updateQty(variant.id, parseInt(e.target.value, 10) || 1)}
+                            className="w-8 text-center bg-transparent font-mono text-xs font-bold text-navy focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                            aria-label="Pack quantity"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => updateQty(variant.id, qty + 1)}
+                            className="flex h-7 w-7 items-center justify-center rounded text-navy hover:bg-steel/35 active:scale-90 transition-all cursor-pointer font-bold text-xs"
+                            aria-label="Increase pack quantity"
+                          >
+                            &#43;
+                          </button>
+                        </div>
+                      </td>
+                      <td className="px-4 py-2 text-right">
+                        <button
+                          type="button"
+                          onClick={() => addItem(variant, qty)}
+                          aria-label={`Add ${qty} packs of ${variant.product}, ${variant.sizeMm} millimetres, ${variant.weightG} grams`}
+                          className="min-h-10 rounded-full bg-sunrise px-4 text-xs font-semibold text-white hover:brightness-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sunrise cursor-pointer"
+                        >
+                          Add {qty} packs
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           )}

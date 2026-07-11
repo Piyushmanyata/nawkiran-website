@@ -31,12 +31,6 @@ export function AptusNav() {
 
   return (
     <>
-      <a
-        href="#main-content"
-        className="fixed left-3 top-3 z-[70] -translate-y-24 rounded-full bg-navy px-4 py-2 text-sm font-semibold text-white transition-transform focus:translate-y-0"
-      >
-        Skip to main content
-      </a>
       <header className="fixed inset-x-0 top-0 z-50 border-b border-steel bg-white/90 backdrop-blur-xl">
         <nav className="shell flex min-h-[4.5rem] items-center justify-between gap-3" aria-label="Aptus primary">
           <Link
