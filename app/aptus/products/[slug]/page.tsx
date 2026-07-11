@@ -53,26 +53,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!family) return {};
 
   const url = `${APTUS_URL}/products/${family.slug}`;
-  const title = `${family.name} Specifications | Aptus Packaging LLP`;
+  const title = `${family.name} Specifications`;
   const description = getDescription(family);
   const image = CATALOG_IMAGE;
 
   return {
-    title: { absolute: title },
+    title,
     description,
     alternates: { canonical: url },
     openGraph: {
-      title,
+      title: `${title} | Aptus Packaging LLP`,
       description,
-      type: "website",
-      locale: "en_IN",
-      url,
-      siteName: APTUS.name,
       images: [{ url: image, alt: family.name }],
     },
     twitter: {
-      card: "summary_large_image",
-      title,
+      title: `${title} | Aptus Packaging LLP`,
       description,
       images: [image],
     },
@@ -110,11 +105,48 @@ export default async function AptusFamilyPage({ params }: Props) {
       "@type": "ItemList",
       name: `${family.name} catalog specifications`,
       numberOfItems: family.variants.length,
-      itemListElement: family.variants.map((variant, index) => ({
-        "@type": "ListItem",
-        position: index + 1,
-        name: describeVariant(variant),
-      })),
+      itemListElement: family.variants.map((variant, index) => {
+        const isBottle = variant.kind === "bottle";
+        const variantName = isBottle
+          ? `${family.name} - ${variant.item} ${variant.capacityMl}ml`
+          : `${family.name} - ${variant.product} ${variant.sizeMm}mm`;
+        const additionalProperties = isBottle
+          ? [
+              { "@type": "PropertyValue", "name": "Neck Size", "value": `${variant.neckSizeMm} mm` },
+              { "@type": "PropertyValue", "name": "Capacity", "value": `${variant.capacityMl} ml` },
+              { "@type": "PropertyValue", "name": "Weight", "value": `${variant.weightG} g` },
+              { "@type": "PropertyValue", "name": "Packing Size", "value": `${variant.packingSize} pcs` },
+            ]
+          : [
+              { "@type": "PropertyValue", "name": "Size", "value": `${variant.sizeMm} mm` },
+              { "@type": "PropertyValue", "name": "Weight", "value": `${variant.weightG} g` },
+              { "@type": "PropertyValue", "name": "Packing Size", "value": `${variant.packingSize} pcs` },
+            ];
+
+        return {
+          "@type": "ListItem",
+          position: index + 1,
+          item: {
+            "@type": "Product",
+            name: variantName,
+            description: describeVariant(variant),
+            image: CATALOG_IMAGE,
+            category: family.name,
+            material: isBottle ? "PET" : "Plastic",
+            offers: {
+              "@type": "Offer",
+              priceCurrency: "INR",
+              priceRange: "$$",
+              availability: "https://schema.org/InStock",
+              seller: {
+                "@type": "Organization",
+                "@id": `${APTUS_URL}/#organization`,
+              },
+            },
+            additionalProperty: additionalProperties,
+          },
+        };
+      }),
     },
   };
 

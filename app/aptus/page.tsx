@@ -6,26 +6,20 @@ import aptusCatalog from "../../Aptus Catalog.png";
 
 const APTUS_URL = `${SITE_URL}${APTUS_SITE_PATH}`;
 const CATALOG_IMAGE = `${SITE_URL}${aptusCatalog.src}`;
-const TITLE = "Aptus Packaging LLP | PET Bottles & Plastic Closures";
+const TITLE = "PET Bottles & Plastic Closures";
 const DESCRIPTION =
   "Explore Aptus Packaging LLP cosmetic PET bottles, pharma bottles and plastic closures with catalog specifications and pack-based WhatsApp enquiries.";
 
 export const metadata: Metadata = {
-  title: { absolute: TITLE },
+  title: TITLE,
   description: DESCRIPTION,
-  alternates: { canonical: APTUS_URL },
   openGraph: {
-    title: TITLE,
+    title: `${TITLE} | Aptus Packaging LLP`,
     description: DESCRIPTION,
-    type: "website",
-    locale: "en_IN",
-    url: APTUS_URL,
-    siteName: APTUS.name,
     images: [{ url: CATALOG_IMAGE, alt: `${APTUS.name} product catalog` }],
   },
   twitter: {
-    card: "summary_large_image",
-    title: TITLE,
+    title: `${TITLE} | Aptus Packaging LLP`,
     description: DESCRIPTION,
     images: [CATALOG_IMAGE],
   },
