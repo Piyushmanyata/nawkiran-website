@@ -59,12 +59,12 @@ export const APTUS = {
       description: "Japanese Nissei ASB technology. Injection and blowing in a single cycle for zero contamination and clinical clarity."
     },
     {
-      label: "Manufacturing Legacy",
+      label: "SACMI Cap Line",
       prefix: "",
-      to: new Date().getFullYear() - 2009,
+      to: 24,
       decimals: 0,
-      suffix: "+ Years",
-      description: "Decades of combined manufacturing expertise in high-precision polymer injection."
+      suffix: "/7 Production",
+      description: "Italian compression molding machinery running 24/7 to guarantee high-volume supply continuity."
     },
   ],
   qualities: [
