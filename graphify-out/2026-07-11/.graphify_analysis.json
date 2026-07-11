@@ -1,0 +1,391 @@
+{
+  "communities": {
+    "0": [
+      "app_page",
+      "app_page_home",
+      "components_capabilities",
+      "components_capabilities_capabilities",
+      "components_capabilities_icons",
+      "components_countup",
+      "components_countup_countup",
+      "components_faq",
+      "components_faq_faq",
+      "components_faq_faqs",
+      "components_finalcta_finalcta",
+      "components_hero_hero",
+      "components_motion",
+      "components_motion_dawn_ease",
+      "components_motion_reveal",
+      "components_motion_stagger",
+      "components_motion_staggeritem",
+      "components_processtimeline",
+      "components_processtimeline_processtimeline",
+      "components_processtimeline_step",
+      "components_processtimeline_steps",
+      "components_products_products",
+      "components_stats",
+      "components_stats_stats",
+      "components_sunarc",
+      "components_sunarc_animatedarc",
+      "components_sunarc_arcs",
+      "components_sunarc_miniarc",
+      "components_sunarc_sectiondivider",
+      "components_whynawkiran",
+      "components_whynawkiran_points",
+      "components_whynawkiran_whynawkiran",
+      "lib_stats",
+      "lib_stats_capabilities",
+      "lib_stats_companystat",
+      "lib_stats_companystats"
+    ],
+    "1": [
+      "app_sitemap",
+      "app_sitemap_sitemap",
+      "components_contact",
+      "components_contact_contact",
+      "components_contact_minimap",
+      "components_cta",
+      "components_cta_button",
+      "components_cta_callbutton",
+      "components_cta_halo",
+      "components_cta_variant",
+      "components_cta_variants",
+      "components_cta_whatsappbutton",
+      "components_finalcta",
+      "components_floatingcta",
+      "components_floatingcta_floatingcta",
+      "components_footer",
+      "components_hero",
+      "components_icons_arrowright",
+      "components_icons_clockicon",
+      "components_icons_mailicon",
+      "components_icons_mappin",
+      "components_logo",
+      "components_logo_logo",
+      "components_logo_sunmark",
+      "components_nav_nav",
+      "lib_site",
+      "lib_site_addresses",
+      "lib_site_brands",
+      "lib_site_nav_links",
+      "lib_site_phones",
+      "lib_site_walink",
+      "lib_site_whatsapp"
+    ],
+    "2": [
+      "components_addedtocarttoast",
+      "components_addedtocarttoast_addedtocarttoast",
+      "components_cartdrawer",
+      "components_cartdrawer_cartdrawer",
+      "components_cartdrawer_cartitemrow",
+      "components_icons",
+      "components_icons_p",
+      "components_icons_phoneicon",
+      "components_icons_plus",
+      "components_icons_shoppingbagicon",
+      "components_icons_whatsappicon",
+      "components_nav",
+      "components_preform",
+      "components_preform_blownbottle",
+      "components_preform_bottle",
+      "components_preform_clamp",
+      "components_preform_geo",
+      "components_preform_preform",
+      "components_preform_shape",
+      "components_preform_tint",
+      "components_preform_tints",
+      "components_preform_tunedgeo",
+      "components_productdetailinteractive",
+      "components_productdetailinteractive_productdetailinteractive",
+      "components_products_specpanel",
+      "lib_cart_usecart",
+      "lib_products_defaultweight",
+      "lib_products_formatneck",
+      "lib_products_primaryneckmm",
+      "lib_products_product_tint"
+    ],
+    "3": [
+      "app_layout",
+      "app_layout_dmsans",
+      "app_layout_jetbrains",
+      "app_layout_metadata",
+      "app_layout_plusjakarta",
+      "app_layout_rootlayout",
+      "app_layout_structureddata",
+      "app_layout_viewport",
+      "components_products",
+      "components_products_mobileproductstrip",
+      "components_products_neckbutton",
+      "components_products_productfamilybutton",
+      "components_products_weightchip",
+      "lib_cart",
+      "lib_cart_cartcontext",
+      "lib_cart_cartcontexttype",
+      "lib_cart_cartitem",
+      "lib_cart_cartprovider",
+      "lib_products",
+      "lib_products_neckminmax",
+      "lib_products_necknumbers",
+      "lib_products_necksizes",
+      "lib_products_neckspec",
+      "lib_products_product",
+      "lib_products_productbadge",
+      "lib_products_products",
+      "lib_products_totalvariants",
+      "lib_products_weightrange",
+      "lib_site_company"
+    ],
+    "4": [
+      "package",
+      "package_dependencies",
+      "package_dependencies_motion",
+      "package_dependencies_next",
+      "package_dependencies_react",
+      "package_dependencies_react_dom",
+      "package_description",
+      "package_devdependencies",
+      "package_devdependencies_eslint",
+      "package_devdependencies_eslint_config_next",
+      "package_devdependencies_tailwindcss",
+      "package_devdependencies_tailwindcss_postcss",
+      "package_devdependencies_types_node",
+      "package_devdependencies_types_react",
+      "package_devdependencies_types_react_dom",
+      "package_devdependencies_typescript",
+      "package_name",
+      "package_private",
+      "package_scripts",
+      "package_scripts_build",
+      "package_scripts_dev",
+      "package_scripts_lint",
+      "package_scripts_start",
+      "package_version"
+    ],
+    "5": [
+      "tsconfig",
+      "tsconfig_compileroptions",
+      "tsconfig_compileroptions_allowjs",
+      "tsconfig_compileroptions_esmoduleinterop",
+      "tsconfig_compileroptions_incremental",
+      "tsconfig_compileroptions_isolatedmodules",
+      "tsconfig_compileroptions_jsx",
+      "tsconfig_compileroptions_lib",
+      "tsconfig_compileroptions_module",
+      "tsconfig_compileroptions_moduleresolution",
+      "tsconfig_compileroptions_noemit",
+      "tsconfig_compileroptions_paths",
+      "tsconfig_compileroptions_plugins",
+      "tsconfig_compileroptions_resolvejsonmodule",
+      "tsconfig_compileroptions_skiplibcheck",
+      "tsconfig_compileroptions_strict",
+      "tsconfig_compileroptions_target",
+      "tsconfig_exclude",
+      "tsconfig_include",
+      "tsconfig_paths"
+    ],
+    "6": [
+      "app_products_slug_page",
+      "app_products_slug_page_formatnecklocal",
+      "app_products_slug_page_generatemetadata",
+      "app_products_slug_page_generatestaticparams",
+      "app_products_slug_page_productpage",
+      "app_products_slug_page_props",
+      "app_products_slug_page_tint",
+      "components_breadcrumb",
+      "components_breadcrumb_breadcrumb",
+      "components_breadcrumb_breadcrumbitem",
+      "components_breadcrumb_breadcrumbprops",
+      "components_footer_footer",
+      "components_spectable",
+      "components_spectable_spectable"
+    ],
+    "7": [
+      "public_manifest",
+      "public_manifest_background_color",
+      "public_manifest_description",
+      "public_manifest_display",
+      "public_manifest_icons",
+      "public_manifest_name",
+      "public_manifest_short_name",
+      "public_manifest_start_url",
+      "public_manifest_theme_color"
+    ],
+    "8": [
+      "vercel",
+      "vercel_headers",
+      "vercel_regions"
+    ],
+    "9": [
+      "eslintrc",
+      "eslintrc_extends"
+    ],
+    "10": [
+      "next_config",
+      "next_config_nextconfig"
+    ],
+    "11": [
+      "postcss_config",
+      "postcss_config_config"
+    ]
+  },
+  "cohesion": {
+    "0": 0.10634920634920635,
+    "1": 0.11693548387096774,
+    "2": 0.16551724137931034,
+    "3": 0.11330049261083744,
+    "4": 0.08333333333333333,
+    "5": 0.1,
+    "6": 0.17582417582417584,
+    "7": 0.2222222222222222,
+    "8": 0.6666666666666666,
+    "9": 1.0,
+    "10": 1.0,
+    "11": 1.0
+  },
+  "gods": [
+    {
+      "id": "tsconfig_compileroptions",
+      "label": "compilerOptions",
+      "degree": 16
+    },
+    {
+      "id": "lib_products_formatneck",
+      "label": "formatNeck()",
+      "degree": 15
+    },
+    {
+      "id": "lib_site_walink",
+      "label": "waLink()",
+      "degree": 15
+    },
+    {
+      "id": "lib_site_phones",
+      "label": "PHONES",
+      "degree": 12
+    },
+    {
+      "id": "lib_cart_usecart",
+      "label": "useCart()",
+      "degree": 11
+    },
+    {
+      "id": "lib_products_primaryneckmm",
+      "label": "primaryNeckMm()",
+      "degree": 11
+    },
+    {
+      "id": "components_motion_reveal",
+      "label": "Reveal()",
+      "degree": 9
+    },
+    {
+      "id": "lib_products_product",
+      "label": "Product",
+      "degree": 8
+    },
+    {
+      "id": "lib_products_productbadge",
+      "label": "productBadge()",
+      "degree": 7
+    },
+    {
+      "id": "components_addedtocarttoast_addedtocarttoast",
+      "label": "AddedToCartToast()",
+      "degree": 6
+    }
+  ],
+  "surprises": [
+    {
+      "source": "ProductPage()",
+      "target": "productBadge()",
+      "source_files": [
+        "app/products/[slug]/page.tsx",
+        "lib/products.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; bridges separate communities; peripheral node `ProductPage()` unexpectedly reaches hub `productBadge()`"
+    },
+    {
+      "source": "NeckButton()",
+      "target": "formatNeck()",
+      "source_files": [
+        "components/Products.tsx",
+        "lib/products.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; bridges separate communities; peripheral node `NeckButton()` unexpectedly reaches hub `formatNeck()`"
+    },
+    {
+      "source": "formatNeckLocal()",
+      "target": "formatNeck()",
+      "source_files": [
+        "app/products/[slug]/page.tsx",
+        "lib/products.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; bridges separate communities"
+    },
+    {
+      "source": "generateMetadata()",
+      "target": "weightRange()",
+      "source_files": [
+        "app/products/[slug]/page.tsx",
+        "lib/products.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; bridges separate communities"
+    },
+    {
+      "source": "AddedToCartToast()",
+      "target": "waLink()",
+      "source_files": [
+        "components/AddedToCartToast.tsx",
+        "lib/site.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; bridges separate communities"
+    }
+  ],
+  "questions": [
+    {
+      "type": "bridge_node",
+      "question": "Why does `motion` connect `devDependencies` to `page.tsx`?",
+      "why": "High betweenness centrality (0.160) - this node is a cross-community bridge."
+    },
+    {
+      "type": "isolated_nodes",
+      "question": "What connects `extends`, `plusJakarta`, `dmSans` to the rest of the system?",
+      "why": "76 weakly-connected nodes found - possible documentation gaps or missing edges."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `page.tsx` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.10634920634920635 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `site.ts` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.11693548387096774 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `Products.tsx` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.11330049261083744 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `devDependencies` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.08333333333333333 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `compilerOptions` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.1 - nodes in this community are weakly interconnected."
+    }
+  ]
+}
