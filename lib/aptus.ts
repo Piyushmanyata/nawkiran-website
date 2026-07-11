@@ -32,19 +32,56 @@ export const APTUS = {
     },
   },
   about:
-    "Aptus Packaging LLP is mainly engaged in manufacturing of Pharma Bottles, Cosmetic pet Bottles and compression molding caps (SACMI) for water closures. Aptus has the best machines which manufactures pharma bottles along with we have SACMI machine (APTUS brand) for making water closures for mineral water. The daily production is 7.9 lacs caps per day. Moroover, we have 5 single stage ASB machine for pharma, Cosmetic and oil industry. We are making close to 1,50,000 bottles of all range per day.",
+    "Aptus Packaging LLP is a high-technology division of Nawkiran engaged in high-volume manufacturing of premium Pharma Bottles, Cosmetic PET Bottles, and compression-moulded water closures. The plant features world-renowned Italian SACMI compression molding machinery producing 7.9 Lacs caps per day, alongside five Japanese Nissei ASB single-stage injection stretch blow moulding lines producing close to 1,50,000 bottles per day for pharmaceutical, cosmetic, and edible oil industries.",
   claims: [
-    { label: "Daily Production", prefix: "", to: 7.9, decimals: 1, suffix: " Lacs Caps" },
-    { label: "Bottle Production", prefix: "Close to ", to: 150000, decimals: 0, suffix: " Bottles / Day" },
-    { label: "Machines", prefix: "", to: 5, decimals: 0, suffix: " Single Stage ASB Machines" },
+    { 
+      label: "Cap Production (SACMI Tech)", 
+      prefix: "", 
+      to: 7.9, 
+      decimals: 1, 
+      suffix: " Lacs Caps",
+      description: "Compression-moulded daily on world-leading Italian SACMI machinery for perfect thread sealing."
+    },
+    { 
+      label: "Daily Bottle Production", 
+      prefix: "Close to ", 
+      to: 150000, 
+      decimals: 0, 
+      suffix: " Bottles / Day",
+      description: "High-speed automated blowing to supply cosmetic, pharma, and edible oil industries."
+    },
+    { 
+      label: "ASB Machinery Powerhouse", 
+      prefix: "", 
+      to: 5, 
+      decimals: 0, 
+      suffix: " Single Stage ASB Machines",
+      description: "Japanese Nissei ASB technology. Injection and blowing in a single cycle for zero contamination and clinical clarity."
+    },
   ],
   qualities: [
-    { title: "Premium Quality", icon: "award" },
-    { title: "Advanced Technology", icon: "cpu" },
-    { title: "High Production Capacity", icon: "factory" },
-    { title: "Reliable & Trusted", icon: "shield" },
+    { 
+      title: "SACMI Compression Molding", 
+      icon: "cpu", 
+      description: "Unmatched cap dimensional accuracy and weight consistency using high-speed Italian SACMI machinery." 
+    },
+    { 
+      title: "5 Single-Stage ASB Lines", 
+      icon: "factory", 
+      description: "Flawless, scratch-free, and high-clarity bottles produced on premium Japanese Nissei ASB machines." 
+    },
+    { 
+      title: "Controlled Hygienic Floor", 
+      icon: "shield", 
+      description: "Controlled environment manufacturing meeting strict pharmaceutical-grade and food-grade packaging standards." 
+    },
+    { 
+      title: "Zero-Contact Automation", 
+      icon: "award", 
+      description: "Automated conveyor lines and box packaging ensuring no manual contact with finished caps and bottles." 
+    },
   ],
-  machineClaim: "Advanced Machines Quality Assured",
+  machineClaim: "World-class Italian & Japanese machinery for premium packaging",
 } as const;
 
 export type AptusFamilySlug =

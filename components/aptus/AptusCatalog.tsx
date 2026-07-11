@@ -112,13 +112,18 @@ export function AptusCatalog() {
             gap={0.08}
           >
             {APTUS.claims.map((claim) => (
-              <StaggerItem key={claim.label} className="bg-dawn p-6 sm:p-8">
-                <div className="font-display text-[clamp(1.7rem,3vw,2.5rem)] font-extrabold leading-tight text-navy">
-                  {claim.prefix && <span className="text-sunrise">{claim.prefix}</span>}
-                  <CountUp to={claim.to} decimals={claim.decimals ?? 0} />
-                  {claim.suffix && <span className="text-sunrise">{claim.suffix}</span>}
+              <StaggerItem key={claim.label} className="bg-dawn p-6 sm:p-8 flex flex-col justify-between">
+                <div>
+                  <div className="font-display text-[clamp(2.1rem,4vw,2.85rem)] font-extrabold leading-none text-navy">
+                    {claim.prefix && <span className="text-sunrise">{claim.prefix}</span>}
+                    <CountUp to={claim.to} decimals={claim.decimals ?? 0} />
+                    {claim.suffix && <span className="text-sunrise">{claim.suffix}</span>}
+                  </div>
+                  <p className="mt-3.5 text-sm font-bold uppercase tracking-wider text-sunrise">{claim.label}</p>
+                  {claim.description && (
+                    <p className="mt-2 text-xs text-slate leading-relaxed">{claim.description}</p>
+                  )}
                 </div>
-                <p className="mt-2 text-sm font-semibold text-slate">{claim.label}</p>
               </StaggerItem>
             ))}
           </Stagger>
@@ -187,6 +192,9 @@ export function AptusCatalog() {
                     <Icon className="h-5.5 w-5.5" />
                   </span>
                   <p className="mt-4 font-display text-lg font-semibold text-white">{q.title}</p>
+                  {q.description && (
+                    <p className="mt-2 text-sm text-white/70 leading-relaxed">{q.description}</p>
+                  )}
                 </StaggerItem>
               );
             })}
