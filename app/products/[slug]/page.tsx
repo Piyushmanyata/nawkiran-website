@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { products, type Product, formatNeck, weightRange, productBadge } from "@/lib/products";
+import { products, formatNeck, weightRange, productBadge } from "@/lib/products";
 import { SITE_URL } from "@/lib/site";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
@@ -20,26 +20,13 @@ export async function generateStaticParams() {
   }));
 }
 
-const TINT: Record<string, "blue" | "clear" | "amber"> = {
-  "3-star": "blue",
-  "1810-pco": "clear",
-  "1881-pco": "clear",
-  jar: "amber",
-  "fridge-bottle": "blue",
-  ropp: "amber",
-};
-
-function formatNeckLocal(size: string): string {
-  return formatNeck(size);
-}
-
 // Generate dynamic metadata for SEO targeting
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const product = products.find((p) => p.id === slug);
   if (!product) return {};
 
-  const neckText = product.necks.map((n) => formatNeckLocal(n.size)).join(", ");
+  const neckText = product.necks.map((n) => formatNeck(n.size)).join(", ");
   const [wmin, wmax] = weightRange(product);
   const variantCount = product.necks.reduce((s, n) => s + n.weights.length, 0);
   const title = `${product.name} PET Preforms Manufacturer Kolkata | Nawkiran`;
@@ -87,35 +74,46 @@ export default async function ProductPage({ params }: Props) {
   const primaryNeck = product.necks[0];
   const neckMm = Math.max(...(primaryNeck.size.match(/\d+/g) ?? []).map(Number));
 
-  // Product schema
+  // Product schema + breadcrumb structured data
   const productSchema = {
     "@context": "https://schema.org",
-    "@type": "Product",
-    "name": `${product.name} PET Preform`,
-    "image": `${SITE_URL}/hero-preforms.png`,
-    "description": product.description,
-    "category": "PET Preforms",
-    "material": "Virgin food-grade PET",
-    "brand": {
-      "@type": "Brand",
-      "name": "Nawkiran Polyplast",
-    },
-    "manufacturer": {
-      "@type": "Organization",
-      "name": "Nawkiran Polyplast Pvt. Ltd.",
-      "url": SITE_URL,
-    },
-    "offers": {
-      "@type": "AggregateOffer",
-      "priceCurrency": "INR",
-      "price": "0.00",
-      "priceRange": "$$",
-      "availability": "https://schema.org/InStock",
-      "seller": {
-        "@type": "Organization",
-        "name": "Nawkiran Polyplast Pvt. Ltd.",
+    "@graph": [
+      {
+        "@type": "Product",
+        "name": `${product.name} PET Preform`,
+        "image": `${SITE_URL}/hero-preforms.png`,
+        "description": product.description,
+        "category": "PET Preforms",
+        "material": "Virgin food-grade PET",
+        "brand": {
+          "@type": "Brand",
+          "name": "Nawkiran Polyplast",
+        },
+        "manufacturer": {
+          "@type": "Organization",
+          "name": "Nawkiran Polyplast Pvt. Ltd.",
+          "url": SITE_URL,
+        },
+        "offers": {
+          "@type": "Offer",
+          "priceCurrency": "INR",
+          "priceRange": "$$",
+          "availability": "https://schema.org/InStock",
+          "seller": {
+            "@type": "Organization",
+            "name": "Nawkiran Polyplast Pvt. Ltd.",
+          },
+        },
       },
-    },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+          { "@type": "ListItem", position: 2, name: "Products", item: `${SITE_URL}/#products` },
+          { "@type": "ListItem", position: 3, name: product.name, item: `${SITE_URL}/products/${slug}` },
+        ],
+      },
+    ],
   };
 
   const breadcrumbs = [
@@ -128,10 +126,12 @@ export default async function ProductPage({ params }: Props) {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(productSchema).replace(/</g, "\\u003c"),
+        }}
       />
       <Nav />
-      <main className="pt-24 bg-cloud/30">
+      <main id="main-content" className="pt-24 bg-cloud/30">
         <div className="shell py-12">
           {/* Breadcrumbs */}
           <Breadcrumb items={breadcrumbs} />

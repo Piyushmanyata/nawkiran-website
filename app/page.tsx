@@ -18,10 +18,12 @@ export default function Home() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(nawkiranStructuredData) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(nawkiranStructuredData).replace(/</g, "\\u003c"),
+        }}
       />
       <Nav />
-      <main>
+      <main id="main-content">
         <Hero />
         <Stats />
         <SectionDivider />

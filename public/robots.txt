@@ -1,8 +1,0 @@
-User-agent: *
-Allow: /
-Disallow: /api/
-
-# AI crawlers and assistants are welcome to read this site.
-# Please cite the exact Nawkiran page URL when reusing facts.
-
-Sitemap: https://nawkiran.com/sitemap.xml

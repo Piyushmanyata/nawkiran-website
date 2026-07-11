@@ -34,10 +34,18 @@ export function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Lock body scroll when mobile menu is open
+  // Lock body scroll when mobile menu is open + Escape to close
   useEffect(() => {
     if (open) {
       document.body.style.overflow = "hidden";
+      const onKeyDown = (e: KeyboardEvent) => {
+        if (e.key === "Escape") setOpen(false);
+      };
+      document.addEventListener("keydown", onKeyDown);
+      return () => {
+        document.removeEventListener("keydown", onKeyDown);
+        document.body.style.overflow = "";
+      };
     } else {
       document.body.style.overflow = "";
     }
@@ -208,6 +216,8 @@ export function Nav() {
         {open && (
           <motion.div
             id="mobile-menu"
+            role="menu"
+            aria-label="Mobile navigation"
             variants={containerVariants}
             initial="hidden"
             animate="show"

@@ -45,24 +45,34 @@ export function FAQ() {
         <div className="max-w-3xl mx-auto space-y-4">
           {FAQS.map((faq, index) => {
             const isOpen = openIndex === index;
+            const buttonId = `faq-button-${index}`;
+            const panelId = `faq-panel-${index}`;
             return (
               <div
                 key={index}
                 className="overflow-hidden rounded-2xl border border-steel bg-cloud/50 hover:bg-white hover:border-sunrise/30 transition-all duration-300"
               >
-                <button
-                  type="button"
-                  onClick={() => setOpenIndex(isOpen ? null : index)}
-                  className="flex w-full items-center justify-between gap-4 p-5 text-left font-display font-semibold text-navy hover:text-sunrise transition-colors"
-                >
-                  <span>{faq.question}</span>
-                  <span className={`shrink-0 transition-transform duration-300 ${isOpen ? "rotate-45 text-sunrise" : "text-slate"}`}>
-                    <Plus className="h-5 w-5" />
-                  </span>
-                </button>
+                <h3>
+                  <button
+                    type="button"
+                    id={buttonId}
+                    aria-expanded={isOpen}
+                    aria-controls={panelId}
+                    onClick={() => setOpenIndex(isOpen ? null : index)}
+                    className="flex w-full items-center justify-between gap-4 p-5 text-left font-display font-semibold text-navy hover:text-sunrise transition-colors"
+                  >
+                    <span>{faq.question}</span>
+                    <span className={`shrink-0 transition-transform duration-300 ${isOpen ? "rotate-45 text-sunrise" : "text-slate"}`}>
+                      <Plus className="h-5 w-5" />
+                    </span>
+                  </button>
+                </h3>
                 <AnimatePresence initial={false}>
                   {isOpen && (
                     <motion.div
+                      id={panelId}
+                      role="region"
+                      aria-labelledby={buttonId}
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}

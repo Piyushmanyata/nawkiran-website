@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useCart, type CartItem, QTY_STEP, QTY_MIN, QTY_MAX } from "@/lib/cart";
 import { Preform } from "./Preform";
@@ -132,17 +132,54 @@ export function CartDrawer() {
     localStorage.setItem("nawkiran_cust_state", val);
   };
 
-  // Lock body scroll when drawer is open
+  // Lock body scroll when drawer is open + Escape to close + focus trap
+  const panelRef = useRef<HTMLDivElement>(null);
+  const previouslyFocused = useRef<HTMLElement | null>(null);
+
   useEffect(() => {
     if (isOpen) {
+      previouslyFocused.current = document.activeElement as HTMLElement;
       document.body.style.overflow = "hidden";
+      // Focus the close button or first focusable element
+      const firstFocusable = panelRef.current?.querySelector<HTMLElement>(
+        'button, a, input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      );
+      firstFocusable?.focus();
+
+      const onKeyDown = (e: KeyboardEvent) => {
+        if (e.key === "Escape") {
+          setIsOpen(false);
+          return;
+        }
+        if (e.key === "Tab" && panelRef.current) {
+          const focusables = panelRef.current.querySelectorAll<HTMLElement>(
+            'button, a, input, select, textarea, [tabindex]:not([tabindex="-1"])'
+          );
+          if (focusables.length === 0) return;
+          const first = focusables[0];
+          const last = focusables[focusables.length - 1];
+          if (e.shiftKey && document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+          } else if (!e.shiftKey && document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+          }
+        }
+      };
+      document.addEventListener("keydown", onKeyDown);
+      return () => {
+        document.removeEventListener("keydown", onKeyDown);
+        document.body.style.overflow = "";
+        previouslyFocused.current?.focus();
+      };
     } else {
       document.body.style.overflow = "";
     }
     return () => {
       document.body.style.overflow = "";
     };
-  }, [isOpen]);
+  }, [isOpen, setIsOpen]);
 
   // Construct structured WhatsApp message and open link
   const handleWhatsAppCheckout = () => {
@@ -180,11 +217,16 @@ export function CartDrawer() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setIsOpen(false)}
+            aria-hidden="true"
             className="fixed inset-0 z-50 bg-night/50 backdrop-blur-[4px]"
           />
 
           {/* Sliding Panel */}
           <motion.aside
+            ref={panelRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Enquiry cart"
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
