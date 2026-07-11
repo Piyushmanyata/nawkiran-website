@@ -17,7 +17,7 @@ export function AptusProductDetail({ family }: { family: AptusFamily }) {
 
   const getQty = (id: string) => quantities[id] ?? 10;
   const updateQty = (id: string, val: number) => {
-    setQuantities((prev) => ({ ...prev, [id]: Math.max(1, val) }));
+    setQuantities((prev) => ({ ...prev, [id]: Math.max(10, val) }));
   };
 
   return (
@@ -93,9 +93,9 @@ export function AptusProductDetail({ family }: { family: AptusFamily }) {
                         <div className="flex items-center rounded-lg border border-steel bg-cloud p-0.5 w-fit">
                           <button
                             type="button"
-                            onClick={() => updateQty(variant.id, qty - 1)}
+                            onClick={() => updateQty(variant.id, qty - 10)}
                             className="flex h-7 w-7 items-center justify-center rounded text-navy hover:bg-steel/35 active:scale-90 transition-all cursor-pointer font-bold text-xs"
-                            disabled={qty <= 1}
+                            disabled={qty <= 10}
                             aria-label="Decrease pack quantity"
                           >
                             &minus;
@@ -103,14 +103,15 @@ export function AptusProductDetail({ family }: { family: AptusFamily }) {
                           <input
                             type="number"
                             value={qty}
-                            min={1}
-                            onChange={(e) => updateQty(variant.id, parseInt(e.target.value, 10) || 1)}
+                            min={10}
+                            step={10}
+                            onChange={(e) => updateQty(variant.id, parseInt(e.target.value, 10) || 10)}
                             className="w-8 text-center bg-transparent font-mono text-xs font-bold text-navy focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                             aria-label="Pack quantity"
                           />
                           <button
                             type="button"
-                            onClick={() => updateQty(variant.id, qty + 1)}
+                            onClick={() => updateQty(variant.id, qty + 10)}
                             className="flex h-7 w-7 items-center justify-center rounded text-navy hover:bg-steel/35 active:scale-90 transition-all cursor-pointer font-bold text-xs"
                             aria-label="Increase pack quantity"
                           >
@@ -164,9 +165,9 @@ export function AptusProductDetail({ family }: { family: AptusFamily }) {
                         <div className="flex items-center rounded-lg border border-steel bg-cloud p-0.5 w-fit">
                           <button
                             type="button"
-                            onClick={() => updateQty(variant.id, qty - 1)}
+                            onClick={() => updateQty(variant.id, qty - 10)}
                             className="flex h-7 w-7 items-center justify-center rounded text-navy hover:bg-steel/35 active:scale-90 transition-all cursor-pointer font-bold text-xs"
-                            disabled={qty <= 1}
+                            disabled={qty <= 10}
                             aria-label="Decrease pack quantity"
                           >
                             &minus;
@@ -174,14 +175,15 @@ export function AptusProductDetail({ family }: { family: AptusFamily }) {
                           <input
                             type="number"
                             value={qty}
-                            min={1}
-                            onChange={(e) => updateQty(variant.id, parseInt(e.target.value, 10) || 1)}
+                            min={10}
+                            step={10}
+                            onChange={(e) => updateQty(variant.id, parseInt(e.target.value, 10) || 10)}
                             className="w-8 text-center bg-transparent font-mono text-xs font-bold text-navy focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                             aria-label="Pack quantity"
                           />
                           <button
                             type="button"
-                            onClick={() => updateQty(variant.id, qty + 1)}
+                            onClick={() => updateQty(variant.id, qty + 10)}
                             className="flex h-7 w-7 items-center justify-center rounded text-navy hover:bg-steel/35 active:scale-90 transition-all cursor-pointer font-bold text-xs"
                             aria-label="Increase pack quantity"
                           >
