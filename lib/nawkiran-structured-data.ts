@@ -57,7 +57,7 @@ export const nawkiranStructuredData = {
             "@type": "Product",
             name: "PET Bottle Preforms",
             description:
-              "Virgin-grade PET preforms for water bottles, soft drinks, and edible oil — available in PCO 1810, PCO 1881, 3-Star, ROPP, jar, and fridge-bottle families. Neck sizes 22–120 mm, weights 10–150 g.",
+              "Virgin-grade PET preforms for water bottles, soft drinks, and edible oil — available in PCO 1810, PCO 1881, 3-Start/Alaska, ROPP, jar, and fridge-bottle families. Neck sizes 22–120 mm, weights 10–150 g.",
             category: "PET Preforms",
             manufacturer: { "@id": `${SITE_URL}/#organization` },
           },
@@ -118,7 +118,7 @@ export const nawkiranStructuredData = {
           name: "What types of PET preforms does Nawkiran Polyplast manufacture?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Nawkiran Polyplast manufactures 6 families of PET preforms: 3-Star neck (packaged drinking water), PCO 1810 & PCO 1881 (carbonated soft drinks & hot-fill juices), jar preforms (confectionery & dry food), fridge-bottle preforms (reusable water bottles), and ROPP neck preforms (edible oil, pharmaceuticals, liquor). Neck sizes range from 22 mm to 120 mm.",
+            text: "Nawkiran Polyplast manufactures 6 families of PET preforms: 3-Start/Alaska neck (packaged drinking water), PCO 1810 & PCO 1881 (carbonated soft drinks & hot-fill juices), jar preforms (confectionery & dry food), fridge-bottle preforms (reusable water bottles), and ROPP neck preforms (edible oil, pharmaceuticals, liquor). Neck sizes range from 22 mm to 120 mm.",
           },
         },
         {

@@ -5,7 +5,7 @@ const FAQS = [
   {
     question: "What types of PET preforms does Nawkiran Polyplast manufacture?",
     answer:
-      "Nawkiran Polyplast manufactures 6 families of PET preforms: 3-Star neck (packaged drinking water), PCO 1810 & PCO 1881 (carbonated soft drinks & hot-fill juices), jar preforms (confectionery & dry food), fridge-bottle preforms (reusable water bottles), and ROPP neck preforms (edible oil, pharmaceuticals, liquor). Neck sizes range from 22 mm to 120 mm.",
+      "Nawkiran Polyplast manufactures 6 families of PET preforms: 3-Start/Alaska neck (packaged drinking water), PCO 1810 & PCO 1881 (carbonated soft drinks & hot-fill juices), jar preforms (confectionery & dry food), fridge-bottle preforms (reusable water bottles), and ROPP neck preforms (edible oil, pharmaceuticals, liquor). Neck sizes range from 22 mm to 120 mm.",
   },
   {
     question: "What is your monthly PET preform production capacity?",

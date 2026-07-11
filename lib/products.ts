@@ -19,8 +19,8 @@ export type Product = {
 
 export const products: Product[] = [
   {
-    id: "3-star",
-    name: "3 Star",
+    id: "3-start-alaska",
+    name: "3 Start/Alaska",
     short: "Water & beverage preforms",
     use: "Packaged drinking water & general beverage bottles",
     description:
@@ -131,7 +131,7 @@ export function neckSizes(p: Product): string {
 
 // Resin tint per product family — single source of truth for all illustrations.
 export const PRODUCT_TINT: Record<string, "blue" | "amber" | "clear"> = {
-  "3-star": "blue",
+  "3-start-alaska": "blue",
   "1810-pco": "clear",
   "1881-pco": "clear",
   jar: "amber",

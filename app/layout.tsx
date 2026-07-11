@@ -55,7 +55,7 @@ export const metadata: Metadata = {
     "PCO 1810 preform",
     "PCO 1881 preform",
     "ROPP preform India",
-    "3-star neck preform",
+    "3-start/alaska neck preform",
     "Nawkiran Polyplast",
     "PET preform wholesale",
     "water bottle preform",

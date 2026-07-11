@@ -60,7 +60,7 @@ export function Footer() {
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-white/60">Product Families</p>
             <ul className="mt-4 space-y-2.5">
               {[
-                { name: "3 Star Water", slug: "3-star" },
+                { name: "3 Start/Alaska Water", slug: "3-start-alaska" },
                 { name: "1810 PCO CSD", slug: "1810-pco" },
                 { name: "1881 PCO Short CSD", slug: "1881-pco" },
                 { name: "Wide-Mouth Jar", slug: "jar" },
