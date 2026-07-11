@@ -1,46 +1,108 @@
 {
   "communities": {
     "0": [
-      "app_page",
-      "app_page_home",
-      "components_capabilities",
-      "components_capabilities_capabilities",
-      "components_capabilities_icons",
-      "components_countup",
-      "components_countup_countup",
-      "components_faq",
-      "components_faq_faq",
-      "components_faq_faqs",
-      "components_finalcta_finalcta",
-      "components_hero_hero",
-      "components_motion",
-      "components_motion_dawn_ease",
-      "components_motion_reveal",
-      "components_motion_stagger",
-      "components_motion_staggeritem",
-      "components_processtimeline",
-      "components_processtimeline_processtimeline",
-      "components_processtimeline_step",
-      "components_processtimeline_steps",
-      "components_products_products",
-      "components_stats",
-      "components_stats_stats",
-      "components_sunarc",
-      "components_sunarc_animatedarc",
-      "components_sunarc_arcs",
-      "components_sunarc_miniarc",
-      "components_sunarc_sectiondivider",
-      "components_whynawkiran",
-      "components_whynawkiran_points",
-      "components_whynawkiran_whynawkiran",
-      "lib_stats",
-      "lib_stats_capabilities",
-      "lib_stats_companystat",
-      "lib_stats_companystats"
-    ],
-    "1": [
+      "app_not_found",
+      "app_not_found_metadata",
+      "app_not_found_notfound",
+      "app_products_slug_page",
+      "app_products_slug_page_generatemetadata",
+      "app_products_slug_page_generatestaticparams",
+      "app_products_slug_page_productpage",
+      "app_products_slug_page_props",
       "app_sitemap",
       "app_sitemap_sitemap",
+      "components_addedtocarttoast",
+      "components_addedtocarttoast_addedtocarttoast",
+      "components_cartdrawer",
+      "components_cartdrawer_cartdrawer",
+      "components_cartdrawer_cartitemrow",
+      "components_footer",
+      "components_footer_footer",
+      "components_icons_shoppingbagicon",
+      "components_nav",
+      "components_nav_nav",
+      "components_productdetailinteractive",
+      "components_productdetailinteractive_productdetailinteractive",
+      "components_products",
+      "components_products_mobileproductstrip",
+      "components_products_neckbutton",
+      "components_products_productfamilybutton",
+      "components_products_products",
+      "components_products_specpanel",
+      "components_products_weightchip",
+      "components_spectable",
+      "components_spectable_spectable",
+      "lib_cart",
+      "lib_cart_cartcontext",
+      "lib_cart_cartcontexttype",
+      "lib_cart_cartitem",
+      "lib_cart_cartprovider",
+      "lib_cart_usecart",
+      "lib_products",
+      "lib_products_defaultweight",
+      "lib_products_formatneck",
+      "lib_products_neckminmax",
+      "lib_products_necknumbers",
+      "lib_products_necksizes",
+      "lib_products_neckspec",
+      "lib_products_primaryneckmm",
+      "lib_products_product",
+      "lib_products_product_tint",
+      "lib_products_productbadge",
+      "lib_products_products",
+      "lib_products_totalvariants",
+      "lib_products_weightrange"
+    ],
+    "1": [
+      "app_aptus_layout",
+      "app_aptus_layout_aptuslayout",
+      "app_aptus_layout_metadata",
+      "app_aptus_page",
+      "app_aptus_page_aptuspage",
+      "app_aptus_page_metadata",
+      "app_aptus_page_structureddata",
+      "components_aptus_aptuscart",
+      "components_aptus_aptuscart_aptuscartcontext",
+      "components_aptus_aptuscart_aptuscartcontextvalue",
+      "components_aptus_aptuscart_aptuscartdrawer",
+      "components_aptus_aptuscart_aptuscartitem",
+      "components_aptus_aptuscart_aptuscartprovider",
+      "components_aptus_aptuscart_aptusvariant",
+      "components_aptus_aptuscart_describevariant",
+      "components_aptus_aptuscart_readstoreditems",
+      "components_aptus_aptuscart_useaptuscart",
+      "components_aptus_aptuscart_validpackcount",
+      "components_aptus_aptuscart_variantbyid",
+      "components_aptus_aptuscatalog_aptuscatalog",
+      "components_aptus_aptuscatalogcrop",
+      "components_aptus_aptuscatalogcrop_aptuscatalogcrop",
+      "components_aptus_aptuscatalogcrop_column",
+      "components_aptus_aptusfooter",
+      "components_aptus_aptusfooter_aptusfooter",
+      "components_aptus_aptusnav",
+      "components_aptus_aptusnav_aptusnav",
+      "components_aptus_aptusnav_itemvariants",
+      "components_aptus_aptusnav_links",
+      "components_aptus_aptusnav_menuvariants",
+      "components_aptus_aptusproductdetail",
+      "components_aptus_aptusproductdetail_aptusproductdetail",
+      "components_companyswitcher",
+      "components_companyswitcher_companyswitcher",
+      "components_companyswitcher_companyswitcherprops",
+      "lib_aptus",
+      "lib_aptus_aptus",
+      "lib_aptus_aptus_site_path",
+      "lib_aptus_aptusbottlefamily",
+      "lib_aptus_aptusbottlevariant",
+      "lib_aptus_aptusclosurefamily",
+      "lib_aptus_aptusclosurevariant",
+      "lib_aptus_aptusfamily",
+      "lib_aptus_aptusfamilybase",
+      "lib_aptus_aptusfamilyslug",
+      "lib_aptus_aptuswalink"
+    ],
+    "2": [
+      "components_aptus_aptuscatalog",
       "components_contact",
       "components_contact_contact",
       "components_contact_minimap",
@@ -51,91 +113,34 @@
       "components_cta_variant",
       "components_cta_variants",
       "components_cta_whatsappbutton",
-      "components_finalcta",
       "components_floatingcta",
       "components_floatingcta_floatingcta",
-      "components_footer",
-      "components_hero",
+      "components_icons",
       "components_icons_arrowright",
+      "components_icons_awardicon",
       "components_icons_clockicon",
+      "components_icons_cpuicon",
+      "components_icons_factoryicon",
       "components_icons_mailicon",
       "components_icons_mappin",
-      "components_logo",
-      "components_logo_logo",
-      "components_logo_sunmark",
-      "components_nav_nav",
+      "components_icons_p",
+      "components_icons_phoneicon",
+      "components_icons_shieldcheckicon",
+      "components_icons_whatsappicon",
       "lib_site",
       "lib_site_addresses",
       "lib_site_brands",
+      "lib_site_company",
       "lib_site_nav_links",
       "lib_site_phones",
       "lib_site_walink",
-      "lib_site_whatsapp"
-    ],
-    "2": [
-      "components_addedtocarttoast",
-      "components_addedtocarttoast_addedtocarttoast",
-      "components_cartdrawer",
-      "components_cartdrawer_cartdrawer",
-      "components_cartdrawer_cartitemrow",
-      "components_icons",
-      "components_icons_p",
-      "components_icons_phoneicon",
-      "components_icons_plus",
-      "components_icons_shoppingbagicon",
-      "components_icons_whatsappicon",
-      "components_nav",
-      "components_preform",
-      "components_preform_blownbottle",
-      "components_preform_bottle",
-      "components_preform_clamp",
-      "components_preform_geo",
-      "components_preform_preform",
-      "components_preform_shape",
-      "components_preform_tint",
-      "components_preform_tints",
-      "components_preform_tunedgeo",
-      "components_productdetailinteractive",
-      "components_productdetailinteractive_productdetailinteractive",
-      "components_products_specpanel",
-      "lib_cart_usecart",
-      "lib_products_defaultweight",
-      "lib_products_formatneck",
-      "lib_products_primaryneckmm",
-      "lib_products_product_tint"
+      "lib_site_whatsapp",
+      "lib_stats",
+      "lib_stats_capabilities",
+      "lib_stats_companystat",
+      "lib_stats_companystats"
     ],
     "3": [
-      "app_layout",
-      "app_layout_dmsans",
-      "app_layout_jetbrains",
-      "app_layout_metadata",
-      "app_layout_plusjakarta",
-      "app_layout_rootlayout",
-      "app_layout_structureddata",
-      "app_layout_viewport",
-      "components_products",
-      "components_products_mobileproductstrip",
-      "components_products_neckbutton",
-      "components_products_productfamilybutton",
-      "components_products_weightchip",
-      "lib_cart",
-      "lib_cart_cartcontext",
-      "lib_cart_cartcontexttype",
-      "lib_cart_cartitem",
-      "lib_cart_cartprovider",
-      "lib_products",
-      "lib_products_neckminmax",
-      "lib_products_necknumbers",
-      "lib_products_necksizes",
-      "lib_products_neckspec",
-      "lib_products_product",
-      "lib_products_productbadge",
-      "lib_products_products",
-      "lib_products_totalvariants",
-      "lib_products_weightrange",
-      "lib_site_company"
-    ],
-    "4": [
       "package",
       "package_dependencies",
       "package_dependencies_motion",
@@ -159,7 +164,33 @@
       "package_scripts_dev",
       "package_scripts_lint",
       "package_scripts_start",
+      "package_scripts_test_aptus",
       "package_version"
+    ],
+    "4": [
+      "app_page",
+      "app_page_home",
+      "components_capabilities",
+      "components_capabilities_capabilities",
+      "components_capabilities_icons",
+      "components_faq",
+      "components_faq_faq",
+      "components_faq_faqs",
+      "components_finalcta",
+      "components_finalcta_finalcta",
+      "components_finalcta_trust_points",
+      "components_hero",
+      "components_hero_hero",
+      "components_hero_stars",
+      "components_hero_trust_badges",
+      "components_icons_plus",
+      "components_stats",
+      "components_stats_stats",
+      "components_whynawkiran",
+      "components_whynawkiran_points",
+      "components_whynawkiran_whynawkiran",
+      "lib_nawkiran_structured_data",
+      "lib_nawkiran_structured_data_nawkiranstructureddata"
     ],
     "5": [
       "tsconfig",
@@ -184,22 +215,108 @@
       "tsconfig_paths"
     ],
     "6": [
-      "app_products_slug_page",
-      "app_products_slug_page_formatnecklocal",
-      "app_products_slug_page_generatemetadata",
-      "app_products_slug_page_generatestaticparams",
-      "app_products_slug_page_productpage",
-      "app_products_slug_page_props",
-      "app_products_slug_page_tint",
+      "agents",
+      "agents_14_testing_strategy",
+      "agents_15_visual_and_browser_validation",
+      "agents_17_definition_of_done",
+      "agents_19_change_control_and_safety",
+      "agents_1_purpose",
+      "agents_20_required_working_artifacts",
+      "agents_21_standard_plan_template",
+      "agents_22_standard_batch_record",
+      "agents_23_final_delivery_format",
+      "agents_24_immediate_stop_conditions",
+      "agents_25_core_principle",
+      "agents_2_instruction_priority",
+      "agents_3_non_negotiable_operating_rules",
+      "agents_7_phase_0_establish_the_project_completion_goal",
+      "agents_agents_md_planning_first_multi_agent_execution_protocol"
+    ],
+    "7": [
+      "app_aptus_products_slug_page",
+      "app_aptus_products_slug_page_aptusfamilypage",
+      "app_aptus_products_slug_page_aptusvariant",
+      "app_aptus_products_slug_page_describevariant",
+      "app_aptus_products_slug_page_family_descriptions",
+      "app_aptus_products_slug_page_generatemetadata",
+      "app_aptus_products_slug_page_generatestaticparams",
+      "app_aptus_products_slug_page_getdescription",
+      "app_aptus_products_slug_page_props",
       "components_breadcrumb",
       "components_breadcrumb_breadcrumb",
       "components_breadcrumb_breadcrumbitem",
       "components_breadcrumb_breadcrumbprops",
-      "components_footer_footer",
-      "components_spectable",
-      "components_spectable_spectable"
+      "lib_aptus_getaptusfamily"
     ],
-    "7": [
+    "8": [
+      "components_motion",
+      "components_motion_dawn_ease",
+      "components_motion_reveal",
+      "components_motion_stagger",
+      "components_motion_staggeritem",
+      "components_processtimeline",
+      "components_processtimeline_processtimeline",
+      "components_processtimeline_step",
+      "components_processtimeline_steps",
+      "components_sunarc",
+      "components_sunarc_animatedarc",
+      "components_sunarc_arcs",
+      "components_sunarc_miniarc",
+      "components_sunarc_sectiondivider"
+    ],
+    "9": [
+      "tmp_verify_aptus",
+      "tmp_verify_aptus_chrome",
+      "tmp_verify_aptus_consoleerrors",
+      "tmp_verify_aptus_evaluate",
+      "tmp_verify_aptus_getjson",
+      "tmp_verify_aptus_navigate",
+      "tmp_verify_aptus_networkerrors",
+      "tmp_verify_aptus_pending",
+      "tmp_verify_aptus_profile",
+      "tmp_verify_aptus_screenshot",
+      "tmp_verify_aptus_send",
+      "tmp_verify_aptus_socket",
+      "tmp_verify_aptus_wait"
+    ],
+    "10": [
+      "agents_13_1_trivial_fast_loop",
+      "agents_13_2_standard_and_substantial_batch_loop",
+      "agents_13_mandatory_batch_loop",
+      "agents_step_1_define",
+      "agents_step_2_establish_baseline",
+      "agents_step_3_execute_according_to_capability_mode",
+      "agents_step_4_sub_agent_self_check",
+      "agents_step_5_integrate",
+      "agents_step_6_verify_the_integrated_batch",
+      "agents_step_7_review",
+      "agents_step_8_decide",
+      "agents_step_9_update_the_ledger"
+    ],
+    "11": [
+      "components_preform",
+      "components_preform_blownbottle",
+      "components_preform_bottle",
+      "components_preform_clamp",
+      "components_preform_geo",
+      "components_preform_preform",
+      "components_preform_shape",
+      "components_preform_tint",
+      "components_preform_tints",
+      "components_preform_tunedgeo"
+    ],
+    "12": [
+      "product",
+      "product_accessibility_inclusion",
+      "product_anti_references",
+      "product_brand_personality",
+      "product_design_principles",
+      "product_product",
+      "product_product_purpose",
+      "product_register",
+      "product_users"
+    ],
+    "13": [
       "public_manifest",
       "public_manifest_background_color",
       "public_manifest_description",
@@ -210,39 +327,162 @@
       "public_manifest_start_url",
       "public_manifest_theme_color"
     ],
-    "8": [
+    "14": [
+      "app_layout",
+      "app_layout_dmsans",
+      "app_layout_jetbrains",
+      "app_layout_metadata",
+      "app_layout_plusjakarta",
+      "app_layout_rootlayout",
+      "app_layout_viewport"
+    ],
+    "15": [
+      "agents_4_1_planner",
+      "agents_4_2_executor_orchestrator",
+      "agents_4_3_specialized_sub_agents",
+      "agents_4_4_reviewer",
+      "agents_4_5_delegation_and_concurrency_capability_gate",
+      "agents_4_required_roles"
+    ],
+    "16": [
+      "agents_0_1_trivial_fast_path",
+      "agents_0_2_standard_task",
+      "agents_0_3_substantial_or_high_risk_task",
+      "agents_0_4_triage_output",
+      "agents_0_task_triage_and_protocol_selection"
+    ],
+    "17": [
+      "agents_12_1_no_one_shot_execution",
+      "agents_12_2_delegation_and_parallelism",
+      "agents_12_3_sub_agent_work_order",
+      "agents_12_4_model_routing",
+      "agents_12_phase_5_execution_orchestration"
+    ],
+    "18": [
+      "agents_5_1_ponytail_always_active",
+      "agents_5_2_leanctx_always_active",
+      "agents_5_3_graphify_always_active",
+      "agents_5_4_mandatory_tool_bootstrap",
+      "agents_5_mandatory_context_and_efficiency_stack"
+    ],
+    "19": [
+      "agents_6_1_required_discovery",
+      "agents_6_2_selection_standard",
+      "agents_6_3_skill_manifest",
+      "agents_6_4_mandatory_planning_skill",
+      "agents_6_skill_discovery_and_use"
+    ],
+    "20": [
+      "agents_10_1_required_plan_sections",
+      "agents_10_2_task_quality_standard",
+      "agents_10_3_plan_granularity",
+      "agents_10_phase_3_create_the_executor_ready_plan"
+    ],
+    "21": [
+      "agents_11_1_required_review_lenses",
+      "agents_11_2_failure_pre_mortem",
+      "agents_11_3_plan_readiness_gate",
+      "agents_11_phase_4_adversarial_plan_review"
+    ],
+    "22": [
+      "agents_16_1_requirements_traceability",
+      "agents_16_2_required_final_checks",
+      "agents_16_3_independent_final_review",
+      "agents_16_full_project_final_review"
+    ],
+    "23": [
+      "agents_9_1_interview_rules",
+      "agents_9_2_required_topics",
+      "agents_9_3_exit_criteria",
+      "agents_9_phase_2_grill_me_requirement_discovery"
+    ],
+    "24": [
+      "agents_18_1_context_rules",
+      "agents_18_2_hard_cost_and_token_budget_gate",
+      "agents_18_token_and_context_optimization"
+    ],
+    "25": [
+      "agents_8_1_required_reconnaissance",
+      "agents_8_2_reconnaissance_output",
+      "agents_8_phase_1_repository_reconnaissance"
+    ],
+    "26": [
+      "components_logo",
+      "components_logo_logo",
+      "components_logo_sunmark"
+    ],
+    "27": [
       "vercel",
       "vercel_headers",
       "vercel_regions"
     ],
-    "9": [
+    "28": [
+      "app_robots",
+      "app_robots_robots"
+    ],
+    "29": [
+      "components_countup",
+      "components_countup_countup"
+    ],
+    "30": [
       "eslintrc",
       "eslintrc_extends"
     ],
-    "10": [
+    "31": [
+      "lib_aptus_test",
+      "lib_aptus_test_aptusmodule"
+    ],
+    "32": [
       "next_config",
       "next_config_nextconfig"
     ],
-    "11": [
+    "33": [
       "postcss_config",
       "postcss_config_config"
     ]
   },
   "cohesion": {
-    "0": 0.10634920634920635,
-    "1": 0.11693548387096774,
-    "2": 0.16551724137931034,
-    "3": 0.11330049261083744,
-    "4": 0.08333333333333333,
+    "0": 0.09490196078431372,
+    "1": 0.08019323671497584,
+    "2": 0.1036036036036036,
+    "3": 0.08,
+    "4": 0.11462450592885376,
     "5": 0.1,
-    "6": 0.17582417582417584,
-    "7": 0.2222222222222222,
-    "8": 0.6666666666666666,
-    "9": 1.0,
-    "10": 1.0,
-    "11": 1.0
+    "6": 0.125,
+    "7": 0.2087912087912088,
+    "8": 0.1978021978021978,
+    "9": 0.21794871794871795,
+    "10": 0.16666666666666666,
+    "11": 0.24444444444444444,
+    "12": 0.2222222222222222,
+    "13": 0.2222222222222222,
+    "14": 0.2857142857142857,
+    "15": 0.3333333333333333,
+    "16": 0.4,
+    "17": 0.4,
+    "18": 0.4,
+    "19": 0.4,
+    "20": 0.5,
+    "21": 0.5,
+    "22": 0.5,
+    "23": 0.5,
+    "24": 0.6666666666666666,
+    "25": 0.6666666666666666,
+    "26": 0.6666666666666666,
+    "27": 0.6666666666666666,
+    "28": 1.0,
+    "29": 1.0,
+    "30": 1.0,
+    "31": 1.0,
+    "32": 1.0,
+    "33": 1.0
   },
   "gods": [
+    {
+      "id": "agents_agents_md_planning_first_multi_agent_execution_protocol",
+      "label": "AGENTS.md — Planning-First Multi-Agent Execution Protocol",
+      "degree": 27
+    },
     {
       "id": "tsconfig_compileroptions",
       "label": "compilerOptions",
@@ -254,19 +494,9 @@
       "degree": 15
     },
     {
-      "id": "lib_site_walink",
-      "label": "waLink()",
-      "degree": 15
-    },
-    {
-      "id": "lib_site_phones",
-      "label": "PHONES",
+      "id": "agents_13_mandatory_batch_loop",
+      "label": "13. Mandatory Batch Loop",
       "degree": 12
-    },
-    {
-      "id": "lib_cart_usecart",
-      "label": "useCart()",
-      "degree": 11
     },
     {
       "id": "lib_products_primaryneckmm",
@@ -274,27 +504,54 @@
       "degree": 11
     },
     {
-      "id": "components_motion_reveal",
-      "label": "Reveal()",
+      "id": "lib_aptus_aptus_site_path",
+      "label": "APTUS_SITE_PATH",
       "degree": 9
     },
     {
-      "id": "lib_products_product",
+      "id": "lib_aptus_aptuswalink",
+      "label": "aptusWaLink()",
+      "degree": 9
+    },
+    {
+      "id": "product_product",
       "label": "Product",
       "degree": 8
     },
     {
-      "id": "lib_products_productbadge",
-      "label": "productBadge()",
-      "degree": 7
+      "id": "components_icons_whatsappicon",
+      "label": "WhatsAppIcon()",
+      "degree": 8
     },
     {
-      "id": "components_addedtocarttoast_addedtocarttoast",
-      "label": "AddedToCartToast()",
-      "degree": 6
+      "id": "lib_site_walink",
+      "label": "waLink()",
+      "degree": 7
     }
   ],
   "surprises": [
+    {
+      "source": "WhatsAppButton()",
+      "target": "waLink()",
+      "source_files": [
+        "components/CTA.tsx",
+        "lib/site.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; peripheral node `WhatsAppButton()` unexpectedly reaches hub `waLink()`"
+    },
+    {
+      "source": "SpecTable()",
+      "target": "formatNeck()",
+      "source_files": [
+        "components/SpecTable.tsx",
+        "lib/products.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; peripheral node `SpecTable()` unexpectedly reaches hub `formatNeck()`"
+    },
     {
       "source": "ProductPage()",
       "target": "productBadge()",
@@ -304,7 +561,7 @@
       ],
       "confidence": "EXTRACTED",
       "relation": "calls",
-      "why": "connects across different repos/directories; bridges separate communities; peripheral node `ProductPage()` unexpectedly reaches hub `productBadge()`"
+      "why": "connects across different repos/directories; peripheral node `ProductPage()` unexpectedly reaches hub `productBadge()`"
     },
     {
       "source": "NeckButton()",
@@ -315,77 +572,55 @@
       ],
       "confidence": "EXTRACTED",
       "relation": "calls",
-      "why": "connects across different repos/directories; bridges separate communities; peripheral node `NeckButton()` unexpectedly reaches hub `formatNeck()`"
+      "why": "connects across different repos/directories; peripheral node `NeckButton()` unexpectedly reaches hub `formatNeck()`"
     },
     {
-      "source": "formatNeckLocal()",
-      "target": "formatNeck()",
+      "source": "Contact()",
+      "target": "PHONES",
       "source_files": [
-        "app/products/[slug]/page.tsx",
-        "lib/products.ts"
-      ],
-      "confidence": "EXTRACTED",
-      "relation": "calls",
-      "why": "connects across different repos/directories; bridges separate communities"
-    },
-    {
-      "source": "generateMetadata()",
-      "target": "weightRange()",
-      "source_files": [
-        "app/products/[slug]/page.tsx",
-        "lib/products.ts"
-      ],
-      "confidence": "EXTRACTED",
-      "relation": "calls",
-      "why": "connects across different repos/directories; bridges separate communities"
-    },
-    {
-      "source": "AddedToCartToast()",
-      "target": "waLink()",
-      "source_files": [
-        "components/AddedToCartToast.tsx",
+        "components/Contact.tsx",
         "lib/site.ts"
       ],
       "confidence": "EXTRACTED",
-      "relation": "calls",
-      "why": "connects across different repos/directories; bridges separate communities"
+      "relation": "references",
+      "why": "connects across different repos/directories"
     }
   ],
   "questions": [
     {
       "type": "bridge_node",
-      "question": "Why does `motion` connect `devDependencies` to `page.tsx`?",
-      "why": "High betweenness centrality (0.160) - this node is a cross-community bridge."
+      "question": "Why does `motion` connect `devDependencies` to `motion.tsx`?",
+      "why": "High betweenness centrality (0.068) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `AGENTS.md — Planning-First Multi-Agent Execution Protocol` connect `AGENTS.md — Planning-First Multi-Agent Execution Protocol` to `13. Mandatory Batch Loop`, `4. Required Roles`, `0. Task Triage and Protocol Selection`, `12. Phase 5 — Execution Orchestration`, `5. Mandatory Context and Efficiency Stack`, `6. Skill Discovery and Use`, `10. Phase 3 — Create the Executor-Ready Plan`, `11. Phase 4 — Adversarial Plan Review`, `16. Full-Project Final Review`, `9. Phase 2 — Grill Me Requirement Discovery`, `18. Token and Context Optimization`, `8. Phase 1 — Repository Reconnaissance`?",
+      "why": "High betweenness centrality (0.038) - this node is a cross-community bridge."
     },
     {
       "type": "isolated_nodes",
-      "question": "What connects `extends`, `plusJakarta`, `dmSans` to the rest of the system?",
-      "why": "76 weakly-connected nodes found - possible documentation gaps or missing edges."
+      "question": "What connects `extends`, `Variant`, `variants` to the rest of the system?",
+      "why": "180 weakly-connected nodes found - possible documentation gaps or missing edges."
     },
     {
       "type": "low_cohesion",
-      "question": "Should `page.tsx` be split into smaller, more focused modules?",
-      "why": "Cohesion score 0.10634920634920635 - nodes in this community are weakly interconnected."
+      "question": "Should `products.ts` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.09490196078431372 - nodes in this community are weakly interconnected."
     },
     {
       "type": "low_cohesion",
-      "question": "Should `site.ts` be split into smaller, more focused modules?",
-      "why": "Cohesion score 0.11693548387096774 - nodes in this community are weakly interconnected."
+      "question": "Should `aptus.ts` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.08019323671497584 - nodes in this community are weakly interconnected."
     },
     {
       "type": "low_cohesion",
-      "question": "Should `Products.tsx` be split into smaller, more focused modules?",
-      "why": "Cohesion score 0.11330049261083744 - nodes in this community are weakly interconnected."
+      "question": "Should `icons.tsx` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.1036036036036036 - nodes in this community are weakly interconnected."
     },
     {
       "type": "low_cohesion",
       "question": "Should `devDependencies` be split into smaller, more focused modules?",
-      "why": "Cohesion score 0.08333333333333333 - nodes in this community are weakly interconnected."
-    },
-    {
-      "type": "low_cohesion",
-      "question": "Should `compilerOptions` be split into smaller, more focused modules?",
-      "why": "Cohesion score 0.1 - nodes in this community are weakly interconnected."
+      "why": "Cohesion score 0.08 - nodes in this community are weakly interconnected."
     }
   ]
 }
