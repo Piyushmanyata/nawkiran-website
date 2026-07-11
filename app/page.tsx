@@ -11,10 +11,15 @@ import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
 import { FloatingCTA } from "@/components/FloatingCTA";
 import { SectionDivider } from "@/components/SunArc";
+import { nawkiranStructuredData } from "@/lib/nawkiran-structured-data";
 
 export default function Home() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(nawkiranStructuredData) }}
+      />
       <Nav />
       <main>
         <Hero />

@@ -10,6 +10,7 @@ import { NAV_LINKS, PHONES, waLink } from "@/lib/site";
 import { useCart } from "@/lib/cart";
 import { CartDrawer } from "./CartDrawer";
 import { AddedToCartToast } from "./AddedToCartToast";
+import { CompanySwitcher } from "./CompanySwitcher";
 
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
@@ -113,6 +114,8 @@ export function Nav() {
             </span>
           </Link>
 
+          <CompanySwitcher current="nawkiran" className="hidden xl:inline-flex" />
+
           {/* Desktop links */}
           <div className="hidden items-center gap-7 lg:flex">
             {NAV_LINKS.map((l) => (
@@ -212,6 +215,11 @@ export function Nav() {
             className="overflow-hidden border-b border-steel bg-white/95 backdrop-blur-xl lg:hidden"
           >
             <div className="shell flex flex-col gap-1 py-4">
+              <CompanySwitcher
+                current="nawkiran"
+                onNavigate={() => setOpen(false)}
+                className="mb-2 self-start"
+              />
               {NAV_LINKS.map((l) => (
                 <motion.a
                   key={l.href}

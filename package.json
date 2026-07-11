@@ -7,7 +7,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test:aptus": "node --no-warnings --experimental-strip-types --test lib/aptus.test.ts"
   },
   "dependencies": {
     "motion": "^12",
