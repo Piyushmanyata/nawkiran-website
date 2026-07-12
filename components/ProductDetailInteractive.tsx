@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { type Product, type NeckSpec, PRODUCT_TINT, primaryNeckMm, formatNeck, defaultWeight } from "@/lib/products";
 import { Preform, BlownBottle } from "./Preform";
 import { useCart, QTY_STEP, QTY_MIN, QTY_MAX } from "@/lib/cart";
@@ -14,6 +14,7 @@ export function ProductDetailInteractive({ product }: { product: Product }) {
   const [qty, setQty] = useState(100);
   const [isAdded, setIsAdded] = useState(false);
   const addedTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const reduceMotion = useReducedMotion();
 
   const { addItem } = useCart();
 
@@ -65,6 +66,7 @@ export function ProductDetailInteractive({ product }: { product: Product }) {
                     key={n.size}
                     type="button"
                     onClick={() => handleNeckChange(n)}
+                    aria-pressed={active}
                     className={`whitespace-nowrap rounded-full border px-4 py-2.5 text-sm font-semibold transition-colors cursor-pointer ${
                       active
                         ? "border-navy bg-navy text-white"
@@ -96,6 +98,7 @@ export function ProductDetailInteractive({ product }: { product: Product }) {
                     key={w}
                     type="button"
                     onClick={() => setSelectedWeight(w)}
+                    aria-pressed={active}
                     className={`tnum rounded-xl border py-2.5 font-mono text-sm font-semibold transition-[transform,background-color,border-color,color,box-shadow] cursor-pointer ${
                       active
                         ? "border-sunrise bg-sunrise text-white shadow-md scale-[1.04]"
@@ -129,6 +132,9 @@ export function ProductDetailInteractive({ product }: { product: Product }) {
                   type="number"
                   id="qty-detail-input"
                   value={qty}
+                  min={QTY_MIN}
+                  max={QTY_MAX}
+                  step={QTY_STEP}
                   onChange={(e) => setQty(Math.min(QTY_MAX, Math.max(QTY_MIN, parseInt(e.target.value, 10) || QTY_MIN)))}
                   className="w-16 text-center bg-transparent font-mono text-base font-bold text-navy focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                 />
@@ -159,8 +165,8 @@ export function ProductDetailInteractive({ product }: { product: Product }) {
               >
                 {isAdded ? (
                   <motion.span
-                    initial={{ scale: 0.5, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
+                    initial={reduceMotion ? false : { scale: 0.5, opacity: 0 }}
+                    animate={reduceMotion ? { opacity: 1 } : { scale: 1, opacity: 1 }}
                     className="flex items-center gap-1.5"
                   >
                     Added to Cart ✓
@@ -173,7 +179,7 @@ export function ProductDetailInteractive({ product }: { product: Product }) {
                 )}
               </button>
               <span className="text-xs text-slate font-mono">
-                Items accumulate in your cart for a single WhatsApp checkout.
+                Items accumulate in your cart for one WhatsApp quote request.
               </span>
             </div>
           </div>
@@ -181,7 +187,7 @@ export function ProductDetailInteractive({ product }: { product: Product }) {
       </div>
 
       {/* Right Column: Dynamic Interactive Rendering Card */}
-      <div className="relative sticky top-24 overflow-hidden rounded-3xl bg-gradient-to-b from-[#0d1e3e] to-night p-6 text-white shadow-xl min-h-[30rem] flex flex-col justify-between">
+      <div className="relative lg:sticky lg:top-24 overflow-hidden rounded-3xl bg-gradient-to-b from-[#0d1e3e] to-night p-6 text-white shadow-xl min-h-[30rem] flex flex-col justify-between">
         <div className="grid-texture absolute inset-0 opacity-40" />
         <div
           className="absolute -right-16 top-10 h-60 w-60 rounded-full opacity-22 blur-[52px]"
@@ -209,16 +215,16 @@ export function ProductDetailInteractive({ product }: { product: Product }) {
           <AnimatePresence mode="popLayout">
             <motion.div
               key={`${product.id}-${neckMm}-${selectedWeight}`}
-              initial={{ opacity: 0.85, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0.85, scale: 0.96 }}
-              transition={{ duration: 0.25, ease: DAWN_EASE }}
+              initial={reduceMotion ? false : { opacity: 0.85, scale: 0.96 }}
+              animate={reduceMotion ? { opacity: 1 } : { opacity: 1, scale: 1 }}
+              exit={reduceMotion ? { opacity: 0 } : { opacity: 0.85, scale: 0.96 }}
+              transition={{ duration: reduceMotion ? 0 : 0.25, ease: DAWN_EASE }}
               className="z-10 flex items-center justify-center"
             >
               <Preform
                 shape={product.illustration}
                 tint={tint}
-                uid={`product-page-${product.id}`}
+                uid={`product-page-${product.id}-${selectedNeck.size}-${selectedWeight}`}
                 neckMm={neckMm}
                 weightG={selectedWeight}
                 className="h-72 sm:h-80 w-auto drop-shadow-[0_22px_32px_rgba(0,0,0,0.45)] transition-transform duration-300"

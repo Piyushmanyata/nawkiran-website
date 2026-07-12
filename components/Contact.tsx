@@ -13,13 +13,16 @@ export function Contact() {
   const [spec, setSpec] = useState("");
   const [monthlyQuantity, setMonthlyQuantity] = useState("");
   const primary = PHONES.find((p) => p.primary) ?? PHONES[0];
+  const requestedQuantity = Number(monthlyQuantity);
+  const hasValidQuantity = /^(?:\d+(?:\.\d*)?|\.\d+)$/.test(monthlyQuantity) && Number.isFinite(requestedQuantity);
+  const quantityText = hasValidQuantity ? monthlyQuantity : "to be discussed";
 
-  const waText = `Hi Nawkiran,${name ? ` this is ${name}.` : ""} I'm interested in ${family || "PET"} preforms. ${spec ? `Neck / weight: ${spec}. ` : ""}${monthlyQuantity ? `Approx. monthly quantity: ${monthlyQuantity} kg.` : "Approx. monthly quantity: to be discussed."}`;
+  const waText = `Hi Nawkiran,${name ? ` this is ${name}.` : ""} I'm interested in ${family || "PET"} preforms. ${spec ? `Neck / weight: ${spec}. ` : ""}Approx. monthly quantity: ${quantityText}${hasValidQuantity ? " kg" : "."}`;
 
   const emailHref =
     `mailto:${EMAIL}?subject=${encodeURIComponent("PET Preform Enquiry")}` +
     `&body=${encodeURIComponent(
-      `Hello Nawkiran Polyplast,\n\nI would like a quote for the following:\n- Family: ${family || ""}\n- Neck size / weight: ${spec || ""}\n- Approx. monthly quantity: ${monthlyQuantity || ""} kg\n\nName: ${name || ""}\n\nThank you.`,
+      `Hello Nawkiran Polyplast,\n\nI would like a quote for the following:\n- Family: ${family || ""}\n- Neck size / weight: ${spec || ""}\n- Approx. monthly quantity: ${hasValidQuantity ? `${quantityText} kg` : "to be discussed"}\n\nName: ${name || ""}\n\nThank you.`,
     )}`;
 
   return (
@@ -52,15 +55,17 @@ export function Contact() {
             <div className="mt-6 space-y-4">
               <div>
                 <label htmlFor="c-name" className="mb-1.5 block text-sm font-medium text-white/80">
-                  Your name <span className="text-white/40">(optional)</span>
+                  Your name <span className="text-white/60">(optional)</span>
                 </label>
                 <input
                   id="c-name"
+                  name="name"
                   type="text"
+                  autoComplete="name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="e.g. Rahul Sharma"
-                  className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-white placeholder:text-white/35 focus:border-sunrise focus:bg-white/10 focus:outline-none"
+                  className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-white placeholder:text-white/65 focus:border-sunrise focus:bg-white/10 focus:outline-none"
                 />
               </div>
               <div>
@@ -69,6 +74,7 @@ export function Contact() {
                 </label>
                 <select
                   id="c-family"
+                  name="family"
                   value={family}
                   onChange={(e) => setFamily(e.target.value)}
                   className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-white focus:border-sunrise focus:bg-white/10 focus:outline-none"
@@ -84,31 +90,39 @@ export function Contact() {
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
                   <label htmlFor="c-spec" className="mb-1.5 block text-sm font-medium text-white/80">
-                    Neck / weight <span className="text-white/40">(optional)</span>
+                    Neck / weight <span className="text-white/60">(optional)</span>
                   </label>
                   <input
                     id="c-spec"
+                    name="specification"
                     type="text"
                     value={spec}
                     onChange={(e) => setSpec(e.target.value)}
                     placeholder="e.g. 28 mm / 18 g"
-                    className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-white placeholder:text-white/35 focus:border-sunrise focus:bg-white/10 focus:outline-none"
+                    className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-white placeholder:text-white/65 focus:border-sunrise focus:bg-white/10 focus:outline-none"
                   />
                 </div>
                 <div>
                   <label htmlFor="c-quantity" className="mb-1.5 block text-sm font-medium text-white/80">
-                    Monthly quantity <span className="text-white/40">(kg)</span>
+                    Monthly quantity <span className="text-white/60">(kg)</span>
                   </label>
                   <input
                     id="c-quantity"
+                    name="monthly-quantity"
                     type="number"
                     min="0"
+                    step="any"
                     inputMode="numeric"
                     value={monthlyQuantity}
                     onChange={(e) => setMonthlyQuantity(e.target.value)}
+                    aria-invalid={monthlyQuantity !== "" && !hasValidQuantity}
+                    aria-describedby={monthlyQuantity !== "" && !hasValidQuantity ? "c-quantity-error" : undefined}
                     placeholder="e.g. 5000"
-                    className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-white placeholder:text-white/35 focus:border-sunrise focus:bg-white/10 focus:outline-none"
+                    className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-white placeholder:text-white/65 focus:border-sunrise focus:bg-white/10 focus:outline-none"
                   />
+                  {monthlyQuantity !== "" && !hasValidQuantity && (
+                    <p id="c-quantity-error" role="alert" className="mt-1.5 text-sm text-white/80">Enter a non-negative quantity or leave this blank.</p>
+                  )}
                 </div>
               </div>
             </div>
@@ -144,7 +158,7 @@ export function Contact() {
           <Reveal delay={0.1} className="space-y-4">
             {/* phones */}
             <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-6">
-              <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-white/50">
+              <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-white/65">
                 <PhoneIcon className="h-4 w-4" /> Call us directly
               </p>
               <div className="mt-4 space-y-2">
@@ -169,7 +183,7 @@ export function Contact() {
                 <MailIcon className="h-4 w-4 text-amber" />
                 <span className="text-sm">{EMAIL}</span>
               </a>
-              <p className="mt-3 flex items-center gap-2 px-4 text-sm text-white/55">
+              <p className="mt-3 flex items-center gap-2 px-4 text-sm text-white/65">
                 <ClockIcon className="h-4 w-4 text-amber" /> Mon – Sat · 10 AM – 7 PM IST
               </p>
             </div>
@@ -178,11 +192,11 @@ export function Contact() {
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
                 <LocationMap label={ADDRESSES.office.label} query={ADDRESSES.office.lines.join(", ")} href={ADDRESSES.office.maps} />
-                <address className="mt-2 not-italic text-xs leading-relaxed text-white/60">{ADDRESSES.office.lines.join(" · ")}</address>
+                <address className="mt-2 not-italic text-xs leading-relaxed text-white/65">{ADDRESSES.office.lines.join(" · ")}</address>
               </div>
               <div>
                 <LocationMap label={ADDRESSES.plant.label} query={ADDRESSES.plant.lines.join(", ")} href={ADDRESSES.plant.maps} />
-                <address className="mt-2 not-italic text-xs leading-relaxed text-white/60">{ADDRESSES.plant.lines.join(" · ")}</address>
+                <address className="mt-2 not-italic text-xs leading-relaxed text-white/65">{ADDRESSES.plant.lines.join(" · ")}</address>
               </div>
             </div>
           </Reveal>

@@ -46,7 +46,7 @@ export function WhyNawkiran() {
             {POINTS.map((p) => (
               <StaggerItem key={p.title} className="group bg-dawn p-5 sm:p-6 transition-colors duration-300 hover:bg-white">
                 <div className="flex items-center gap-2.5">
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-sunrise/10 text-sunrise transition-colors group-hover:bg-sunrise group-hover:text-white">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-sunrise/10 text-sunrise-ink transition-colors group-hover:bg-sunrise group-hover:text-white">
                     <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                       <path d={p.icon} />
                     </svg>

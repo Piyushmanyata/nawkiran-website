@@ -9,6 +9,7 @@
   --color-navy: #152847; /* brand NAW navy — headings/ink */
   --color-indigo: #253768; /* twilight indigo — gradient mid, dark borders */
   --color-sunrise: #e8531a; /* dawn orange — KIRAN, primary CTA (deeper, refined) */
+  --color-sunrise-dark: #c84411; /* pressed and hover state for sunrise actions */
   --color-amber: #f09210; /* amber gold — secondary warm accent, glow */
   --color-sun: #f5ab00; /* warm gold — light core, badges */
 
@@ -16,7 +17,8 @@
   --color-dawn: #fef7ef; /* warm off-white — editorial sections */
   --color-cloud: #f8fafc; /* cool neutral fill — chips, zebra */
   --color-steel: #cbd5e1; /* hairline borders */
-  --color-slate: #64748b; /* muted secondary text */
+  --color-slate: #5f7086; /* muted secondary text — WCAG AA on dawn */
+  --color-sunrise-ink: #bf3b0d; /* AA text accent on light surfaces */
   --color-mist: #e8edf5; /* very light blue — hover states, subtle fills */
   --color-steel-light: #94a3b8; /* muted text on dark surfaces — WCAG AA on night */
 
@@ -44,6 +46,7 @@
   --color-indigo: #4f304b;    /* Deep berry */
   --color-sunrise: #a94d54;   /* Muted oxblood accent */
   --color-sunrise-dark: #843944;
+  --color-sunrise-ink: #a94d54;
   --color-amber: #c88655;     /* Copper highlight */
   --color-dawn: #fbf7f3;      /* Porcelain surface */
   --color-mist: #f2e7e4;      /* Soft rose fill */
@@ -112,6 +115,10 @@
     font-size: 0.8125rem;
     letter-spacing: 0.11em;
     text-transform: uppercase;
+    color: var(--color-sunrise-ink);
+  }
+
+  .bg-night .eyebrow {
     color: var(--color-sunrise);
   }
 

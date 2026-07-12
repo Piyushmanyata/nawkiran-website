@@ -2,10 +2,9 @@
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import {
   products,
-  upcoming,
   weightRange,
   PRODUCT_TINT,
   defaultWeight,
@@ -44,6 +43,7 @@ function MobileProductStrip({
             key={p.id}
             type="button"
             onClick={() => onSelect(p)}
+            aria-pressed={active}
             className={`inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3.5 py-2 text-sm font-semibold transition-colors duration-200 ${
               active
                 ? "border-transparent text-white shadow-[0_4px_12px_-4px_rgba(0,0,0,0.3)]"
@@ -80,6 +80,7 @@ function ProductFamilyButton({
     <button
       type="button"
       onClick={onSelect}
+      aria-pressed={active}
       className={`group flex w-full items-center gap-3 rounded-2xl border p-3 text-left transition-[border-color,background-color,box-shadow] ${
         active
           ? "border-sunrise bg-white shadow-[0_0_0_1px_rgba(243,107,33,0.15),0_6px_20px_-8px_rgba(243,107,33,0.45)]"
@@ -116,6 +117,7 @@ function NeckButton({ neck, active, onSelect }: { neck: NeckSpec; active: boolea
     <button
       type="button"
       onClick={onSelect}
+      aria-pressed={active}
       className={`whitespace-nowrap rounded-full border px-4 py-2 text-sm font-semibold transition-colors ${
         active ? "border-navy bg-navy text-white" : "border-steel bg-white text-navy hover:border-sunrise"
       }`}
@@ -130,6 +132,7 @@ function WeightChip({ weight, active, onSelect }: { weight: number; active: bool
     <button
       type="button"
       onClick={onSelect}
+      aria-pressed={active}
       className={`tnum rounded-xl border px-2.5 py-2 font-mono text-sm font-semibold transition-[transform,background-color,border-color,box-shadow] duration-150 ${
         active
           ? "border-sunrise bg-sunrise text-white shadow-[0_4px_14px_-6px_rgba(243,107,33,0.7)] scale-[1.06]"
@@ -162,6 +165,13 @@ function SpecPanel({
   const [qty, setQty] = useState(100);
   const [isAdded, setIsAdded] = useState(false);
   const addedTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const reduceMotion = useReducedMotion();
+  const upcomingMessage =
+    p.id === "3-start-alaska" && neck.size === "26 / 22 MM"
+      ? "A 27.5 g option for this neck finish is coming shortly."
+      : p.id === "fridge-bottle" && neck.size === "29 MM"
+        ? "A 33 g option for this neck finish is coming shortly."
+        : null;
 
   const handleAdd = () => {
     addItem(p, neck.size, weight, qty);
@@ -175,10 +185,10 @@ function SpecPanel({
   return (
     <motion.div
       key={p.id}
-      initial={{ opacity: 0, transform: "translateY(12px)" }}
-      animate={{ opacity: 1, transform: "translateY(0px)" }}
-      exit={{ opacity: 0, transform: "translateY(-8px)" }}
-      transition={{ duration: 0.32, ease: DAWN_EASE }}
+      initial={reduceMotion ? false : { opacity: 0, transform: "translateY(12px)" }}
+      animate={reduceMotion ? { opacity: 1 } : { opacity: 1, transform: "translateY(0px)" }}
+      exit={reduceMotion ? { opacity: 0 } : { opacity: 0, transform: "translateY(-8px)" }}
+      transition={{ duration: reduceMotion ? 0 : 0.32, ease: DAWN_EASE }}
       className="grid grid-cols-1 min-w-0 w-full gap-4 xl:grid-cols-[minmax(20rem,0.9fr)_1fr]"
     >
       {/* Dark preview card */}
@@ -223,10 +233,10 @@ function SpecPanel({
           <AnimatePresence mode="popLayout">
             <motion.div
               key={`${p.id}-${neckMm}-${weight}`}
-              initial={{ opacity: 0.85, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0.85, scale: 0.96 }}
-              transition={{ duration: 0.25, ease: DAWN_EASE }}
+              initial={reduceMotion ? false : { opacity: 0.85, scale: 0.96 }}
+              animate={reduceMotion ? { opacity: 1 } : { opacity: 1, scale: 1 }}
+              exit={reduceMotion ? { opacity: 0 } : { opacity: 0.85, scale: 0.96 }}
+              transition={{ duration: reduceMotion ? 0 : 0.25, ease: DAWN_EASE }}
               className="flex items-center justify-center"
             >
               <Preform
@@ -299,6 +309,9 @@ function SpecPanel({
                 type="number"
                 id="quantity-input"
                 value={qty}
+                min={QTY_MIN}
+                max={QTY_MAX}
+                step={QTY_STEP}
                 onChange={(e) => setQty(Math.min(QTY_MAX, Math.max(QTY_MIN, parseInt(e.target.value, 10) || QTY_MIN)))}
                 className="w-16 text-center bg-transparent font-mono text-base font-bold text-navy focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
               />
@@ -315,10 +328,12 @@ function SpecPanel({
           </div>
         </div>
 
-        <div className="mt-5 rounded-xl border border-amber/30 bg-amber/[0.06] p-3.5">
-          <p className="text-xs font-semibold uppercase tracking-[0.12em] text-amber">Coming shortly</p>
-          <p className="mt-1.5 text-sm leading-relaxed text-navy">{upcoming}</p>
-        </div>
+        {upcomingMessage && (
+          <div className="mt-5 rounded-xl border border-amber/30 bg-amber/[0.06] p-3.5">
+            <p className="text-xs font-semibold uppercase tracking-[0.12em] text-sunrise-ink">Coming shortly</p>
+            <p className="mt-1.5 text-sm leading-relaxed text-navy">{upcomingMessage}</p>
+          </div>
+        )}
 
         <div className="mt-5 flex flex-col sm:flex-row sm:items-center gap-3">
           <button
@@ -332,8 +347,8 @@ function SpecPanel({
           >
             {isAdded ? (
               <motion.span
-                initial={{ scale: 0.5, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
+                initial={reduceMotion ? false : { scale: 0.5, opacity: 0 }}
+                animate={reduceMotion ? { opacity: 1 } : { scale: 1, opacity: 1 }}
                 className="flex items-center gap-1.5"
               >
                 Added ✓

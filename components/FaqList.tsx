@@ -11,7 +11,7 @@ export function FaqList({ items }: { items: readonly FAQItem[] }) {
         >
           <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 font-display font-semibold text-navy marker:hidden [&::-webkit-details-marker]:hidden">
             <span>{item.question}</span>
-            <span className="text-xl leading-none text-sunrise transition-transform group-open:rotate-45" aria-hidden="true">+</span>
+            <span className="text-xl leading-none text-sunrise-ink transition-transform group-open:rotate-45" aria-hidden="true">+</span>
           </summary>
           <p className="border-t border-steel/60 bg-dawn/40 px-5 py-4 text-sm leading-relaxed text-slate">
             {item.answer}
@@ -38,7 +38,7 @@ export function FaqPage({
   return (
     <main id="main-content" className="min-h-screen bg-dawn pt-28 pb-20">
       <div className="shell">
-        <Link href={backHref} className="text-sm font-semibold text-sunrise hover:underline">← {backLabel}</Link>
+        <Link href={backHref} className="text-sm font-semibold text-sunrise-ink hover:underline">← {backLabel}</Link>
         <div className="mt-8 max-w-3xl">
           <p className="eyebrow">Questions, answered</p>
           <h1 className="mt-3 text-[clamp(2.3rem,5vw,4rem)]">{title}</h1>

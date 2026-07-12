@@ -1,4 +1,10 @@
 export const APTUS_SITE_PATH = "/aptus" as const;
+export const MAX_APTUS_PACKS = 1_000_000;
+
+export function normalizeAptusPackCount(value: number) {
+  if (!Number.isFinite(value)) return 1;
+  return Math.min(MAX_APTUS_PACKS, Math.max(1, Math.trunc(value)));
+}
 
 export const APTUS = {
   name: "Aptus Packaging LLP",

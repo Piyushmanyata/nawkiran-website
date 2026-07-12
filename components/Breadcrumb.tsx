@@ -18,7 +18,7 @@ export function Breadcrumb({ items }: BreadcrumbProps) {
           <React.Fragment key={index}>
             {index > 0 && <span className="text-steel/70">/</span>}
             {isLast || !item.href ? (
-              <span className="text-sunrise font-bold">{item.label}</span>
+              <span className="text-sunrise-ink font-bold">{item.label}</span>
             ) : (
               <a href={item.href} className="hover:text-navy transition-colors">
                 {item.label}

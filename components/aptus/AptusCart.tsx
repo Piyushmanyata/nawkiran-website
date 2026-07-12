@@ -13,25 +13,28 @@ import {
   aptusBottleVariants,
   aptusClosureVariants,
   aptusWaLink,
+  MAX_APTUS_PACKS,
+  normalizeAptusPackCount,
   type AptusBottleVariant,
   type AptusClosureVariant,
+  type AptusFamilySlug,
 } from "@/lib/aptus";
 
 const STORAGE_KEY = "aptus_cart_v1";
-const MAX_PACKS = 1_000_000;
 
 export type AptusVariant = AptusBottleVariant | AptusClosureVariant;
 
 type AptusCartItem = {
   variant: AptusVariant;
   packCount: number;
+  familySlug: AptusFamilySlug;
 };
 
 type AptusCartContextValue = {
   items: AptusCartItem[];
   itemCount: number;
   totalPieces: number;
-  addItem: (variant: AptusVariant, packCount?: number) => void;
+  addItem: (variant: AptusVariant, packCount: number, familySlug: AptusFamilySlug) => void;
   updatePackCount: (variantId: string, packCount: number) => void;
   removeItem: (variantId: string) => void;
   clearCart: () => void;
@@ -45,8 +48,18 @@ const variantById = new Map<string, AptusVariant>(
   [...aptusBottleVariants, ...aptusClosureVariants].map((variant) => [variant.id, variant]),
 );
 
+function defaultFamilySlug(variant: AptusVariant): AptusFamilySlug {
+  return variant.kind === "closure" ? "plastic-closures" : "cosmetic-bottles";
+}
+
+function isFamilySlugForVariant(variant: AptusVariant, value: unknown): value is AptusFamilySlug {
+  return variant.kind === "closure"
+    ? value === "plastic-closures"
+    : value === "cosmetic-bottles" || value === "pharma-bottles";
+}
+
 function validPackCount(value: unknown): value is number {
-  return Number.isSafeInteger(value) && Number(value) > 0 && Number(value) <= MAX_PACKS;
+  return typeof value === "number" && Number.isSafeInteger(value) && value > 0 && value <= MAX_APTUS_PACKS;
 }
 
 function readStoredItems(): AptusCartItem[] {
@@ -57,20 +70,28 @@ function readStoredItems(): AptusCartItem[] {
     const parsed: unknown = JSON.parse(saved);
     if (!Array.isArray(parsed)) throw new Error("Cart is not an array");
 
-    const merged = new Map<string, number>();
+    const merged = new Map<string, { packCount: number; familySlug: AptusFamilySlug }>();
     for (const entry of parsed) {
       if (!entry || typeof entry !== "object") throw new Error("Invalid cart row");
-      const { variantId, packCount } = entry as Record<string, unknown>;
-      if (typeof variantId !== "string" || !variantById.has(variantId) || !validPackCount(packCount)) {
+      const { variantId, packCount, familySlug } = entry as Record<string, unknown>;
+      const variant = typeof variantId === "string" ? variantById.get(variantId) : undefined;
+      if (!variant || !validPackCount(packCount)) {
         throw new Error("Invalid cart row");
       }
-      merged.set(variantId, Math.min(MAX_PACKS, (merged.get(variantId) ?? 0) + packCount));
+      const selectedFamily = isFamilySlugForVariant(variant, familySlug)
+        ? familySlug
+        : defaultFamilySlug(variant);
+      const existing = merged.get(variant.id);
+      merged.set(variant.id, {
+        packCount: Math.min(MAX_APTUS_PACKS, (existing?.packCount ?? 0) + packCount),
+        familySlug: selectedFamily,
+      });
     }
 
-    return [...merged].map(([variantId, packCount]) => ({
-      variant: variantById.get(variantId)!,
-      packCount,
-    }));
+    return [...merged].map(([variantId, { packCount, familySlug }]) => {
+      const variant = variantById.get(variantId)!;
+      return { variant, packCount, familySlug };
+    });
   } catch {
     localStorage.removeItem(STORAGE_KEY);
     return [];
@@ -100,42 +121,54 @@ export function AptusCartProvider({ children }: { children: ReactNode }) {
     if (!ready) return;
     localStorage.setItem(
       STORAGE_KEY,
-      JSON.stringify(items.map(({ variant, packCount }) => ({ variantId: variant.id, packCount }))),
+      JSON.stringify(items.map(({ variant, packCount, familySlug }) => ({ variantId: variant.id, packCount, familySlug }))),
     );
   }, [items, ready]);
 
-  function addItem(variant: AptusVariant, requestedPacks = 1) {
-    const packCount = validPackCount(requestedPacks) ? requestedPacks : 1;
+  function addItem(variant: AptusVariant, requestedPacks: number, familySlug: AptusFamilySlug) {
+    const packCount = normalizeAptusPackCount(requestedPacks);
+    const selectedFamily = isFamilySlugForVariant(variant, familySlug)
+      ? familySlug
+      : defaultFamilySlug(variant);
     setItems((current) => {
       const existing = current.find((item) => item.variant.id === variant.id);
-      if (!existing) return [...current, { variant, packCount }];
+      if (!existing) return [...current, { variant, packCount, familySlug: selectedFamily }];
       return current.map((item) =>
         item.variant.id === variant.id
-          ? { ...item, packCount: Math.min(MAX_PACKS, item.packCount + packCount) }
+          ? {
+              ...item,
+              packCount: Math.min(MAX_APTUS_PACKS, item.packCount + packCount),
+              familySlug: selectedFamily,
+            }
           : item,
       );
     });
-    setLastAddedItem({ variant, packCount });
+    setLastAddedItem({ variant, packCount, familySlug: selectedFamily });
     setAnnouncement(`${describeVariant(variant)} added to the Aptus enquiry cart.`);
   }
 
   function updatePackCount(variantId: string, packCount: number) {
-    if (!validPackCount(packCount)) return;
+    if (!Number.isFinite(packCount) || packCount <= 0) return;
+    const normalizedPackCount = normalizeAptusPackCount(packCount);
     setItems((current) =>
-      current.map((item) => (item.variant.id === variantId ? { ...item, packCount } : item)),
+      current.map((item) => (
+        item.variant.id === variantId ? { ...item, packCount: normalizedPackCount } : item
+      )),
     );
   }
 
   function removeItem(variantId: string) {
     setItems((current) => current.filter((item) => item.variant.id !== variantId));
+    setLastAddedItem((item) => (item?.variant.id === variantId ? null : item));
   }
 
   function clearCart() {
     setItems([]);
+    setLastAddedItem(null);
   }
 
   function openCart(trigger?: HTMLElement | null) {
-    triggerRef.current = trigger ?? null;
+    triggerRef.current = trigger ?? document.querySelector<HTMLElement>("[data-aptus-cart-trigger]");
     setOpen(true);
   }
 
@@ -164,7 +197,9 @@ export function AptusCartProvider({ children }: { children: ReactNode }) {
       <AptusCartDrawer
         open={open}
         onClose={() => setOpen(false)}
-        returnFocus={() => triggerRef.current?.focus()}
+        returnFocus={() => {
+          if (triggerRef.current?.isConnected) triggerRef.current.focus();
+        }}
       />
       <div className="sr-only" aria-live="polite" aria-atomic="true">
         {announcement}
@@ -276,7 +311,7 @@ function AptusCartDrawer({
                           id={inputId}
                           type="number"
                           min={1}
-                          max={MAX_PACKS}
+                          max={MAX_APTUS_PACKS}
                           step={1}
                           inputMode="numeric"
                           value={packCount}

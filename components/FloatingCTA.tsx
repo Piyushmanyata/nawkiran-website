@@ -35,10 +35,10 @@ export function FloatingCTA() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Chat with us on WhatsApp"
-            initial={{ opacity: 0, scale: 0.6, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.6, y: 20 }}
-            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            initial={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.6, y: 20 }}
+            animate={reduce ? { opacity: 1 } : { opacity: 1, scale: 1, y: 0 }}
+            exit={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.6, y: 20 }}
+            transition={reduce ? { duration: 0 } : { duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
             className="group fixed bottom-6 right-6 z-40 hidden h-14 w-14 items-center justify-center rounded-full bg-sunrise text-white shadow-[0_12px_30px_-6px_rgba(243,107,33,0.7)] sm:flex"
           >
             {!reduce && (
@@ -56,10 +56,10 @@ export function FloatingCTA() {
       <AnimatePresence>
         {show && (
           <motion.div
-            initial={{ y: 80 }}
-            animate={{ y: 0 }}
-            exit={{ y: 80 }}
-            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            initial={reduce ? { opacity: 0 } : { y: 80 }}
+            animate={reduce ? { opacity: 1 } : { y: 0 }}
+            exit={reduce ? { opacity: 0 } : { y: 80 }}
+            transition={reduce ? { duration: 0 } : { duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
             className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-2 gap-2 border-t border-steel bg-white/95 px-3.5 pt-3 pb-[calc(0.625rem+env(safe-area-inset-bottom,0px))] backdrop-blur-xl sm:hidden"
           >
             <a

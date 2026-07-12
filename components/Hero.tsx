@@ -28,7 +28,7 @@ export function Hero() {
 
       <div className="shell relative z-10 grid items-center gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16">
         <motion.div
-          initial={reduce ? false : { opacity: 0, y: 18 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55, ease: DAWN_EASE }}
           className="max-w-2xl"
@@ -63,7 +63,7 @@ export function Hero() {
         </motion.div>
 
         <motion.div
-          initial={reduce ? false : { opacity: 0, scale: 0.98 }}
+          initial={false}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.65, delay: 0.1, ease: DAWN_EASE }}
           style={{ transform: imageTransform }}

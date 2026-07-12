@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
 import {
   ArrowRight,
   MailIcon,
@@ -23,7 +23,6 @@ import aptusHeroProducts from "../../public/aptus-hero-products-v2.png";
 import aptusCompanyCatalogue from "../../Aptus Catalog.png";
 
 export function AptusCatalog() {
-  const reduce = useReducedMotion();
   return (
     <>
       {/* ── Hero ── */}
@@ -38,7 +37,7 @@ export function AptusCatalog() {
           <div>
             <motion.p
               className="eyebrow"
-              initial={reduce ? false : { opacity: 0, transform: "translateY(10px)" }}
+              initial={false}
               animate={{ opacity: 1, transform: "translateY(0px)" }}
               transition={{ duration: 0.5, delay: 0.2, ease: DAWN_EASE }}
             >
@@ -46,7 +45,7 @@ export function AptusCatalog() {
             </motion.p>
             <motion.h1
               className="mt-4 max-w-3xl text-balance font-display text-[clamp(2.6rem,5.4vw,4.5rem)] font-bold leading-[1.02] tracking-[-0.02em] text-white"
-              initial={reduce ? false : { opacity: 0, transform: "translateY(18px)" }}
+              initial={false}
               animate={{ opacity: 1, transform: "translateY(0px)" }}
               transition={{ duration: 0.6, delay: 0.35, ease: DAWN_EASE }}
             >
@@ -54,7 +53,7 @@ export function AptusCatalog() {
             </motion.h1>
             <motion.p
               className="mt-6 max-w-2xl text-lg leading-relaxed text-white/75"
-              initial={reduce ? false : { opacity: 0, transform: "translateY(14px)" }}
+              initial={false}
               animate={{ opacity: 1, transform: "translateY(0px)" }}
               transition={{ duration: 0.55, delay: 0.5, ease: DAWN_EASE }}
             >
@@ -62,7 +61,7 @@ export function AptusCatalog() {
             </motion.p>
             <motion.div
               className="mt-8 flex flex-col gap-3 sm:flex-row"
-              initial={reduce ? false : { opacity: 0, transform: "translateY(12px)" }}
+              initial={false}
               animate={{ opacity: 1, transform: "translateY(0px)" }}
               transition={{ duration: 0.5, delay: 0.65, ease: DAWN_EASE }}
             >
@@ -85,7 +84,7 @@ export function AptusCatalog() {
 
           <motion.div
             className="relative mx-auto w-full max-w-xl overflow-hidden rounded-3xl border border-white/15 bg-white shadow-2xl"
-            initial={reduce ? false : { opacity: 0, scale: 0.95 }}
+            initial={false}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.4, ease: DAWN_EASE }}
           >

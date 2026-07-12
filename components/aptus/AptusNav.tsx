@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState, type MouseEvent } from "react";
+import { useEffect, useRef, useState, type MouseEvent } from "react";
 import Link from "next/link";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { CompanySwitcher } from "@/components/CompanySwitcher";
 import { PhoneIcon, ShoppingBagIcon, WhatsAppIcon } from "@/components/icons";
 import { APTUS, APTUS_SITE_PATH, aptusWaLink } from "@/lib/aptus";
@@ -38,17 +38,47 @@ const itemVariants = {
   exit: { opacity: 0, transform: "translateY(-6px)", transition: { duration: 0.12 } },
 };
 
+const reducedMenuVariants = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { duration: 0 } },
+  exit: { opacity: 0, transition: { duration: 0 } },
+} as const;
+
+const reducedItemVariants = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { duration: 0 } },
+  exit: { opacity: 0, transition: { duration: 0 } },
+} as const;
+
 export function AptusNav() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
   const { itemCount, openCart } = useAptusCart();
+  const reduceMotion = useReducedMotion();
   const primaryPhone = APTUS.phones.find((phone) => phone.primary) ?? APTUS.phones[0];
 
-  // Lock body scroll when menu is open
+  const closeMenu = () => {
+    setMenuOpen(false);
+    requestAnimationFrame(() => menuButtonRef.current?.focus());
+  };
+  const closeMenuForNavigation = () => setMenuOpen(false);
+
   useEffect(() => {
     if (!menuOpen) return;
-    document.body.style.overflow = "hidden";
-    return () => { document.body.style.overflow = ""; };
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") closeMenu();
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
   }, [menuOpen]);
+
+  useEffect(() => {
+    const closeAtDesktop = () => {
+      if (window.innerWidth >= 1280) setMenuOpen(false);
+    };
+    window.addEventListener("resize", closeAtDesktop);
+    return () => window.removeEventListener("resize", closeAtDesktop);
+  }, []);
 
   function handleCart(event: MouseEvent<HTMLButtonElement>) {
     openCart(event.currentTarget);
@@ -71,7 +101,9 @@ export function AptusNav() {
             </span>
           </Link>
 
-          <CompanySwitcher current="aptus" className="hidden xl:inline-flex" />
+          <div className="hidden xl:block">
+            <CompanySwitcher current="aptus" />
+          </div>
 
           <div className="hidden items-center gap-5 xl:flex">
             {LINKS.map((link) => (
@@ -91,7 +123,8 @@ export function AptusNav() {
             <button
               type="button"
               onClick={handleCart}
-              aria-label={`Open Aptus quote cart${itemCount ? `, ${itemCount} items` : ""}`}
+              data-aptus-cart-trigger
+              aria-label={`Open Aptus quote cart${itemCount ? `, ${itemCount} ${itemCount === 1 ? "item" : "items"}` : ""}`}
               className="relative inline-flex h-10 w-10 items-center justify-center rounded-full border border-steel text-navy hover:border-sunrise transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sunrise"
             >
               <ShoppingBagIcon className="h-4.5 w-4.5" />
@@ -99,10 +132,10 @@ export function AptusNav() {
                 {itemCount > 0 && (
                   <motion.span
                     key={itemCount}
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    exit={{ scale: 0 }}
-                    transition={{ type: "spring", stiffness: 500, damping: 15 }}
+                    initial={reduceMotion ? { opacity: 0 } : { scale: 0 }}
+                    animate={reduceMotion ? { opacity: 1 } : { scale: 1 }}
+                    exit={reduceMotion ? { opacity: 0 } : { scale: 0 }}
+                    transition={reduceMotion ? { duration: 0 } : { type: "spring", stiffness: 500, damping: 15 }}
                     className="absolute -right-1 -top-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-sunrise px-1 text-[10px] font-bold text-white"
                   >
                     {itemCount}
@@ -121,8 +154,9 @@ export function AptusNav() {
               <span className="sr-only sm:not-sr-only">WhatsApp</span>
             </a>
             <button
+              ref={menuButtonRef}
               type="button"
-              onClick={() => setMenuOpen((v) => !v)}
+              onClick={() => (menuOpen ? closeMenu() : setMenuOpen(true))}
               aria-expanded={menuOpen}
               aria-controls="aptus-mobile-menu"
               aria-label={menuOpen ? "Close Aptus menu" : "Open Aptus menu"}
@@ -140,19 +174,19 @@ export function AptusNav() {
           {menuOpen && (
             <motion.div
               id="aptus-mobile-menu"
-              variants={menuVariants}
+              variants={reduceMotion ? reducedMenuVariants : menuVariants}
               initial="hidden"
               animate="show"
               exit="exit"
               className="overflow-hidden border-t border-steel bg-white xl:hidden"
             >
               <div className="shell flex flex-col gap-1 py-4">
-                <CompanySwitcher current="aptus" onNavigate={() => setMenuOpen(false)} className="self-start mb-2" />
+                <CompanySwitcher current="aptus" onNavigate={closeMenuForNavigation} className="self-start mb-2" />
                 {LINKS.map((link) => (
-                  <motion.div key={link.href} variants={itemVariants}>
+                  <motion.div key={link.href} variants={reduceMotion ? reducedItemVariants : itemVariants}>
                     <Link
                       href={link.href}
-                      onClick={() => setMenuOpen(false)}
+                      onClick={closeMenuForNavigation}
                       className="block rounded-xl px-3 py-3 text-base font-semibold text-navy hover:bg-cloud transition-colors"
                     >
                       {link.label}

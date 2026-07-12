@@ -119,7 +119,8 @@ export function Preform({
     "Z",
   ].join(" ");
 
-  const id = (s: string) => `${s}-${uid}`;
+  const safeUid = uid.replace(/[^a-zA-Z0-9_-]/g, "-");
+  const id = (s: string) => `${s}-${safeUid}`;
   const threadTop = TOP + 7;
   const threadSpan = g.neckH - (g.gapAboveRing ? 26 : 14);
   const threadGap = g.threads > 1 ? threadSpan / (g.threads - 1) : 0;
@@ -336,7 +337,8 @@ const BOTTLE: Record<Shape, string> = {
 
 export function BlownBottle({ shape, tint, uid, className }: { shape: Shape; tint: Tint; uid: string; className?: string }) {
   const t = TINTS[tint];
-  const id = (s: string) => `b-${s}-${uid}`;
+  const safeUid = uid.replace(/[^a-zA-Z0-9_-]/g, "-");
+  const id = (s: string) => `b-${s}-${safeUid}`;
   return (
     <svg viewBox="0 0 160 448" className={className} fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <defs>

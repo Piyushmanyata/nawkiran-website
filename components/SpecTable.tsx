@@ -17,7 +17,7 @@ export function SpecTable({ product }: { product: Product }) {
               <td className="px-6 py-4.5 font-semibold text-navy">
                 {formatNeck(n.size)}
               </td>
-              <td className="px-6 py-4.5 font-mono text-[0.9375rem] text-sunrise font-semibold">
+              <td className="px-6 py-4.5 font-mono text-[0.9375rem] text-sunrise-ink font-semibold">
                 {n.weights.map(w => `${w}g`).join(", ")}
               </td>
               <td className="px-6 py-4.5 text-slate leading-relaxed">

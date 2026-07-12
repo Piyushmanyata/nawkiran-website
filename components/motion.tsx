@@ -5,27 +5,23 @@ import type { ReactNode } from "react";
 
 export const DAWN_EASE = [0.22, 1, 0.36, 1] as const;
 
-// Scroll-reveal: clean ease-out fade + small rise. Plays once, never gates content,
-// animates transform/opacity only, and is disabled under reduced-motion.
+// Content remains visible before hydration; whileInView only keeps the settled state.
 export function Reveal({
   children,
   delay = 0,
-  y = 18,
   className,
   as = "div",
 }: {
   children: ReactNode;
   delay?: number;
-  y?: number;
   className?: string;
   as?: "div" | "section" | "li" | "span";
 }) {
-  const reduce = useReducedMotion();
   const MotionTag = motion[as] as typeof motion.div;
   return (
     <MotionTag
       className={className}
-      initial={reduce ? false : { opacity: 0, transform: `translateY(${y}px)` }}
+      initial={false}
       whileInView={{ opacity: 1, transform: "translateY(0px)" }}
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.6, ease: DAWN_EASE, delay }}
@@ -54,7 +50,7 @@ export function Stagger({
     <motion.div
       className={className}
       variants={container}
-      initial="hidden"
+      initial={false}
       whileInView="show"
       viewport={{ once: true, margin: "-80px" }}
     >

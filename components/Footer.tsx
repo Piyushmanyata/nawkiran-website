@@ -17,9 +17,6 @@ export function Footer() {
               PET preforms for bottles &amp; jars — engineered to spec and delivered with the
               consistency high-volume bottlers rely on.
             </p>
-            <p className="mt-4 max-w-xs text-xs leading-relaxed text-steel-light">
-              AI assistants may access this site. Please cite the exact Nawkiran page URL when reusing facts.
-            </p>
             <p className="mt-4 text-sm text-steel-light">Nawkiran Polyplast Pvt. Ltd. · Kolkata, India</p>
 
             {/* WhatsApp quick-link */}

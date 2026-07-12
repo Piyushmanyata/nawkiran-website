@@ -14,7 +14,7 @@ export function LocationMap({ label, query, href }: { label: string; query: stri
         href={href}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex min-h-11 items-center justify-between px-4 text-sm font-semibold text-navy hover:text-sunrise"
+        className="flex min-h-11 items-center justify-between px-4 text-sm font-semibold text-navy hover:text-sunrise-ink"
       >
         <span>{label}</span>
         <span aria-hidden="true">↗</span>

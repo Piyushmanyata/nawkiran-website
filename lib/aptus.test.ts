@@ -12,6 +12,8 @@ const {
   aptusFamilies,
   aptusWaLink,
   getAptusFamily,
+  MAX_APTUS_PACKS,
+  normalizeAptusPackCount,
 } = aptusModule;
 
 test("Aptus catalog data stays internally consistent", () => {
@@ -82,4 +84,7 @@ test("Aptus catalog data stays internally consistent", () => {
     aptusWaLink("30 packs & samples"),
     "https://wa.me/919900688790?text=30%20packs%20%26%20samples",
   );
+  assert.equal(normalizeAptusPackCount(1.5), 1);
+  assert.equal(normalizeAptusPackCount(Number.NaN), 1);
+  assert.equal(normalizeAptusPackCount(MAX_APTUS_PACKS + 1), MAX_APTUS_PACKS);
 });

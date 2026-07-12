@@ -5,13 +5,13 @@ import { WhatsAppIcon, PhoneIcon, ArrowRight } from "./icons";
 type Variant = "primary" | "ghost" | "ghost-dark" | "soft";
 
 const base =
-  "group relative inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-[0.9375rem] font-semibold tracking-tight transition-[transform,box-shadow,background-color,border-color,color] duration-200 will-change-transform";
+  "group relative inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-[0.9375rem] font-semibold tracking-tight transition-[transform,box-shadow,background-color,border-color,color] duration-200";
 
 const variants: Record<Variant, string> = {
   // dawn-orange action — the brand's one warm accent
   primary: "bg-sunrise text-white shadow-[0_8px_24px_-8px_rgba(243,107,33,0.6)] hover:shadow-[0_12px_30px_-8px_rgba(243,107,33,0.7)] hover:-translate-y-0.5",
   // outline on light surfaces
-  ghost: "border border-steel bg-white text-navy hover:border-sunrise hover:text-sunrise",
+  ghost: "border border-steel bg-white text-navy hover:border-sunrise hover:text-sunrise-ink",
   // outline on dark surfaces
   "ghost-dark": "border border-white/25 text-white hover:border-white/60 hover:bg-white/5",
   // tinted soft

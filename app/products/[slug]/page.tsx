@@ -151,7 +151,7 @@ export default async function ProductPage({ params }: Props) {
                     className="group rounded-xl border border-steel bg-white p-3 hover:border-sunrise hover:shadow-sm transition-[border-color,box-shadow]"
                   >
                     <span className="block text-xs font-semibold text-slate">{productBadge(p)}</span>
-                    <span className="mt-1 block font-display text-sm font-bold text-navy group-hover:text-sunrise transition-colors">
+                    <span className="mt-1 block font-display text-sm font-bold text-navy group-hover:text-sunrise-ink transition-colors">
                       {p.name}
                     </span>
                   </a>

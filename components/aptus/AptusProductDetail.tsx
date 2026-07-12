@@ -3,7 +3,12 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { ShoppingBagIcon } from "@/components/icons";
-import { APTUS_SITE_PATH, aptusFamilies, type AptusFamily } from "@/lib/aptus";
+import {
+  APTUS_SITE_PATH,
+  aptusFamilies,
+  normalizeAptusPackCount,
+  type AptusFamily,
+} from "@/lib/aptus";
 import { useAptusCart } from "./AptusCart";
 import { AptusCatalogCrop } from "./AptusCatalogCrop";
 
@@ -32,7 +37,12 @@ export function AptusProductDetail({ family }: { family: AptusFamily }) {
 
   const getBoxes = (id: string) => boxCounts[id] ?? 10;
   const updateBoxes = (id: string, value: number) => {
-    setBoxCounts((current) => ({ ...current, [id]: Math.max(1, Math.min(1000000, value || 1)) }));
+    setBoxCounts((current) => ({ ...current, [id]: normalizeAptusPackCount(value) }));
+  };
+  const resetFilters = () => {
+    setNeck("all");
+    setCapacity("all");
+    setShape("all");
   };
 
   return (
@@ -98,8 +108,20 @@ export function AptusProductDetail({ family }: { family: AptusFamily }) {
           Showing {filteredVariants.length} of {family.variants.length} catalogue specifications
         </p>
 
-        <ul className="mt-4 grid gap-3">
-          {filteredVariants.map((variant) => {
+        {filteredVariants.length === 0 ? (
+          <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-steel bg-cloud p-5">
+            <p className="text-sm font-semibold text-navy">No catalogue specifications match these filters.</p>
+            <button
+              type="button"
+              onClick={resetFilters}
+              className="min-h-10 rounded-full border border-steel bg-white px-4 text-sm font-semibold text-navy hover:border-sunrise hover:text-sunrise-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sunrise"
+            >
+              Reset filters
+            </button>
+          </div>
+        ) : (
+          <ul className="mt-4 grid gap-3">
+            {filteredVariants.map((variant) => {
             const boxes = getBoxes(variant.id);
             const isBottle = variant.kind === "bottle";
             return (
@@ -133,17 +155,18 @@ export function AptusProductDetail({ family }: { family: AptusFamily }) {
                     </label>
                     <button
                       type="button"
-                      onClick={() => addItem(variant, boxes)}
+                      onClick={() => addItem(variant, boxes, family.slug)}
                       className="min-h-11 rounded-full bg-sunrise px-4 text-sm font-semibold text-white hover:bg-sunrise-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sunrise"
                     >
-                      Add {boxes} boxes
+                      Add {boxes} {boxes === 1 ? "box" : "boxes"}
                     </button>
                   </div>
                 </div>
               </li>
             );
-          })}
-        </ul>
+            })}
+          </ul>
+        )}
       </section>
 
       <nav className="mt-12" aria-label="Other Aptus product families">

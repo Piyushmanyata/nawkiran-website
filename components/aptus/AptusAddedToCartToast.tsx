@@ -1,44 +1,51 @@
 "use client";
 
 import { useEffect } from "react";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useAptusCart } from "./AptusCart";
 import { AptusCatalogCrop } from "./AptusCatalogCrop";
 import { ShoppingBagIcon } from "../icons";
 import { aptusWaLink } from "@/lib/aptus";
 
 export function AptusAddedToCartToast() {
-  const { lastAddedItem, setLastAddedItem, openCart, itemCount } = useAptusCart();
+  const { lastAddedItem, setLastAddedItem, openCart, itemCount, items } = useAptusCart();
+  const reduceMotion = useReducedMotion();
+  const currentItem = lastAddedItem
+    ? items.find((item) => item.variant.id === lastAddedItem.variant.id) ?? null
+    : null;
 
   useEffect(() => {
     if (!lastAddedItem) return;
+    if (!currentItem) {
+      setLastAddedItem(null);
+      return;
+    }
     const timeout = window.setTimeout(() => setLastAddedItem(null), 4500);
     return () => window.clearTimeout(timeout);
-  }, [lastAddedItem, setLastAddedItem]);
+  }, [currentItem, lastAddedItem, setLastAddedItem]);
 
-  if (!lastAddedItem) return null;
-
-  const { variant, packCount } = lastAddedItem;
-  const slug = variant.kind === "closure"
-    ? "plastic-closures"
-    : variant.capacityMl <= 100 || variant.item === "OVAL" || variant.item === "BOSTON"
-      ? "cosmetic-bottles"
-      : "pharma-bottles";
-  const name = variant.kind === "bottle" ? `${variant.item} bottle` : variant.product;
-  const spec = variant.kind === "bottle"
-    ? `${variant.capacityMl} ml · ${variant.neckSizeMm} mm neck · ${variant.weightG} g`
-    : `${variant.sizeMm} mm · ${variant.weightG} g`;
-  const message = `*Enquiry from Aptus Packaging LLP*\n\n*Added:* ${spec}\n*Qty:* ${packCount.toLocaleString()} box${packCount === 1 ? "" : "es"}\n\nPlease provide pricing and availability.`;
+  const variant = currentItem?.variant ?? null;
+  const packCount = currentItem?.packCount ?? 0;
+  const slug = currentItem?.familySlug;
+  const name = variant ? (variant.kind === "bottle" ? `${variant.item} bottle` : variant.product) : "";
+  const spec = variant
+    ? variant.kind === "bottle"
+      ? `${variant.capacityMl} ml · ${variant.neckSizeMm} mm neck · ${variant.weightG} g`
+      : `${variant.sizeMm} mm · ${variant.weightG} g`
+    : "";
+  const message = variant
+    ? `*Enquiry from Aptus Packaging LLP*\n\n*Added:* ${name} · ${spec}\n*Packing:* ${variant.packingSize.toLocaleString("en-IN")} pieces per box\n*Qty:* ${packCount.toLocaleString()} box${packCount === 1 ? "" : "es"}\n\nPlease provide pricing and availability.`
+    : "";
 
   return (
     <AnimatePresence>
-      <motion.div
+      {currentItem && variant && slug && <motion.div
         role="status"
         aria-live="polite"
-        initial={{ opacity: 0, y: -12 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -8 }}
-        transition={{ duration: 0.2, ease: "easeOut" }}
+        initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -12 }}
+        animate={reduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
+        exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -8 }}
+        transition={{ duration: reduceMotion ? 0 : 0.2, ease: "easeOut" }}
         className="fixed right-4 top-20 z-[60] w-[min(390px,calc(100vw-2rem))] overflow-hidden rounded-2xl border border-steel bg-white shadow-[0_12px_30px_rgba(25,21,31,0.16)]"
       >
         <div className="flex gap-3 p-4">
@@ -64,7 +71,7 @@ export function AptusAddedToCartToast() {
             Send enquiry
           </a>
         </div>
-      </motion.div>
+      </motion.div>}
     </AnimatePresence>
   );
 }
