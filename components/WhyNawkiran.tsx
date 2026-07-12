@@ -13,8 +13,8 @@ const POINTS = [
     icon: "m12 3 9 5-9 5-9-5 9-5Zm9 9-9 5-9-5m18 4-9 5-9-5",
   },
   {
-    title: "Answers within minutes",
-    body: "Reach a real person on WhatsApp during business hours and get pricing and availability fast — not a ticket number.",
+    title: "A direct WhatsApp line",
+    body: "Reach a real person during business hours with the exact product brief — not a ticket number.",
     icon: "M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z",
   },
   {
@@ -37,7 +37,7 @@ export function WhyNawkiran() {
               <p className="text-[1.0625rem] leading-relaxed text-navy">
                 <span className="font-semibold">Nawkiran means &ldquo;a new ray of light.&rdquo;</span> That&apos;s how we
                 treat every order — a clean, dependable, on-spec start, whether it&apos;s your first trial run
-                or your fifty-thousandth dispatch.
+                or your next repeat dispatch.
               </p>
             </div>
           </Reveal>

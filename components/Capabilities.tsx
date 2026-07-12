@@ -38,7 +38,7 @@ export function Capabilities() {
           {capabilities.map((c, i) => (
             <StaggerItem key={c.title} className="group bg-night p-6 sm:p-8 transition-colors hover:bg-white/[0.03]">
               <div className="flex items-center gap-3">
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-amber/20 bg-amber/10 text-amber transition-all group-hover:border-amber/40 group-hover:bg-amber/15">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-amber/20 bg-amber/10 text-amber transition-[background-color,border-color] group-hover:border-amber/40 group-hover:bg-amber/15">
                   <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                     <path d={ICONS[i]} />
                   </svg>

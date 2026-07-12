@@ -5,7 +5,7 @@ import { WhatsAppIcon, PhoneIcon, ArrowRight } from "./icons";
 type Variant = "primary" | "ghost" | "ghost-dark" | "soft";
 
 const base =
-  "group relative inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-[0.9375rem] font-semibold tracking-tight transition-all duration-200 will-change-transform";
+  "group relative inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-[0.9375rem] font-semibold tracking-tight transition-[transform,box-shadow,background-color,border-color,color] duration-200 will-change-transform";
 
 const variants: Record<Variant, string> = {
   // dawn-orange action — the brand's one warm accent

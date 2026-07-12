@@ -5,12 +5,6 @@ import { MiniArc } from "./SunArc";
 import { Reveal } from "./motion";
 import { PHONES } from "@/lib/site";
 
-const TRUST_POINTS = [
-  "No registration required",
-  "Free consultation",
-  "Typically replies in &lt;5 minutes",
-];
-
 export function FinalCTA() {
   const primaryPhone = PHONES.find((p) => p.primary) ?? PHONES[0];
 
@@ -44,7 +38,7 @@ export function FinalCTA() {
           </h2>
 
           <p className="mt-4 max-w-xl text-lg text-white/75">
-            Get a custom quote on WhatsApp in minutes — or call us directly to discuss your PET preform requirements.
+            Send your PET preform brief on WhatsApp — or call us directly to discuss the right specification.
           </p>
 
           <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center items-center w-full sm:w-auto">
@@ -64,7 +58,7 @@ export function FinalCTA() {
 
           {/* Micro-trust strip */}
           <div className="mt-6 flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5">
-            {["No registration required", "Free consultation", "Typically replies in <5 min"].map((t, i) => (
+            {["No registration required", "Free consultation", "Direct WhatsApp enquiry"].map((t, i) => (
               <span key={t} className="flex items-center gap-1.5 text-xs text-white/50">
                 {i > 0 && <span className="hidden sm:inline h-1 w-1 rounded-full bg-white/25" aria-hidden="true" />}
                 <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 text-amber shrink-0" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

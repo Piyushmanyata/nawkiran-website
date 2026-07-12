@@ -39,13 +39,14 @@
 
 /* Aptus visual theme overrides */
 .aptus-theme {
-  --color-night: #0b1528;     /* Sleek, cool midnight blue */
-  --color-navy: #152642;      /* Professional steel navy */
-  --color-indigo: #1e3a60;    /* Twilight steel blue */
-  --color-sunrise: #0ea5e9;   /* Vibrant sky blue (clinical clarity) */
-  --color-amber: #38bdf8;     /* Bright ice-blue accent */
-  --color-dawn: #f0f7ff;      /* Ultra-clean ice-blue off-white */
-  --color-mist: #e0f0fe;      /* Soft sky-blue hover/fill */
+  --color-night: #19151f;     /* Ink plum */
+  --color-navy: #2d243b;      /* Warm graphite */
+  --color-indigo: #4f304b;    /* Deep berry */
+  --color-sunrise: #a94d54;   /* Muted oxblood accent */
+  --color-sunrise-dark: #843944;
+  --color-amber: #c88655;     /* Copper highlight */
+  --color-dawn: #fbf7f3;      /* Porcelain surface */
+  --color-mist: #f2e7e4;      /* Soft rose fill */
 }
 
 /* ---------- Base (layered so Tailwind utilities can override) ---------- */

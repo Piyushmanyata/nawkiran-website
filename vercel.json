@@ -11,7 +11,7 @@
       ]
     },
     {
-      "source": "/hero-preforms.png",
+      "source": "/hero-preforms-v2.png",
       "headers": [
         {
           "key": "Cache-Control",
@@ -21,6 +21,24 @@
     },
     {
       "source": "/neck-detail.png",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/aptus-hero-products-v2.png",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/aptus-machinery.png",
       "headers": [
         {
           "key": "Cache-Control",

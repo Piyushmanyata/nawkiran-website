@@ -2,13 +2,13 @@ import type { Metadata } from "next";
 import { AptusCatalog } from "@/components/aptus/AptusCatalog";
 import { APTUS, APTUS_SITE_PATH, aptusFamilies } from "@/lib/aptus";
 import { SITE_URL } from "@/lib/site";
-import aptusCatalog from "../../Aptus Catalog.png";
+import aptusCatalog from "../../public/aptus-hero-products-v2.png";
 
 const APTUS_URL = `${SITE_URL}${APTUS_SITE_PATH}`;
 const CATALOG_IMAGE = `${SITE_URL}${aptusCatalog.src}`;
 const TITLE = "PET Bottles & Plastic Closures";
 const DESCRIPTION =
-  "Explore Aptus Packaging LLP cosmetic PET bottles, pharma bottles and plastic closures with catalog specifications and pack-based WhatsApp enquiries.";
+  "Explore Aptus Packaging LLP cosmetic PET bottles, pharma bottles and plastic closures with catalogue specifications and box-based WhatsApp enquiries.";
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -29,7 +29,7 @@ const structuredData = {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "Organization",
+      "@type": ["LocalBusiness", "Organization"],
       "@id": `${APTUS_URL}/#organization`,
       name: APTUS.name,
       alternateName: APTUS.shortName,
@@ -43,6 +43,9 @@ const structuredData = {
         name: address.label,
         streetAddress: address.lines.join(", "),
       })),
+      areaServed: { "@type": "Country", name: "India" },
+      hasMap: Object.values(APTUS.addresses).map((address) => address.maps),
+      knowsAbout: ["cosmetic PET bottles", "pharma bottles", "plastic closures", "single-stage ASB bottle manufacturing", "compression moulding"],
     },
     {
       "@type": "WebPage",

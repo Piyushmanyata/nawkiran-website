@@ -21,6 +21,7 @@ export const APTUS = {
         "18 Rabindra Sarani Gate No.3,",
         "5th Floor Poddar Court, Kolkata 700 001",
       ],
+      maps: "https://www.google.com/maps/search/?api=1&query=Poddar+Court+18+Rabindra+Sarani+Kolkata+700001",
     },
     factory: {
       label: "Factory Address",
@@ -29,6 +30,7 @@ export const APTUS = {
         "PS. Bhadreswar, Dist. Hooghly",
         "West Bengal 712124",
       ],
+      maps: "https://www.google.com/maps/search/?api=1&query=Palarah+Bighati+Bhadreswar+Hooghly+West+Bengal+712124",
     },
   },
   about:

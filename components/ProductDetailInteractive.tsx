@@ -6,6 +6,7 @@ import { type Product, type NeckSpec, PRODUCT_TINT, primaryNeckMm, formatNeck, d
 import { Preform, BlownBottle } from "./Preform";
 import { useCart, QTY_STEP, QTY_MIN, QTY_MAX } from "@/lib/cart";
 import { ShoppingBagIcon, Plus } from "./icons";
+import { DAWN_EASE } from "./motion";
 
 export function ProductDetailInteractive({ product }: { product: Product }) {
   const [selectedNeck, setSelectedNeck] = useState<NeckSpec>(product.necks[0]);
@@ -95,7 +96,7 @@ export function ProductDetailInteractive({ product }: { product: Product }) {
                     key={w}
                     type="button"
                     onClick={() => setSelectedWeight(w)}
-                    className={`tnum rounded-xl border py-2.5 font-mono text-sm font-semibold transition-all cursor-pointer ${
+                    className={`tnum rounded-xl border py-2.5 font-mono text-sm font-semibold transition-[transform,background-color,border-color,color,box-shadow] cursor-pointer ${
                       active
                         ? "border-sunrise bg-sunrise text-white shadow-md scale-[1.04]"
                         : "border-steel bg-cloud text-navy hover:border-sunrise/75 hover:bg-white hover:scale-[1.02]"
@@ -117,7 +118,7 @@ export function ProductDetailInteractive({ product }: { product: Product }) {
               <button
                 type="button"
                 onClick={() => setQty((q) => Math.max(QTY_MIN, q - QTY_STEP))}
-                className="flex h-10 w-12 items-center justify-center rounded-lg text-navy hover:bg-steel/30 active:scale-95 transition-all cursor-pointer font-bold text-lg disabled:opacity-40 disabled:cursor-not-allowed"
+                className="flex h-10 w-12 items-center justify-center rounded-lg text-navy hover:bg-steel/30 active:scale-95 transition-[transform,background-color] cursor-pointer font-bold text-lg disabled:opacity-40 disabled:cursor-not-allowed"
                 disabled={qty <= QTY_MIN}
                 aria-label="Decrease quantity"
               >
@@ -136,7 +137,7 @@ export function ProductDetailInteractive({ product }: { product: Product }) {
               <button
                 type="button"
                 onClick={() => setQty((q) => Math.min(QTY_MAX, q + QTY_STEP))}
-                className="flex h-10 w-12 items-center justify-center rounded-lg text-navy hover:bg-steel/30 active:scale-95 transition-all cursor-pointer"
+                className="flex h-10 w-12 items-center justify-center rounded-lg text-navy hover:bg-steel/30 active:scale-95 transition-[transform,background-color] cursor-pointer"
                 aria-label="Increase quantity"
               >
                 <Plus className="h-4 w-4" />
@@ -150,7 +151,7 @@ export function ProductDetailInteractive({ product }: { product: Product }) {
               <button
                 type="button"
                 onClick={handleAdd}
-                    className={`group relative overflow-hidden inline-flex w-full sm:w-auto px-8 py-3.5 items-center justify-center gap-2 rounded-full text-sm font-semibold text-white shadow-lg transition-all duration-300 active:scale-[0.98] cursor-pointer ${
+                    className={`group relative overflow-hidden inline-flex w-full sm:w-auto px-8 py-3.5 items-center justify-center gap-2 rounded-full text-sm font-semibold text-white shadow-lg transition-[transform,box-shadow,background-color] duration-300 active:scale-[0.98] cursor-pointer ${
                   isAdded
                     ? "bg-whatsapp shadow-[0_8px_18px_-8px_rgba(37,211,102,0.6)]"
                     : "bg-sunrise shadow-[0_8px_18px_-10px_rgba(243,107,33,0.85)] hover:-translate-y-0.5"
@@ -183,7 +184,7 @@ export function ProductDetailInteractive({ product }: { product: Product }) {
       <div className="relative sticky top-24 overflow-hidden rounded-3xl bg-gradient-to-b from-[#0d1e3e] to-night p-6 text-white shadow-xl min-h-[30rem] flex flex-col justify-between">
         <div className="grid-texture absolute inset-0 opacity-40" />
         <div
-          className="absolute -right-16 top-10 h-60 w-60 rounded-full opacity-22 blur-[52px] transition-all duration-500"
+          className="absolute -right-16 top-10 h-60 w-60 rounded-full opacity-22 blur-[52px]"
           style={{ background: product.accent }}
         />
         <div className="relative z-10 flex justify-between items-start">
@@ -199,7 +200,7 @@ export function ProductDetailInteractive({ product }: { product: Product }) {
             className="rounded-full px-3 py-1 text-xs font-bold text-night"
             style={{ background: product.accent }}
           >
-            Food Grade PET
+            PET material
           </span>
         </div>
 
@@ -209,12 +210,9 @@ export function ProductDetailInteractive({ product }: { product: Product }) {
             <motion.div
               key={`${product.id}-${neckMm}-${selectedWeight}`}
               initial={{ opacity: 0.85, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1, y: [0, -8, 0] }}
+              animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0.85, scale: 0.96 }}
-              transition={{
-                duration: 0.25,
-                y: { duration: 5, repeat: Infinity, ease: "easeInOut" }
-              }}
+              transition={{ duration: 0.25, ease: DAWN_EASE }}
               className="z-10 flex items-center justify-center"
             >
               <Preform
@@ -227,9 +225,7 @@ export function ProductDetailInteractive({ product }: { product: Product }) {
               />
             </motion.div>
           </AnimatePresence>
-          <motion.div
-            animate={{ y: [0, -4, 0] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+          <div
             className="pointer-events-none absolute right-4 bottom-4 h-36 sm:h-44 w-auto opacity-15"
           >
             <BlownBottle
@@ -237,7 +233,7 @@ export function ProductDetailInteractive({ product }: { product: Product }) {
               tint={tint}
               uid={`product-page-blown-${product.id}`}
             />
-          </motion.div>
+          </div>
         </div>
 
         <div className="relative z-10 border-t border-white/10 pt-4 text-xs text-white/50 flex justify-between">

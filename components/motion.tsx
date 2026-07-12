@@ -25,8 +25,8 @@ export function Reveal({
   return (
     <MotionTag
       className={className}
-      initial={reduce ? false : { opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={reduce ? false : { opacity: 0, transform: `translateY(${y}px)` }}
+      whileInView={{ opacity: 1, transform: "translateY(0px)" }}
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.6, ease: DAWN_EASE, delay }}
     >
@@ -74,8 +74,8 @@ export function StaggerItem({
 }) {
   const reduce = useReducedMotion();
   const item: Variants = {
-    hidden: reduce ? { opacity: 0 } : { opacity: 0, y },
-    show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: DAWN_EASE } },
+    hidden: reduce ? { opacity: 0 } : { opacity: 0, transform: `translateY(${y}px)` },
+    show: { opacity: 1, transform: "translateY(0px)", transition: { duration: 0.55, ease: DAWN_EASE } },
   };
   return (
     <motion.div className={className} variants={item}>

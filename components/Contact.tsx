@@ -2,38 +2,24 @@
 
 import { useState } from "react";
 import { Reveal } from "./motion";
-import { WhatsAppIcon, PhoneIcon, MailIcon, MapPin, ClockIcon, ArrowRight } from "./icons";
+import { WhatsAppIcon, PhoneIcon, MailIcon, ClockIcon, ArrowRight } from "./icons";
 import { PHONES, EMAIL, ADDRESSES, waLink } from "@/lib/site";
 import { products } from "@/lib/products";
-
-function MiniMap({ accent = "#F59E1F" }: { accent?: string }) {
-  return (
-    <svg viewBox="0 0 120 80" className="h-full w-full" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
-      <rect width="120" height="80" fill="#0e2147" />
-      <g stroke="#ffffff" strokeOpacity="0.08" strokeWidth="1">
-        <path d="M0 20H120M0 40H120M0 60H120M20 0V80M40 0V80M60 0V80M80 0V80M100 0V80" />
-      </g>
-      <path d="M-5 55 Q40 35 70 50 T130 45" stroke={accent} strokeOpacity="0.5" strokeWidth="2" fill="none" />
-      <path d="M30 -5 Q45 30 35 60 T55 90" stroke="#ffffff" strokeOpacity="0.12" strokeWidth="6" fill="none" />
-      <circle cx="64" cy="42" r="13" fill={accent} fillOpacity="0.18" />
-      <circle cx="64" cy="42" r="4" fill={accent} />
-    </svg>
-  );
-}
+import { LocationMap } from "./LocationMap";
 
 export function Contact() {
   const [name, setName] = useState("");
   const [family, setFamily] = useState("");
+  const [spec, setSpec] = useState("");
+  const [monthlyQuantity, setMonthlyQuantity] = useState("");
   const primary = PHONES.find((p) => p.primary) ?? PHONES[0];
 
-  const waText =
-    `Hi Nawkiran,${name ? ` this is ${name}.` : ""} I'm interested in ` +
-    `${family || "PET"} preforms. Approx. monthly quantity: `;
+  const waText = `Hi Nawkiran,${name ? ` this is ${name}.` : ""} I'm interested in ${family || "PET"} preforms. ${spec ? `Neck / weight: ${spec}. ` : ""}${monthlyQuantity ? `Approx. monthly quantity: ${monthlyQuantity} kg.` : "Approx. monthly quantity: to be discussed."}`;
 
   const emailHref =
     `mailto:${EMAIL}?subject=${encodeURIComponent("PET Preform Enquiry")}` +
     `&body=${encodeURIComponent(
-      `Hello Nawkiran Polyplast,\n\nI would like a quote for the following:\n- Family: ${family || ""}\n- Neck size / weight: \n- Approx. monthly quantity: \n\nName: ${name || ""}\n\nThank you.`,
+      `Hello Nawkiran Polyplast,\n\nI would like a quote for the following:\n- Family: ${family || ""}\n- Neck size / weight: ${spec || ""}\n- Approx. monthly quantity: ${monthlyQuantity || ""} kg\n\nName: ${name || ""}\n\nThank you.`,
     )}`;
 
   return (
@@ -50,11 +36,10 @@ export function Contact() {
         <Reveal className="max-w-2xl">
           <p className="eyebrow">Let’s talk</p>
           <h2 className="mt-3 text-[clamp(1.9rem,3.8vw,3.25rem)] text-white">
-            Get a quote — <span className="text-sun">in minutes</span>, on WhatsApp.
+            Get a quote in one clear WhatsApp message.
           </h2>
           <p className="mt-4 text-lg text-white/70">
-            Tell us the part and your monthly quantity. We typically reply on WhatsApp within minutes
-            during business hours.
+            Tell us the family, neck or weight, and monthly quantity. We will reply on WhatsApp during business hours with the next step.
           </p>
         </Reveal>
 
@@ -96,13 +81,43 @@ export function Contact() {
                   ))}
                 </select>
               </div>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label htmlFor="c-spec" className="mb-1.5 block text-sm font-medium text-white/80">
+                    Neck / weight <span className="text-white/40">(optional)</span>
+                  </label>
+                  <input
+                    id="c-spec"
+                    type="text"
+                    value={spec}
+                    onChange={(e) => setSpec(e.target.value)}
+                    placeholder="e.g. 28 mm / 18 g"
+                    className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-white placeholder:text-white/35 focus:border-sunrise focus:bg-white/10 focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="c-quantity" className="mb-1.5 block text-sm font-medium text-white/80">
+                    Monthly quantity <span className="text-white/40">(kg)</span>
+                  </label>
+                  <input
+                    id="c-quantity"
+                    type="number"
+                    min="0"
+                    inputMode="numeric"
+                    value={monthlyQuantity}
+                    onChange={(e) => setMonthlyQuantity(e.target.value)}
+                    placeholder="e.g. 5000"
+                    className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-white placeholder:text-white/35 focus:border-sunrise focus:bg-white/10 focus:outline-none"
+                  />
+                </div>
+              </div>
             </div>
 
             <a
               href={waLink(waText)}
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-sunrise px-6 py-4 text-base font-semibold text-white shadow-[0_12px_30px_-10px_rgba(243,107,33,0.8)] transition-all hover:-translate-y-0.5"
+              className="group relative mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-sunrise px-6 py-4 text-base font-semibold text-white shadow-[0_12px_30px_-10px_rgba(243,107,33,0.8)] transition-[transform,box-shadow,background-color] hover:-translate-y-0.5"
             >
               <WhatsAppIcon className="h-5 w-5" />
               Send on WhatsApp
@@ -161,33 +176,14 @@ export function Contact() {
 
             {/* addresses */}
             <div className="grid gap-4 sm:grid-cols-2">
-              {[ADDRESSES.office, ADDRESSES.plant].map((a) => (
-                <a
-                  key={a.label}
-                  href={a.maps}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group overflow-hidden rounded-3xl border border-white/10 bg-white/[0.04] transition-colors hover:border-amber/40"
-                >
-                  <div className="h-24 w-full overflow-hidden">
-                    <MiniMap />
-                  </div>
-                  <div className="p-5">
-                    <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.12em] text-amber">
-                      <MapPin className="h-4 w-4" /> {a.label}
-                    </p>
-                    <address className="mt-2 not-italic text-sm leading-relaxed text-white/75">
-                      {a.lines.map((l) => (
-                        <span key={l} className="block">{l}</span>
-                      ))}
-                    </address>
-                    <span className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-white/60 transition-colors group-hover:text-white">
-                      View on Google Maps
-                      <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
-                    </span>
-                  </div>
-                </a>
-              ))}
+              <div>
+                <LocationMap label={ADDRESSES.office.label} query={ADDRESSES.office.lines.join(", ")} href={ADDRESSES.office.maps} />
+                <address className="mt-2 not-italic text-xs leading-relaxed text-white/60">{ADDRESSES.office.lines.join(" · ")}</address>
+              </div>
+              <div>
+                <LocationMap label={ADDRESSES.plant.label} query={ADDRESSES.plant.lines.join(", ")} href={ADDRESSES.plant.maps} />
+                <address className="mt-2 not-italic text-xs leading-relaxed text-white/60">{ADDRESSES.plant.lines.join(" · ")}</address>
+              </div>
             </div>
           </Reveal>
         </div>

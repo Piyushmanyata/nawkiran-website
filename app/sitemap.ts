@@ -18,6 +18,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.9,
     },
+    {
+      url: `${SITE_URL}${APTUS_SITE_PATH}/faq`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
     ...aptusFamilies.map((family) => ({
       url: `${SITE_URL}${APTUS_SITE_PATH}/products/${family.slug}`,
       lastModified,
@@ -32,6 +38,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified,
       changeFrequency: "monthly",
       priority: 1,
+    },
+    {
+      url: `${SITE_URL}/faq`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.7,
     },
     ...productUrls,
     ...aptusUrls,

@@ -45,7 +45,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       url: `${SITE_URL}/products/${slug}`,
       images: [
         {
-          url: `${SITE_URL}/hero-preforms.png`,
+          url: `${SITE_URL}/hero-preforms-v2.png`,
           width: 1200,
           height: 630,
           alt: `${product.name} PET Preforms`,
@@ -56,7 +56,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       card: "summary_large_image",
       title,
       description,
-      images: [`${SITE_URL}/hero-preforms.png`],
+      images: [`${SITE_URL}/hero-preforms-v2.png`],
     },
   };
 }
@@ -68,12 +68,6 @@ export default async function ProductPage({ params }: Props) {
     notFound();
   }
 
-  // Preform properties for illustration
-  const allWeights = product.necks.flatMap((n) => n.weights);
-  const avgWeight = allWeights.reduce((s, w) => s + w, 0) / allWeights.length;
-  const primaryNeck = product.necks[0];
-  const neckMm = Math.max(...(primaryNeck.size.match(/\d+/g) ?? []).map(Number));
-
   // Product schema + breadcrumb structured data
   const productSchema = {
     "@context": "https://schema.org",
@@ -81,10 +75,10 @@ export default async function ProductPage({ params }: Props) {
       {
         "@type": "Product",
         "name": `${product.name} PET Preform`,
-        "image": `${SITE_URL}/hero-preforms.png`,
+        "image": `${SITE_URL}/hero-preforms-v2.png`,
         "description": product.description,
         "category": "PET Preforms",
-        "material": "Virgin food-grade PET",
+        "material": "PET",
         "brand": {
           "@type": "Brand",
           "name": "Nawkiran Polyplast",
@@ -93,16 +87,6 @@ export default async function ProductPage({ params }: Props) {
           "@type": "Organization",
           "name": "Nawkiran Polyplast Pvt. Ltd.",
           "url": SITE_URL,
-        },
-        "offers": {
-          "@type": "Offer",
-          "priceCurrency": "INR",
-          "priceRange": "$$",
-          "availability": "https://schema.org/InStock",
-          "seller": {
-            "@type": "Organization",
-            "name": "Nawkiran Polyplast Pvt. Ltd.",
-          },
         },
       },
       {
@@ -164,7 +148,7 @@ export default async function ProductPage({ params }: Props) {
                   <a
                     key={p.id}
                     href={`/products/${p.id}`}
-                    className="group rounded-xl border border-steel bg-white p-3 hover:border-sunrise hover:shadow-sm transition-all"
+                    className="group rounded-xl border border-steel bg-white p-3 hover:border-sunrise hover:shadow-sm transition-[border-color,box-shadow]"
                   >
                     <span className="block text-xs font-semibold text-slate">{productBadge(p)}</span>
                     <span className="mt-1 block font-display text-sm font-bold text-navy group-hover:text-sunrise transition-colors">

@@ -1,229 +1,159 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import { ShoppingBagIcon } from "@/components/icons";
-import {
-  APTUS_SITE_PATH,
-  aptusFamilies,
-  type AptusFamily,
-} from "@/lib/aptus";
+import { APTUS_SITE_PATH, aptusFamilies, type AptusFamily } from "@/lib/aptus";
 import { useAptusCart } from "./AptusCart";
 import { AptusCatalogCrop } from "./AptusCatalogCrop";
 
+type Variant = AptusFamily["variants"][number];
+
 export function AptusProductDetail({ family }: { family: AptusFamily }) {
   const { addItem, openCart, itemCount } = useAptusCart();
-  const [quantities, setQuantities] = useState<Record<string, number>>({});
+  const [boxCounts, setBoxCounts] = useState<Record<string, number>>({});
+  const [neck, setNeck] = useState("all");
+  const [capacity, setCapacity] = useState("all");
+  const [shape, setShape] = useState("all");
 
-  const getQty = (id: string) => quantities[id] ?? 10;
-  const updateQty = (id: string, val: number) => {
-    setQuantities((prev) => ({ ...prev, [id]: Math.max(10, val) }));
+  const bottleVariants = family.kind === "bottle" ? family.variants : [];
+  const neckOptions = [...new Set(bottleVariants.map((variant) => String(variant.neckSizeMm)))];
+  const capacityOptions = [...new Set(bottleVariants.map((variant) => String(variant.capacityMl)))];
+  const shapeOptions = [...new Set(bottleVariants.map((variant) => variant.item))];
+
+  const filteredVariants = useMemo<readonly Variant[]>(() => {
+    if (family.kind !== "bottle") return family.variants;
+    return family.variants.filter((variant) =>
+      (neck === "all" || String(variant.neckSizeMm) === neck) &&
+      (capacity === "all" || String(variant.capacityMl) === capacity) &&
+      (shape === "all" || variant.item === shape),
+    );
+  }, [capacity, family, neck, shape]);
+
+  const getBoxes = (id: string) => boxCounts[id] ?? 10;
+  const updateBoxes = (id: string, value: number) => {
+    setBoxCounts((current) => ({ ...current, [id]: Math.max(1, Math.min(1000000, value || 1)) }));
   };
 
   return (
     <div className="shell pb-20 pt-8">
       <section className="grid overflow-hidden rounded-3xl border border-steel bg-white lg:grid-cols-[0.9fr_1.1fr]">
-        <div className="min-h-64 sm:min-h-80">
-          <AptusCatalogCrop slug={family.slug} />
-        </div>
+        <div className="min-h-64 sm:min-h-80"><AptusCatalogCrop slug={family.slug} /></div>
         <div className="p-6 sm:p-10">
           <p className="eyebrow">Aptus official catalogue</p>
           <h1 className="mt-3 text-[clamp(2.1rem,4vw,3.5rem)]">{family.name}</h1>
           <p className="mt-4 text-lg leading-relaxed text-slate">
             {family.kind === "bottle"
-              ? "Select from the complete Aptus bottle range. Cosmetic and pharma applications use the same verified specification table from the official catalog."
-              : "Select the verified Alaska closure size and weight, then adjust the number of catalog packs in your enquiry cart."}
+              ? "Filter the verified bottle range by neck, capacity, and shape. Choose a box quantity only when the specification is right."
+              : "Choose the verified closure size and weight, then add the number of boxes you want to discuss."}
           </p>
           <div className="mt-7 flex flex-wrap items-center gap-3">
             <button
               type="button"
               onClick={(event) => openCart(event.currentTarget)}
-              className="inline-flex min-h-12 items-center gap-2 rounded-full border border-steel px-5 text-sm font-semibold text-navy hover:border-sunrise focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sunrise cursor-pointer"
+              className="inline-flex min-h-12 items-center gap-2 rounded-full border border-steel px-5 text-sm font-semibold text-navy hover:border-sunrise focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sunrise"
             >
               <ShoppingBagIcon className="h-4.5 w-4.5" />
-              View Aptus cart{itemCount ? ` (${itemCount})` : ""}
+              View quote cart{itemCount ? ` (${itemCount})` : ""}
             </button>
-            <p className="text-sm text-slate">Select packs below, then adjust pack count in the cart.</p>
+            <p className="text-sm text-slate">Boxes × pieces per box = total pieces.</p>
           </div>
         </div>
       </section>
 
       <section className="mt-12" aria-labelledby="aptus-specifications-title">
         <div className="max-w-3xl">
-          <p className="eyebrow">Pack-based specifications</p>
-          <h2 id="aptus-specifications-title" className="mt-3 text-[clamp(1.8rem,3vw,2.6rem)]">
-            Choose an exact catalog row.
-          </h2>
-          <p className="mt-3 text-sm leading-relaxed text-slate">
-            Packing size is fixed by the brochure. Cart totals are calculated as packs × pieces per pack.
-          </p>
+          <p className="eyebrow">Compact specification picker</p>
+          <h2 id="aptus-specifications-title" className="mt-3 text-[clamp(1.8rem,3vw,2.6rem)]">Find the right row in seconds.</h2>
+          <p className="mt-3 text-sm leading-relaxed text-slate">Use the filters to collapse repeated shapes such as Round and Altron, then add boxes from the matching specifications.</p>
         </div>
 
-        <div className="mt-7 overflow-x-auto rounded-2xl border border-steel bg-white">
-          {family.kind === "bottle" ? (
-            <table className="w-full min-w-[760px] border-collapse text-left text-sm">
-              <thead className="bg-night text-white">
-                <tr>
-                  {[
-                    "Neck size",
-                    "Capacity",
-                    "Weight",
-                    "Packing size",
-                    "Item",
-                    "Packs",
-                    "",
-                  ].map((heading) => (
-                    <th key={heading || "action"} scope="col" className="px-4 py-3 font-semibold">
-                      {heading || <span className="sr-only">Add to cart</span>}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {family.variants.map((variant) => {
-                  const qty = getQty(variant.id);
-                  return (
-                    <tr key={variant.id} className="border-t border-steel even:bg-cloud/60">
-                      <td className="px-4 py-3 font-mono font-semibold text-navy">{variant.neckSizeMm} mm</td>
-                      <td className="px-4 py-3 text-slate">{variant.capacityMl} ml</td>
-                      <td className="px-4 py-3 text-slate">{variant.weightG} g</td>
-                      <td className="px-4 py-3 text-slate">{variant.packingSize.toLocaleString("en-IN")} pcs</td>
-                      <td className="px-4 py-3 font-semibold text-navy">{variant.item}</td>
-                      <td className="px-4 py-2">
-                        <div className="flex items-center rounded-lg border border-steel bg-cloud p-0.5 w-fit">
-                          <button
-                            type="button"
-                            onClick={() => updateQty(variant.id, qty - 10)}
-                            className="flex h-7 w-7 items-center justify-center rounded text-navy hover:bg-steel/35 active:scale-90 transition-all cursor-pointer font-bold text-xs"
-                            disabled={qty <= 10}
-                            aria-label="Decrease pack quantity"
-                          >
-                            &minus;
-                          </button>
-                          <input
-                            type="number"
-                            value={qty}
-                            min={10}
-                            step={10}
-                            onChange={(e) => updateQty(variant.id, parseInt(e.target.value, 10) || 10)}
-                            className="w-8 text-center bg-transparent font-mono text-xs font-bold text-navy focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                            aria-label="Pack quantity"
-                          />
-                          <button
-                            type="button"
-                            onClick={() => updateQty(variant.id, qty + 10)}
-                            className="flex h-7 w-7 items-center justify-center rounded text-navy hover:bg-steel/35 active:scale-90 transition-all cursor-pointer font-bold text-xs"
-                            aria-label="Increase pack quantity"
-                          >
-                            &#43;
-                          </button>
-                        </div>
-                      </td>
-                      <td className="px-4 py-2 text-right">
-                        <button
-                          type="button"
-                          onClick={() => addItem(variant, qty)}
-                          aria-label={`Add ${qty} packs of ${variant.item}, ${variant.capacityMl} millilitres, ${variant.neckSizeMm} millimetre neck, ${variant.weightG} grams`}
-                          className="min-h-10 rounded-full bg-sunrise px-4 text-xs font-semibold text-white hover:brightness-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sunrise cursor-pointer"
-                        >
-                          Add {qty} packs
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          ) : (
-            <table className="w-full min-w-[640px] border-collapse text-left text-sm">
-              <thead className="bg-night text-white">
-                <tr>
-                  {[
-                    "Size",
-                    "Product",
-                    "Weight",
-                    "Packing size",
-                    "Packs",
-                    "",
-                  ].map((heading) => (
-                    <th key={heading || "action"} scope="col" className="px-4 py-3 font-semibold">
-                      {heading || <span className="sr-only">Add to cart</span>}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {family.variants.map((variant) => {
-                  const qty = getQty(variant.id);
-                  return (
-                    <tr key={variant.id} className="border-t border-steel even:bg-cloud/60">
-                      <td className="px-4 py-3 font-mono font-semibold text-navy">{variant.sizeMm} mm</td>
-                      <td className="px-4 py-3 font-semibold text-navy">{variant.product}</td>
-                      <td className="px-4 py-3 text-slate">{variant.weightG} g</td>
-                      <td className="px-4 py-3 text-slate">{variant.packingSize.toLocaleString("en-IN")} pcs</td>
-                      <td className="px-4 py-2">
-                        <div className="flex items-center rounded-lg border border-steel bg-cloud p-0.5 w-fit">
-                          <button
-                            type="button"
-                            onClick={() => updateQty(variant.id, qty - 10)}
-                            className="flex h-7 w-7 items-center justify-center rounded text-navy hover:bg-steel/35 active:scale-90 transition-all cursor-pointer font-bold text-xs"
-                            disabled={qty <= 10}
-                            aria-label="Decrease pack quantity"
-                          >
-                            &minus;
-                          </button>
-                          <input
-                            type="number"
-                            value={qty}
-                            min={10}
-                            step={10}
-                            onChange={(e) => updateQty(variant.id, parseInt(e.target.value, 10) || 10)}
-                            className="w-8 text-center bg-transparent font-mono text-xs font-bold text-navy focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                            aria-label="Pack quantity"
-                          />
-                          <button
-                            type="button"
-                            onClick={() => updateQty(variant.id, qty + 10)}
-                            className="flex h-7 w-7 items-center justify-center rounded text-navy hover:bg-steel/35 active:scale-90 transition-all cursor-pointer font-bold text-xs"
-                            aria-label="Increase pack quantity"
-                          >
-                            &#43;
-                          </button>
-                        </div>
-                      </td>
-                      <td className="px-4 py-2 text-right">
-                        <button
-                          type="button"
-                          onClick={() => addItem(variant, qty)}
-                          aria-label={`Add ${qty} packs of ${variant.product}, ${variant.sizeMm} millimetres, ${variant.weightG} grams`}
-                          className="min-h-10 rounded-full bg-sunrise px-4 text-xs font-semibold text-white hover:brightness-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sunrise cursor-pointer"
-                        >
-                          Add {qty} packs
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          )}
-        </div>
+        {family.kind === "bottle" && (
+          <div className="mt-7 grid gap-3 rounded-2xl border border-steel bg-white p-4 sm:grid-cols-3">
+            <label className="text-xs font-semibold uppercase tracking-[0.12em] text-slate">
+              Neck finish
+              <select value={neck} onChange={(event) => setNeck(event.target.value)} className="mt-2 block min-h-11 w-full rounded-xl border border-steel bg-cloud px-3 text-sm font-semibold normal-case tracking-normal text-navy focus:border-sunrise focus:outline-none">
+                <option value="all">All necks</option>
+                {neckOptions.map((value) => <option key={value} value={value}>{value} mm</option>)}
+              </select>
+            </label>
+            <label className="text-xs font-semibold uppercase tracking-[0.12em] text-slate">
+              Capacity
+              <select value={capacity} onChange={(event) => setCapacity(event.target.value)} className="mt-2 block min-h-11 w-full rounded-xl border border-steel bg-cloud px-3 text-sm font-semibold normal-case tracking-normal text-navy focus:border-sunrise focus:outline-none">
+                <option value="all">All capacities</option>
+                {capacityOptions.map((value) => <option key={value} value={value}>{value} ml</option>)}
+              </select>
+            </label>
+            <label className="text-xs font-semibold uppercase tracking-[0.12em] text-slate">
+              Shape / item
+              <select value={shape} onChange={(event) => setShape(event.target.value)} className="mt-2 block min-h-11 w-full rounded-xl border border-steel bg-cloud px-3 text-sm font-semibold normal-case tracking-normal text-navy focus:border-sunrise focus:outline-none">
+                <option value="all">All shapes</option>
+                {shapeOptions.map((value) => <option key={value} value={value}>{value}</option>)}
+              </select>
+            </label>
+          </div>
+        )}
+
+        <p className="mt-4 text-sm font-semibold text-slate" aria-live="polite">
+          Showing {filteredVariants.length} of {family.variants.length} catalogue specifications
+        </p>
+
+        <ul className="mt-4 grid gap-3">
+          {filteredVariants.map((variant) => {
+            const boxes = getBoxes(variant.id);
+            const isBottle = variant.kind === "bottle";
+            return (
+              <li key={variant.id} className="rounded-2xl border border-steel bg-white p-4 sm:p-5">
+                <div className="grid gap-4 md:grid-cols-[1fr_auto] md:items-center">
+                  <div>
+                    <p className="font-display text-lg font-bold text-navy">
+                      {isBottle ? `${variant.item} bottle · ${variant.capacityMl} ml` : variant.product}
+                    </p>
+                    <div className="mt-2 flex flex-wrap gap-2 text-xs font-semibold text-slate">
+                      <span className="rounded-full bg-cloud px-3 py-1">{isBottle ? `${variant.neckSizeMm} mm neck` : `${variant.sizeMm} mm`}</span>
+                      {isBottle && <span className="rounded-full bg-cloud px-3 py-1">{variant.capacityMl} ml</span>}
+                      <span className="rounded-full bg-cloud px-3 py-1">{variant.weightG} g</span>
+                      <span className="rounded-full bg-cloud px-3 py-1">{variant.packingSize.toLocaleString("en-IN")} pcs / box</span>
+                    </div>
+                  </div>
+                  <div className="flex flex-wrap items-end gap-2 md:justify-end">
+                    <label className="text-xs font-semibold text-slate">
+                      Boxes
+                      <input
+                        type="number"
+                        min={1}
+                        max={1000000}
+                        step={1}
+                        inputMode="numeric"
+                        value={boxes}
+                        onChange={(event) => updateBoxes(variant.id, Number(event.target.value))}
+                        className="mt-1 block h-11 w-24 rounded-xl border border-steel bg-cloud px-3 text-center font-mono text-sm font-bold text-navy focus:border-sunrise focus:outline-none"
+                        aria-label={`Number of boxes for ${isBottle ? `${variant.item} ${variant.capacityMl} millilitre bottle` : variant.product}`}
+                      />
+                    </label>
+                    <button
+                      type="button"
+                      onClick={() => addItem(variant, boxes)}
+                      className="min-h-11 rounded-full bg-sunrise px-4 text-sm font-semibold text-white hover:bg-sunrise-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sunrise"
+                    >
+                      Add {boxes} boxes
+                    </button>
+                  </div>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
       </section>
 
       <nav className="mt-12" aria-label="Other Aptus product families">
         <p className="text-xs font-semibold uppercase tracking-[0.12em] text-slate">Other Aptus families</p>
         <div className="mt-3 flex flex-wrap gap-2">
-          {aptusFamilies
-            .filter((related) => related.slug !== family.slug)
-            .map((related) => (
-              <Link
-                key={related.slug}
-                href={`${APTUS_SITE_PATH}/products/${related.slug}`}
-                className="inline-flex min-h-10 items-center rounded-full border border-steel bg-white px-4 text-sm font-semibold text-navy hover:border-sunrise"
-              >
-                {related.name}
-              </Link>
-            ))}
+          {aptusFamilies.filter((related) => related.slug !== family.slug).map((related) => (
+            <Link key={related.slug} href={`${APTUS_SITE_PATH}/products/${related.slug}`} className="inline-flex min-h-10 items-center rounded-full border border-steel bg-white px-4 text-sm font-semibold text-navy hover:border-sunrise">
+              {related.name}
+            </Link>
+          ))}
         </div>
       </nav>
     </div>

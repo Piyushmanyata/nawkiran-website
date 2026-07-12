@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { type Product, type NeckSpec } from "./products";
+import { type Product } from "./products";
 
 // Quantity is expressed in kilograms. These bounds are shared by the
 // configurator inputs (Products, ProductDetailInteractive) and the cart editor.

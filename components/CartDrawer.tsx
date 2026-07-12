@@ -7,8 +7,9 @@ import { Preform } from "./Preform";
 import { PRODUCT_TINT, primaryNeckMm, formatNeck } from "@/lib/products";
 import { WhatsAppIcon, Plus } from "./icons";
 import { waLink } from "@/lib/site";
+import { DAWN_EASE } from "@/components/motion";
 
-// Subcomponent for cart items to support smooth exit transitions
+// Keep cart rows lightweight: item removal should fade, not animate layout height.
 function CartItemRow({
   item,
   onUpdateQty,
@@ -23,11 +24,10 @@ function CartItemRow({
 
   return (
     <motion.div
-      layout
-      initial={{ opacity: 0, x: 20 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: -30, height: 0, marginBottom: 0 }}
-      transition={{ type: "spring", stiffness: 350, damping: 26 }}
+      initial={{ opacity: 0, transform: "translateX(12px)" }}
+      animate={{ opacity: 1, transform: "translateX(0px)" }}
+      exit={{ opacity: 0, transform: "translateX(-12px)" }}
+      transition={{ duration: 0.18, ease: DAWN_EASE }}
       className="flex items-center gap-4 rounded-xl border border-steel/60 bg-white p-3 shadow-[0_2px_8px_rgba(22,40,77,0.02)] transition-shadow hover:shadow-[0_4px_12px_rgba(22,40,77,0.06)]"
     >
       {/* Small preform rendering */}
@@ -211,7 +211,7 @@ export function CartDrawer() {
               ref={closeRef}
               type="button"
               onClick={() => dialogRef.current?.close()}
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-steel bg-white text-navy hover:bg-cloud hover:border-navy transition-all"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-steel bg-white text-navy hover:bg-cloud hover:border-navy transition-[background-color,border-color,color]"
               aria-label="Close cart"
             >
               <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
@@ -298,7 +298,7 @@ export function CartDrawer() {
                           value={name}
                           onChange={(e) => handleNameChange(e.target.value)}
                           placeholder="e.g. Rahul Sharma"
-                          className="mt-1 block w-full rounded-lg border border-steel bg-cloud px-3 py-2 text-sm text-navy placeholder-slate/50 focus:border-sunrise focus:bg-white focus:outline-none transition-all"
+                          className="mt-1 block w-full rounded-lg border border-steel bg-cloud px-3 py-2 text-sm text-navy placeholder-slate/50 focus:border-sunrise focus:bg-white focus:outline-none transition-[background-color,border-color,box-shadow]"
                         />
                       </div>
 
@@ -312,7 +312,7 @@ export function CartDrawer() {
                           value={company}
                           onChange={(e) => handleCompanyChange(e.target.value)}
                           placeholder="e.g. Pure Water Bottlers"
-                          className="mt-1 block w-full rounded-lg border border-steel bg-cloud px-3 py-2 text-sm text-navy placeholder-slate/50 focus:border-sunrise focus:bg-white focus:outline-none transition-all"
+                          className="mt-1 block w-full rounded-lg border border-steel bg-cloud px-3 py-2 text-sm text-navy placeholder-slate/50 focus:border-sunrise focus:bg-white focus:outline-none transition-[background-color,border-color,box-shadow]"
                         />
                       </div>
 
@@ -326,7 +326,7 @@ export function CartDrawer() {
                           value={state}
                           onChange={(e) => handleStateChange(e.target.value)}
                           placeholder="e.g. West Bengal"
-                          className="mt-1 block w-full rounded-lg border border-steel bg-cloud px-3 py-2 text-sm text-navy placeholder-slate/50 focus:border-sunrise focus:bg-white focus:outline-none transition-all"
+                          className="mt-1 block w-full rounded-lg border border-steel bg-cloud px-3 py-2 text-sm text-navy placeholder-slate/50 focus:border-sunrise focus:bg-white focus:outline-none transition-[background-color,border-color,box-shadow]"
                         />
                       </div>
                     </motion.div>
@@ -348,7 +348,7 @@ export function CartDrawer() {
             </div>
 
             <div className="relative group">
-              <div className="absolute -inset-0.5 rounded-full bg-gradient-to-r from-sunrise to-amber opacity-60 blur transition-all duration-300 group-hover:opacity-100" />
+              <div className="absolute -inset-0.5 rounded-full bg-gradient-to-r from-sunrise to-amber opacity-60 blur transition-opacity duration-300 group-hover:opacity-100" />
               <button
                 type="button"
                 onClick={handleWhatsAppCheckout}
@@ -359,7 +359,7 @@ export function CartDrawer() {
               </button>
             </div>
             <p className="text-center text-[10px] font-mono text-slate">
-              Opens WhatsApp &bull; Typically responds in minutes
+              Opens WhatsApp &bull; Replies during business hours
             </p>
           </div>
         )}

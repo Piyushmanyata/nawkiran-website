@@ -44,7 +44,7 @@ function MobileProductStrip({
             key={p.id}
             type="button"
             onClick={() => onSelect(p)}
-            className={`inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3.5 py-2 text-sm font-semibold transition-all duration-200 ${
+            className={`inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3.5 py-2 text-sm font-semibold transition-colors duration-200 ${
               active
                 ? "border-transparent text-white shadow-[0_4px_12px_-4px_rgba(0,0,0,0.3)]"
                 : "border-steel bg-white text-navy"
@@ -80,7 +80,7 @@ function ProductFamilyButton({
     <button
       type="button"
       onClick={onSelect}
-      className={`group flex w-full items-center gap-3 rounded-2xl border p-3 text-left transition-all ${
+      className={`group flex w-full items-center gap-3 rounded-2xl border p-3 text-left transition-[border-color,background-color,box-shadow] ${
         active
           ? "border-sunrise bg-white shadow-[0_0_0_1px_rgba(243,107,33,0.15),0_6px_20px_-8px_rgba(243,107,33,0.45)]"
           : "border-steel bg-white/70 hover:border-sunrise/50 hover:bg-white hover:shadow-[0_4px_12px_-8px_rgba(22,40,77,0.10)]"
@@ -130,7 +130,7 @@ function WeightChip({ weight, active, onSelect }: { weight: number; active: bool
     <button
       type="button"
       onClick={onSelect}
-      className={`tnum rounded-xl border px-2.5 py-2 font-mono text-sm font-semibold transition-all duration-150 ${
+      className={`tnum rounded-xl border px-2.5 py-2 font-mono text-sm font-semibold transition-[transform,background-color,border-color,box-shadow] duration-150 ${
         active
           ? "border-sunrise bg-sunrise text-white shadow-[0_4px_14px_-6px_rgba(243,107,33,0.7)] scale-[1.06]"
           : "border-steel bg-cloud text-navy hover:border-sunrise/70 hover:bg-white hover:scale-[1.04] hover:shadow-sm"
@@ -175,9 +175,9 @@ function SpecPanel({
   return (
     <motion.div
       key={p.id}
-      initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -8 }}
+      initial={{ opacity: 0, transform: "translateY(12px)" }}
+      animate={{ opacity: 1, transform: "translateY(0px)" }}
+      exit={{ opacity: 0, transform: "translateY(-8px)" }}
       transition={{ duration: 0.32, ease: DAWN_EASE }}
       className="grid grid-cols-1 min-w-0 w-full gap-4 xl:grid-cols-[minmax(20rem,0.9fr)_1fr]"
     >
@@ -224,12 +224,9 @@ function SpecPanel({
             <motion.div
               key={`${p.id}-${neckMm}-${weight}`}
               initial={{ opacity: 0.85, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1, y: [0, -8, 0] }}
+              animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0.85, scale: 0.96 }}
-              transition={{
-                duration: 0.25,
-                y: { duration: 5, repeat: Infinity, ease: "easeInOut" }
-              }}
+              transition={{ duration: 0.25, ease: DAWN_EASE }}
               className="flex items-center justify-center"
             >
               <Preform
@@ -242,9 +239,7 @@ function SpecPanel({
               />
             </motion.div>
           </AnimatePresence>
-          <motion.div
-            animate={{ y: [0, -4, 0] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+          <div
             className="pointer-events-none absolute right-3 top-3 sm:top-12 h-16 sm:h-48 w-auto opacity-20"
           >
             <BlownBottle
@@ -252,7 +247,7 @@ function SpecPanel({
               tint={PRODUCT_TINT[p.id]}
               uid={`ghost-${p.id}`}
             />
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -293,7 +288,7 @@ function SpecPanel({
             <button
               type="button"
               onClick={() => setQty((q) => Math.max(QTY_MIN, q - QTY_STEP))}
-              className="flex h-10 w-12 items-center justify-center rounded-lg text-navy hover:bg-steel/30 active:scale-95 transition-all cursor-pointer font-bold text-lg disabled:opacity-40 disabled:cursor-not-allowed"
+              className="flex h-10 w-12 items-center justify-center rounded-lg text-navy hover:bg-steel/30 active:scale-95 transition-colors cursor-pointer font-bold text-lg disabled:opacity-40 disabled:cursor-not-allowed"
               disabled={qty <= QTY_MIN}
               aria-label="Decrease quantity"
             >
@@ -312,7 +307,7 @@ function SpecPanel({
             <button
               type="button"
               onClick={() => setQty((q) => Math.min(QTY_MAX, q + QTY_STEP))}
-              className="flex h-10 w-12 items-center justify-center rounded-lg text-navy hover:bg-steel/30 active:scale-95 transition-all cursor-pointer"
+              className="flex h-10 w-12 items-center justify-center rounded-lg text-navy hover:bg-steel/30 active:scale-95 transition-colors cursor-pointer"
               aria-label="Increase quantity"
             >
               <Plus className="h-4 w-4" />
@@ -329,7 +324,7 @@ function SpecPanel({
           <button
             type="button"
             onClick={handleAdd}
-            className={`group relative overflow-hidden inline-flex w-full sm:flex-1 items-center justify-center gap-2 rounded-full py-3.5 text-sm font-semibold text-white shadow-lg transition-all duration-300 active:scale-[0.98] cursor-pointer ${
+            className={`group relative overflow-hidden inline-flex w-full sm:flex-1 items-center justify-center gap-2 rounded-full py-3.5 text-sm font-semibold text-white shadow-lg transition-[transform,background-color,box-shadow] duration-200 active:scale-[0.98] cursor-pointer ${
               isAdded
                 ? "bg-whatsapp shadow-[0_8px_18px_-8px_rgba(37,211,102,0.6)]"
                 : "bg-sunrise shadow-[0_8px_18px_-10px_rgba(243,107,33,0.85)] hover:-translate-y-0.5"
@@ -352,7 +347,7 @@ function SpecPanel({
           </button>
           <Link
             href={`/products/${p.id}`}
-            className="group inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-full border border-steel bg-white hover:border-sunrise px-6 py-3.5 text-sm font-semibold text-navy transition-all hover:-translate-y-0.5"
+            className="group inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-full border border-steel bg-white hover:border-sunrise px-6 py-3.5 text-sm font-semibold text-navy transition-[transform,border-color] hover:-translate-y-0.5"
           >
             View full specs
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />

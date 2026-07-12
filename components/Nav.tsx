@@ -11,6 +11,7 @@ import { useCart } from "@/lib/cart";
 import { CartDrawer } from "./CartDrawer";
 import { AddedToCartToast } from "./AddedToCartToast";
 import { CompanySwitcher } from "./CompanySwitcher";
+import { DAWN_EASE } from "@/components/motion";
 
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
@@ -53,12 +54,11 @@ export function Nav() {
   const showBg = !isHome || scrolled;
 
   const containerVariants = {
-    hidden: { opacity: 0, height: 0 },
+    hidden: { opacity: 0, transform: "translateY(-8px)" },
     show: {
       opacity: 1,
-      height: "auto",
+      transform: "translateY(0px)",
       transition: {
-        height: { duration: 0.35, ease: [0.22, 1, 0.36, 1] },
         opacity: { duration: 0.25 },
         staggerChildren: 0.05,
         delayChildren: 0.05,
@@ -66,9 +66,8 @@ export function Nav() {
     },
     exit: {
       opacity: 0,
-      height: 0,
+      transform: "translateY(-8px)",
       transition: {
-        height: { duration: 0.3, ease: [0.22, 1, 0.36, 1] },
         opacity: { duration: 0.2 },
         staggerChildren: 0.03,
         staggerDirection: -1,
@@ -77,15 +76,15 @@ export function Nav() {
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 12 },
-    show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 350, damping: 26 } as const },
-    exit: { opacity: 0, y: -8, transition: { duration: 0.15 } },
+    hidden: { opacity: 0, transform: "translateY(12px)" },
+    show: { opacity: 1, transform: "translateY(0px)", transition: { duration: 0.18, ease: DAWN_EASE } },
+    exit: { opacity: 0, transform: "translateY(-8px)", transition: { duration: 0.15 } },
   };
 
   return (
     <header className="fixed inset-x-0 top-0 z-50">
       <div
-        className={`transition-all duration-300 ${
+        className={`transition-[background-color,border-color,backdrop-filter] duration-300 ${
           showBg
             ? "border-b border-steel bg-white/85 backdrop-blur-xl"
             : "border-b border-transparent bg-transparent"
@@ -93,7 +92,7 @@ export function Nav() {
       >
         <nav
           aria-label="Primary"
-          className={`shell flex items-center justify-between gap-4 transition-all duration-300 ${scrolled ? "py-2.5" : "py-4"}`}
+          className={`shell flex items-center justify-between gap-4 transition-[padding] duration-300 ${scrolled ? "py-2.5" : "py-4"}`}
         >
           {/* Brand lockup */}
           <Link href="/" className="flex items-center gap-2.5" aria-label="Nawkiran Polyplast — home">
@@ -125,7 +124,7 @@ export function Nav() {
           <div className="flex items-center gap-2">
             <a
               href={`tel:${primaryTel}`}
-              className={`hidden items-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold transition-all sm:inline-flex ${
+              className={`hidden items-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold transition-[background-color,border-color,color] sm:inline-flex ${
                 onDark ? "border border-white/25 text-white hover:bg-white/10" : "border border-steel text-navy hover:border-sunrise hover:text-sunrise"
               }`}
             >
@@ -137,7 +136,7 @@ export function Nav() {
             <button
               type="button"
               onClick={toggleCart}
-              className={`relative inline-flex h-10 w-10 items-center justify-center rounded-full border transition-all duration-200 active:scale-95 cursor-pointer ${
+              className={`relative inline-flex h-10 w-10 items-center justify-center rounded-full border transition-[transform,background-color,border-color,color] duration-200 active:scale-95 cursor-pointer ${
                 onDark
                   ? "border-white/25 text-white hover:bg-white/10"
                   : "border-steel text-navy hover:border-sunrise hover:text-sunrise hover:bg-cloud"
@@ -167,7 +166,7 @@ export function Nav() {
               rel="noopener noreferrer"
               aria-label="WhatsApp Nawkiran Polyplast"
               title="WhatsApp Nawkiran Polyplast"
-              className="group relative inline-flex items-center gap-2 rounded-full bg-sunrise px-4 py-2.5 text-sm font-semibold text-white shadow-[0_8px_24px_-10px_rgba(243,107,33,0.8)] transition-all hover:-translate-y-0.5"
+              className="group relative inline-flex items-center gap-2 rounded-full bg-sunrise px-4 py-2.5 text-sm font-semibold text-white shadow-[0_8px_24px_-10px_rgba(243,107,33,0.8)] transition-[transform,box-shadow,background-color] hover:-translate-y-0.5"
             >
               <WhatsAppIcon className="h-[1.1rem] w-[1.1rem]" />
               <span className="sr-only sm:not-sr-only">WhatsApp</span>
@@ -177,7 +176,7 @@ export function Nav() {
             <button
               type="button"
               onClick={() => setOpen((v) => !v)}
-              aria-label="Toggle menu"
+              aria-label={open ? "Close menu" : "Open menu"}
               aria-expanded={open}
               aria-haspopup="menu"
               aria-controls="mobile-menu"
@@ -216,6 +215,7 @@ export function Nav() {
                 <motion.a
                   key={l.href}
                   href={l.href.startsWith("#") ? `/${l.href}` : l.href}
+                  role="menuitem"
                   variants={itemVariants}
                   onClick={() => setOpen(false)}
                   className="rounded-xl px-3 py-3 text-base font-medium text-navy transition-colors hover:bg-cloud"

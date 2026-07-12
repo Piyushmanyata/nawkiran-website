@@ -30,7 +30,7 @@ const jetbrains = JetBrains_Mono({
   preload: false,
 });
 
-const OG_IMAGE = `${SITE_URL}/hero-preforms.png`;
+const OG_IMAGE = `${SITE_URL}/hero-preforms-v2.png`;
 
 export const viewport: Viewport = {
   themeColor: "#0b1b3a",
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     template: "%s · Nawkiran Polyplast",
   },
   description:
-    "Nawkiran Polyplast manufactures PET preforms for bottles and jars — 11 machines, 80+ product types, 400+ tonnes a month across 6 preform families (neck sizes 22–120mm). Serving 250+ buyers across 13+ Indian states. Get a quote on WhatsApp in minutes.",
+    "Nawkiran Polyplast manufactures PET preforms for bottles and jars in Kolkata — 11 machines, 80+ product types, and over 400 tonnes a month across 6 preform families. Ask about rPET-ready options and a made-to-spec quote.",
   keywords: [
     "PET preforms manufacturer India",
     "PET preforms Kolkata",
@@ -67,6 +67,7 @@ export const metadata: Metadata = {
     "preform manufacturer eastern India",
     "high-volume PET preform supply",
     "food-grade PET preforms",
+    "rPET-ready preforms India",
   ],
   manifest: "/manifest.json",
   icons: {
@@ -95,7 +96,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Nawkiran Polyplast — PET Preforms for Bottles & Jars | Kolkata",
     description:
-      "11 machines · 80+ product types · 400+ tonnes/month · 250+ buyers across 13+ states. PET preforms made to spec in Kolkata. Quote on WhatsApp in minutes.",
+      "11 machines · 80+ product types · 400+ tonnes/month · 250+ buyers across 13+ states. PET preforms made to spec in Kolkata. Send a clear WhatsApp enquiry.",
     type: "website",
     locale: "en_IN",
     url: SITE_URL,
@@ -113,7 +114,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Nawkiran Polyplast — PET Preforms for Bottles & Jars",
     description:
-      "11 machines · 80+ product types · 400+ tonnes/month. PET preforms made to spec in Kolkata. Quote on WhatsApp in minutes.",
+      "11 machines · 80+ product types · 400+ tonnes/month. PET preforms made to spec in Kolkata. Send a clear WhatsApp enquiry.",
     images: [OG_IMAGE],
   },
   category: "Manufacturing",

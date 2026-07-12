@@ -36,7 +36,7 @@ export default function NotFound() {
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <Link
               href="/"
-              className="inline-flex items-center gap-2 rounded-full bg-sunrise px-6 py-3.5 text-sm font-semibold text-white shadow-[0_8px_24px_-10px_rgba(243,107,33,0.8)] transition-all hover:-translate-y-0.5"
+              className="inline-flex items-center gap-2 rounded-full bg-sunrise px-6 py-3.5 text-sm font-semibold text-white shadow-[0_8px_24px_-10px_rgba(243,107,33,0.8)] transition-[transform,box-shadow,background-color] hover:-translate-y-0.5"
             >
               Back to home
             </Link>
@@ -52,7 +52,7 @@ export default function NotFound() {
               <Link
                 key={p.id}
                 href={`/products/${p.id}`}
-                className="rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm font-medium text-white/75 transition-all hover:border-sunrise/50 hover:bg-white/[0.08] hover:text-white"
+                className="rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm font-medium text-white/75 transition-[background-color,border-color,color] hover:border-sunrise/50 hover:bg-white/[0.08] hover:text-white"
               >
                 {p.name}
               </Link>

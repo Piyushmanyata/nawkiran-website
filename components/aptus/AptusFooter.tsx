@@ -29,6 +29,9 @@ export function AptusFooter() {
                   </Link>
                 </li>
               ))}
+              <li>
+                <Link href={`${APTUS_SITE_PATH}/faq`} className="text-sm text-white/70 hover:text-white">FAQ</Link>
+              </li>
             </ul>
           </div>
 

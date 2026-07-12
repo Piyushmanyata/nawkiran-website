@@ -12,27 +12,30 @@ import { useAptusCart } from "./AptusCart";
 const LINKS = [
   { label: "Products", href: `${APTUS_SITE_PATH}#products` },
   { label: "Capabilities", href: `${APTUS_SITE_PATH}#capabilities` },
+  { label: "Equipment", href: `${APTUS_SITE_PATH}#equipment` },
+  { label: "Materials", href: `${APTUS_SITE_PATH}#materials` },
+  { label: "FAQ", href: `${APTUS_SITE_PATH}/faq` },
   { label: "Contact", href: `${APTUS_SITE_PATH}#contact` },
 ];
 
 const menuVariants = {
-  hidden: { opacity: 0, height: 0 },
+  hidden: { opacity: 0, transform: "translateY(-8px)" },
   show: {
     opacity: 1,
-    height: "auto",
-    transition: { height: { duration: 0.3, ease: DAWN_EASE }, opacity: { duration: 0.2 }, staggerChildren: 0.05 },
+    transform: "translateY(0px)",
+    transition: { opacity: { duration: 0.2 }, staggerChildren: 0.05 },
   },
   exit: {
     opacity: 0,
-    height: 0,
-    transition: { height: { duration: 0.25, ease: DAWN_EASE }, opacity: { duration: 0.15 } },
+    transform: "translateY(-8px)",
+    transition: { opacity: { duration: 0.15 } },
   },
 } as const;
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 8 },
-  show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 350, damping: 26 } as const },
-  exit: { opacity: 0, y: -6, transition: { duration: 0.12 } },
+  hidden: { opacity: 0, transform: "translateY(8px)" },
+  show: { opacity: 1, transform: "translateY(0px)", transition: { duration: 0.16, ease: DAWN_EASE } },
+  exit: { opacity: 0, transform: "translateY(-6px)", transition: { duration: 0.12 } },
 };
 
 export function AptusNav() {
@@ -112,7 +115,7 @@ export function AptusNav() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="WhatsApp Aptus Packaging LLP"
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-sunrise text-white shadow-lg transition-all hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sunrise sm:w-auto sm:gap-2 sm:px-4"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-sunrise text-white shadow-lg transition-[transform,box-shadow,background-color] hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sunrise sm:w-auto sm:gap-2 sm:px-4"
             >
               <WhatsAppIcon className="h-[1.1rem] w-[1.1rem]" />
               <span className="sr-only sm:not-sr-only">WhatsApp</span>

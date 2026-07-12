@@ -2,8 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "motion/react";
-import aptusCatalog from "../../Aptus Catalog.png";
+import { motion, useReducedMotion } from "motion/react";
 import {
   ArrowRight,
   MailIcon,
@@ -17,11 +16,13 @@ import {
 } from "@/components/icons";
 import { APTUS, APTUS_SITE_PATH, aptusFamilies, aptusWaLink } from "@/lib/aptus";
 import { AptusCatalogCrop } from "./AptusCatalogCrop";
+import { LocationMap } from "../LocationMap";
 import { Reveal, Stagger, StaggerItem, DAWN_EASE } from "@/components/motion";
 import { CountUp } from "@/components/CountUp";
-import aptusHeroProducts from "../../public/aptus-hero-products.png";
+import aptusHeroProducts from "../../public/aptus-hero-products-v2.png";
 
 export function AptusCatalog() {
+  const reduce = useReducedMotion();
   return (
     <>
       {/* ── Hero ── */}
@@ -36,39 +37,39 @@ export function AptusCatalog() {
           <div>
             <motion.p
               className="eyebrow"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={reduce ? false : { opacity: 0, transform: "translateY(10px)" }}
+              animate={{ opacity: 1, transform: "translateY(0px)" }}
               transition={{ duration: 0.5, delay: 0.2, ease: DAWN_EASE }}
             >
               Aptus Packaging LLP · West Bengal
             </motion.p>
             <motion.h1
               className="mt-4 max-w-3xl text-balance font-display text-[clamp(2.6rem,5.4vw,4.5rem)] font-bold leading-[1.02] tracking-[-0.02em] text-white"
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={reduce ? false : { opacity: 0, transform: "translateY(18px)" }}
+              animate={{ opacity: 1, transform: "translateY(0px)" }}
               transition={{ duration: 0.6, delay: 0.35, ease: DAWN_EASE }}
             >
-              Bottles and closures, made at industrial scale.
+              Cosmetic bottles, pharma bottles, and closures made to spec.
             </motion.h1>
             <motion.p
               className="mt-6 max-w-2xl text-lg leading-relaxed text-white/75"
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={reduce ? false : { opacity: 0, transform: "translateY(14px)" }}
+              animate={{ opacity: 1, transform: "translateY(0px)" }}
               transition={{ duration: 0.55, delay: 0.5, ease: DAWN_EASE }}
             >
-              Pharma bottles, cosmetic PET bottles, and compression-moulded water closures—with exact catalog specifications and pack-based enquiries.
+              Clear cosmetic PET bottles, pharma bottles, and plastic closures—with exact catalogue specifications and a box-based WhatsApp enquiry flow.
             </motion.p>
             <motion.div
               className="mt-8 flex flex-col gap-3 sm:flex-row"
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={reduce ? false : { opacity: 0, transform: "translateY(12px)" }}
+              animate={{ opacity: 1, transform: "translateY(0px)" }}
               transition={{ duration: 0.5, delay: 0.65, ease: DAWN_EASE }}
             >
               <a
                 href="#products"
                 className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-sunrise px-6 text-sm font-semibold text-white shadow-lg hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white transition-transform"
               >
-                Browse product families <ArrowRight className="h-4 w-4" />
+                View product families <ArrowRight className="h-4 w-4" />
               </a>
               <a
                 href={aptusWaLink()}
@@ -83,7 +84,7 @@ export function AptusCatalog() {
 
           <motion.div
             className="relative mx-auto w-full max-w-xl overflow-hidden rounded-3xl border border-white/15 bg-white shadow-2xl"
-            initial={{ opacity: 0, scale: 0.95 }}
+            initial={reduce ? false : { opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.4, ease: DAWN_EASE }}
           >
@@ -98,7 +99,7 @@ export function AptusCatalog() {
               />
             </div>
             <p className="border-t border-steel bg-white px-4 py-3 text-xs font-medium text-slate">
-              Premium cosmetic/pharma bottles and closures manufactured by Aptus.
+              Cosmetic PET bottles, pharma bottles, and closures manufactured by Aptus.
             </p>
           </motion.div>
         </div>
@@ -146,7 +147,7 @@ export function AptusCatalog() {
               <StaggerItem key={family.slug}>
                 <Link
                   href={`${APTUS_SITE_PATH}/products/${family.slug}`}
-                  className="group block overflow-hidden rounded-3xl border border-steel bg-cloud transition-all hover:-translate-y-1 hover:border-sunrise hover:shadow-xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sunrise"
+                  className="group block overflow-hidden rounded-3xl border border-steel bg-cloud transition-[transform,border-color,box-shadow] hover:-translate-y-1 hover:border-sunrise hover:shadow-xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sunrise"
                 >
                   <div className="aspect-[16/10] overflow-hidden border-b border-steel">
                     <AptusCatalogCrop slug={family.slug} />
@@ -202,6 +203,59 @@ export function AptusCatalog() {
         </div>
       </section>
 
+      <section id="equipment" className="scroll-mt-24 bg-white">
+        <div className="shell section grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+          <div className="relative overflow-hidden rounded-3xl border border-steel bg-cloud">
+            <div className="relative aspect-[3/2]">
+              <Image
+                src="/aptus-machinery.png"
+                alt="Representative injection stretch blow moulding and closure compression moulding equipment"
+                fill
+                sizes="(max-width: 1024px) 92vw, 52vw"
+                className="object-cover"
+                loading="lazy"
+              />
+            </div>
+            <p className="border-t border-steel px-4 py-3 text-xs text-slate">Representative equipment visual; confirm exact installed models in your quote conversation.</p>
+          </div>
+          <Reveal>
+            <p className="eyebrow">Equipment reference</p>
+            <h2 className="mt-3 text-[clamp(2rem,4vw,3.25rem)]">Two production paths. One dependable packaging brief.</h2>
+            <div className="mt-6 grid gap-3 sm:grid-cols-2">
+              <div className="rounded-2xl border border-steel bg-dawn p-5">
+                <p className="font-display text-lg font-semibold text-navy">5 Nissei ASB lines</p>
+                <p className="mt-2 text-sm leading-relaxed text-slate">Single-stage injection stretch blow moulding for cosmetic, pharma, and edible-oil bottles.</p>
+              </div>
+              <div className="rounded-2xl border border-steel bg-dawn p-5">
+                <p className="font-display text-lg font-semibold text-navy">SACMI closure technology</p>
+                <p className="mt-2 text-sm leading-relaxed text-slate">Compression moulding for consistent, high-volume plastic closure production.</p>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      <section id="materials" className="scroll-mt-24 bg-dawn">
+        <div className="shell section grid gap-8 lg:grid-cols-[0.75fr_1.25fr]">
+          <div>
+            <p className="eyebrow">Future-ready materials</p>
+            <h2 className="mt-3 text-[clamp(2rem,4vw,3rem)]">Packaging that leaves room for the next material brief.</h2>
+          </div>
+          <div className="grid gap-px overflow-hidden rounded-3xl border border-steel bg-steel sm:grid-cols-3">
+            {[
+              ["rPET conversations", "Evaluate recycled-content options when the right grade and application fit."],
+              ["Cost visibility", "Compare material, box quantity, availability, and performance together."],
+              ["Clear specifications", "Keep neck, capacity, weight, and closure details visible from the first enquiry."],
+            ].map(([title, body]) => (
+              <div key={title} className="bg-white p-6">
+                <p className="font-display text-lg font-semibold text-navy">{title}</p>
+                <p className="mt-2 text-sm leading-relaxed text-slate">{body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── Contact ── */}
       <section id="contact" className="scroll-mt-24 bg-dawn">
         <div className="shell section">
@@ -210,7 +264,7 @@ export function AptusCatalog() {
               <p className="eyebrow">Contact Aptus</p>
               <h2 className="mt-3 text-[clamp(2rem,4vw,3.25rem)]">Send exact specifications in one message.</h2>
               <p className="mt-4 text-lg leading-relaxed text-slate">
-                Build a pack-based quote cart from any family page, or contact Aptus directly.
+              Build a box-based quote cart from any family page, or contact Aptus directly.
               </p>
               <a
                 href={aptusWaLink()}
@@ -251,6 +305,9 @@ export function AptusCatalog() {
                   <address className="mt-4 not-italic text-sm leading-relaxed text-slate">
                     {address.lines.map((line) => <span key={line} className="block">{line}</span>)}
                   </address>
+                  <div className="mt-4">
+                    <LocationMap label={`Open ${address.label}`} query={address.lines.join(", ")} href={address.maps} />
+                  </div>
                 </StaggerItem>
               ))}
             </Stagger>

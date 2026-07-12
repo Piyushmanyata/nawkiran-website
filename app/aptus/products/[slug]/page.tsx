@@ -10,7 +10,6 @@ import {
   type AptusFamily,
 } from "@/lib/aptus";
 import { SITE_URL } from "@/lib/site";
-import aptusCatalog from "../../../../Aptus Catalog.png";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -19,14 +18,14 @@ type Props = {
 type AptusVariant = AptusFamily["variants"][number];
 
 const APTUS_URL = `${SITE_URL}${APTUS_SITE_PATH}`;
-const CATALOG_IMAGE = `${SITE_URL}${aptusCatalog.src}`;
+const CATALOG_IMAGE = `${SITE_URL}/aptus-hero-products-v2.png`;
 const FAMILY_DESCRIPTIONS: Record<string, string> = {
   "cosmetic-bottles":
-    "Explore Aptus cosmetic PET bottle specifications, including neck size, capacity, bottle weight and catalog packing quantity.",
+    "Explore Aptus cosmetic PET bottle specifications, including neck size, capacity, bottle weight and pieces per box.",
   "pharma-bottles":
-    "Explore Aptus pharma bottle specifications, including neck size, capacity, bottle weight and catalog packing quantity.",
+    "Explore Aptus pharma bottle specifications, including neck size, capacity, bottle weight and pieces per box.",
   "plastic-closures":
-    "Explore Aptus plastic closure specifications, including closure size, weight and catalog packing quantity.",
+    "Explore Aptus plastic closure specifications, including closure size, weight and pieces per box.",
 };
 
 export const dynamicParams = false;
@@ -41,10 +40,10 @@ function getDescription(family: AptusFamily) {
 
 function describeVariant(variant: AptusVariant) {
   if (variant.kind === "bottle") {
-    return `${variant.item}: ${variant.capacityMl} ml capacity, ${variant.neckSizeMm} mm neck, ${variant.weightG} g bottle weight, packing ${variant.packingSize} pieces.`;
+    return `${variant.item}: ${variant.capacityMl} ml capacity, ${variant.neckSizeMm} mm neck, ${variant.weightG} g bottle weight, ${variant.packingSize} pieces per box.`;
   }
 
-  return `${variant.product}: ${variant.sizeMm} mm, ${variant.weightG} g closure weight, packing ${variant.packingSize} pieces.`;
+  return `${variant.product}: ${variant.sizeMm} mm, ${variant.weightG} g closure weight, ${variant.packingSize} pieces per box.`;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -115,12 +114,12 @@ export default async function AptusFamilyPage({ params }: Props) {
               { "@type": "PropertyValue", "name": "Neck Size", "value": `${variant.neckSizeMm} mm` },
               { "@type": "PropertyValue", "name": "Capacity", "value": `${variant.capacityMl} ml` },
               { "@type": "PropertyValue", "name": "Weight", "value": `${variant.weightG} g` },
-              { "@type": "PropertyValue", "name": "Packing Size", "value": `${variant.packingSize} pcs` },
+              { "@type": "PropertyValue", "name": "Pieces per Box", "value": `${variant.packingSize} pcs` },
             ]
           : [
               { "@type": "PropertyValue", "name": "Size", "value": `${variant.sizeMm} mm` },
               { "@type": "PropertyValue", "name": "Weight", "value": `${variant.weightG} g` },
-              { "@type": "PropertyValue", "name": "Packing Size", "value": `${variant.packingSize} pcs` },
+              { "@type": "PropertyValue", "name": "Pieces per Box", "value": `${variant.packingSize} pcs` },
             ];
 
         return {
@@ -133,16 +132,6 @@ export default async function AptusFamilyPage({ params }: Props) {
             image: CATALOG_IMAGE,
             category: family.name,
             material: isBottle ? "PET" : "Plastic",
-            offers: {
-              "@type": "Offer",
-              priceCurrency: "INR",
-              priceRange: "$$",
-              availability: "https://schema.org/InStock",
-              seller: {
-                "@type": "Organization",
-                "@id": `${APTUS_URL}/#organization`,
-              },
-            },
             additionalProperty: additionalProperties,
           },
         };

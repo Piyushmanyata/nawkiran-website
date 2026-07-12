@@ -218,7 +218,7 @@ function AptusCartDrawer({
     "Hello Aptus Packaging LLP, I would like a quote for:",
     ...items.map(({ variant, packCount }) => {
       const pieces = packCount * variant.packingSize;
-      return `• ${describeVariant(variant)} — ${packCount} pack${packCount === 1 ? "" : "s"} × ${variant.packingSize.toLocaleString("en-IN")} pcs = ${pieces.toLocaleString("en-IN")} pcs`;
+      return `• ${describeVariant(variant)} — ${packCount} box${packCount === 1 ? "" : "es"} × ${variant.packingSize.toLocaleString("en-IN")} pcs = ${pieces.toLocaleString("en-IN")} pcs`;
     }),
     "Please share pricing and availability. Thank you.",
   ].join("\n");
@@ -260,17 +260,17 @@ function AptusCartDrawer({
           ) : (
             <ul className="space-y-4">
               {items.map(({ variant, packCount }) => {
-                const inputId = `aptus-packs-${variant.id}`;
+                const inputId = `aptus-boxes-${variant.id}`;
                 return (
                   <li key={variant.id} className="rounded-2xl border border-steel p-4">
                     <p className="font-display text-sm font-bold text-navy">{describeVariant(variant)}</p>
                     <p className="mt-1 text-xs text-slate">
-                      {variant.packingSize.toLocaleString("en-IN")} pieces per pack
+                      {variant.packingSize.toLocaleString("en-IN")} pieces per box
                     </p>
                     <div className="mt-4 flex items-end justify-between gap-3">
                       <div>
                         <label htmlFor={inputId} className="block text-xs font-semibold text-slate">
-                          Packs
+                          Boxes
                         </label>
                         <input
                           id={inputId}
