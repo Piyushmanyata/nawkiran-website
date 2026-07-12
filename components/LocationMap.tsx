@@ -1,7 +1,7 @@
 export function LocationMap({ label, query, href }: { label: string; query: string; href: string }) {
   return (
     <div className="overflow-hidden rounded-2xl border border-steel bg-white">
-      <div className="aspect-[16/9] bg-mist">
+      <div className="h-40 bg-mist sm:h-44">
         <iframe
           title={`Map showing ${label}`}
           src={`https://www.google.com/maps?q=${encodeURIComponent(query)}&output=embed`}

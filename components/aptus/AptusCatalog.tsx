@@ -20,6 +20,7 @@ import { LocationMap } from "../LocationMap";
 import { Reveal, Stagger, StaggerItem, DAWN_EASE } from "@/components/motion";
 import { CountUp } from "@/components/CountUp";
 import aptusHeroProducts from "../../public/aptus-hero-products-v2.png";
+import aptusCompanyCatalogue from "../../Aptus Catalog.png";
 
 export function AptusCatalog() {
   const reduce = useReducedMotion();
@@ -208,18 +209,18 @@ export function AptusCatalog() {
           <div className="relative overflow-hidden rounded-3xl border border-steel bg-cloud">
             <div className="relative aspect-[3/2]">
               <Image
-                src="/aptus-machinery.png"
-                alt="Representative injection stretch blow moulding and closure compression moulding equipment"
+                src={aptusCompanyCatalogue}
+                alt="Aptus Packaging LLP catalogue showing its product ranges and machine capabilities"
                 fill
                 sizes="(max-width: 1024px) 92vw, 52vw"
-                className="object-cover"
+                className="object-cover object-top"
                 loading="lazy"
               />
             </div>
-            <p className="border-t border-steel px-4 py-3 text-xs text-slate">Representative equipment visual; confirm exact installed models in your quote conversation.</p>
+            <p className="border-t border-steel px-4 py-3 text-xs text-slate">Source: Aptus Packaging LLP catalogue. Confirm current installed models and output in your quote conversation.</p>
           </div>
           <Reveal>
-            <p className="eyebrow">Equipment reference</p>
+            <p className="eyebrow">Catalogue-backed production brief</p>
             <h2 className="mt-3 text-[clamp(2rem,4vw,3.25rem)]">Two production paths. One dependable packaging brief.</h2>
             <div className="mt-6 grid gap-3 sm:grid-cols-2">
               <div className="rounded-2xl border border-steel bg-dawn p-5">

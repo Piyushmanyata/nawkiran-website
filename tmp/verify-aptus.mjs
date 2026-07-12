@@ -98,11 +98,13 @@ async function evaluate(expression) {
 
 async function navigate(path) {
   await send("Page.navigate", { url: `${base}${path}` });
+  const expectedPath = JSON.stringify(path);
   for (let attempt = 0; attempt < 100; attempt += 1) {
-    if (await evaluate("document.readyState === 'complete'")) break;
+    const loaded = await evaluate(`document.readyState === 'complete' && location.pathname === ${expectedPath} && (!location.pathname.includes('/products/') || document.querySelectorAll('section[aria-labelledby=\"aptus-specifications-title\"] > ul > li').length > 0)`);
+    if (loaded) break;
     await wait(100);
   }
-  await wait(500);
+  await wait(300);
 }
 
 async function screenshot(name) {
@@ -144,18 +146,29 @@ try {
     false,
   );
   assert.equal(await evaluate("document.querySelectorAll('a[href=\"#main-content\"]').length"), 1);
+  assert.ok(await evaluate("[...document.querySelectorAll('#contact iframe')].every((frame) => frame.getBoundingClientRect().height <= 176)"));
+  await evaluate("document.querySelector('#equipment')?.scrollIntoView({ block: 'center' })");
+  await wait(500);
+  assert.ok(await evaluate("(() => { const image = document.querySelector('#equipment img'); return Boolean(image?.complete && image.naturalWidth > 0); })()"));
+  await evaluate("document.querySelector('#contact')?.scrollIntoView({ block: 'center' })");
+  await wait(700);
+  assert.match(await evaluate("document.querySelector('#contact')?.innerText ?? ''"), /HEAD OFFICE ADDRESS/);
   await screenshot("aptus-desktop.png");
 
   await navigate("/aptus/products/cosmetic-bottles");
-  assert.equal(await evaluate("document.querySelectorAll('tbody tr').length"), 34);
+  assert.equal(await evaluate("document.querySelectorAll('section[aria-labelledby=\"aptus-specifications-title\"] > ul > li').length"), 34);
   assert.equal(
     await evaluate("document.querySelector('link[rel=canonical]')?.href"),
     "https://nawkiran.com/aptus/products/cosmetic-bottles",
   );
   assert.ok(
-    await evaluate("[...document.querySelectorAll('button')].find((button) => button.textContent.includes('Add 10 packs'))?.click(); true"),
+    await evaluate("[...document.querySelectorAll('button')].find((button) => button.textContent.includes('Add 10 boxes'))?.click(); true"),
   );
-  await wait(150);
+  for (let attempt = 0; attempt < 30; attempt += 1) {
+    const label = await evaluate("document.querySelector('button[aria-label^=\"Open Aptus quote cart\"]')?.getAttribute('aria-label')");
+    if (label?.includes("1 items")) break;
+    await wait(100);
+  }
   assert.match(
     (await evaluate("document.querySelector('button[aria-label^=\"Open Aptus quote cart\"]')?.getAttribute('aria-label')")) ?? "",
     /1 items/,
@@ -174,7 +187,7 @@ try {
   assert.match(await evaluate("document.querySelector('dialog[open]').innerText"), /4,800/);
   const whatsappHref = await evaluate("document.querySelector('dialog[open] a[href^=\"https://wa.me/919900688790\"]')?.href");
   assert.ok(whatsappHref);
-  assert.match(decodeURIComponent(whatsappHref), /2 packs × 2,400 pcs = 4,800 pcs/);
+  assert.match(decodeURIComponent(whatsappHref), /2 boxes × 2,400 pcs = 4,800 pcs/);
   assert.equal(await evaluate("localStorage.getItem('nawkiran_cart')"), "[]");
   await send("Input.dispatchKeyEvent", {
     type: "rawKeyDown",
@@ -224,7 +237,7 @@ try {
   await screenshot("aptus-mobile-menu.png");
 
   await navigate("/aptus/products/plastic-closures");
-  assert.equal(await evaluate("document.querySelectorAll('tbody tr').length"), 2);
+  assert.equal(await evaluate("document.querySelectorAll('section[aria-labelledby=\"aptus-specifications-title\"] > ul > li').length"), 2);
   assert.equal(await evaluate("document.documentElement.scrollWidth <= window.innerWidth + 1"), true);
   await screenshot("aptus-closures-mobile.png");
 
