@@ -101,7 +101,7 @@ export function AptusNav() {
             </span>
           </Link>
 
-          <div className="hidden xl:block">
+          <div>
             <CompanySwitcher current="aptus" />
           </div>
 
@@ -181,7 +181,7 @@ export function AptusNav() {
               className="overflow-hidden border-t border-steel bg-white xl:hidden"
             >
               <div className="shell flex flex-col gap-1 py-4">
-                <CompanySwitcher current="aptus" onNavigate={closeMenuForNavigation} className="self-start mb-2" />
+
                 {LINKS.map((link) => (
                   <motion.div key={link.href} variants={reduceMotion ? reducedItemVariants : itemVariants}>
                     <Link

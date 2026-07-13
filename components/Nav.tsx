@@ -85,7 +85,7 @@ export function Nav() {
             </span>
           </Link>
 
-          <div className="hidden xl:block">
+          <div>
             <CompanySwitcher current="nawkiran" />
           </div>
 
@@ -175,11 +175,7 @@ export function Nav() {
             className="overflow-hidden border-b border-steel bg-white/95 backdrop-blur-xl lg:hidden"
           >
             <div className="shell flex flex-col gap-1 py-4">
-              <CompanySwitcher
-                current="nawkiran"
-                onNavigate={closeMenuForNavigation}
-                className="mb-2 self-start"
-              />
+
               {NAV_LINKS.map((l) => (
                 <a
                   key={l.href}
