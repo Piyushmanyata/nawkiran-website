@@ -1,5 +1,5 @@
 import { products } from "@/lib/products";
-import { COMPANY, FOUNDING_YEAR, SITE_URL } from "@/lib/site";
+import { COMPANY, FOUNDING_YEAR, PHONES, EMAIL, SITE_URL } from "@/lib/site";
 
 const OG_IMAGE = `${SITE_URL}/hero-preforms-v2.png`;
 
@@ -18,8 +18,8 @@ export const nawkiranStructuredData = {
         url: `${SITE_URL}/nawkiran-logo.svg`,
       },
       image: OG_IMAGE,
-      telephone: ["+919831185794", "+919831388570", "+917980639796"],
-      email: "nawkiranpolyplast@gmail.com",
+      telephone: PHONES.map((p) => p.tel),
+      email: EMAIL,
       address: {
         "@type": "PostalAddress",
         streetAddress: "Poddar Court, 18 Rabindra Sarani, Gate No. 3, 5th Floor",

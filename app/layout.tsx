@@ -10,7 +10,6 @@ const plusJakarta = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta",
   display: "swap",
   preload: true,
-  adjustFontFallback: true,
 });
 
 const dmSans = DM_Sans({
@@ -19,7 +18,6 @@ const dmSans = DM_Sans({
   variable: "--font-dm-sans",
   display: "swap",
   preload: true,
-  adjustFontFallback: true,
 });
 
 const jetbrains = JetBrains_Mono({

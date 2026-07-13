@@ -21,16 +21,16 @@ export function Hero() {
   const imageTransform = useTransform(scrollYProgress, [0, 1], ["translateY(0px)", `translateY(${reduce ? 0 : -24}px)`]);
 
   return (
-    <section ref={ref} id="top" className="relative isolate overflow-hidden bg-night pt-28 pb-16 text-white md:pt-36 md:pb-24">
+    <section ref={ref} id="top" className="relative isolate overflow-hidden bg-night pt-32 pb-16 text-white md:pt-40 md:pb-24">
       <div className="grid-texture absolute inset-0 opacity-60" aria-hidden="true" />
       <div className="pointer-events-none absolute -right-48 top-16 h-[34rem] w-[34rem] rounded-full bg-sunrise/20 blur-3xl" aria-hidden="true" />
       <div className="pointer-events-none absolute -left-40 bottom-0 h-[28rem] w-[28rem] rounded-full bg-amber/10 blur-3xl" aria-hidden="true" />
 
       <div className="shell relative z-10 grid items-center gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16">
         <motion.div
-          initial={false}
+          initial={reduce ? { opacity: 0 } : { opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, ease: DAWN_EASE }}
+          transition={{ duration: reduce ? 0.3 : 0.55, ease: DAWN_EASE }}
           className="max-w-2xl"
         >
           <p className="eyebrow">PET preforms · Kolkata, India</p>
@@ -63,9 +63,9 @@ export function Hero() {
         </motion.div>
 
         <motion.div
-          initial={false}
+          initial={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.97 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.65, delay: 0.1, ease: DAWN_EASE }}
+          transition={{ duration: reduce ? 0.3 : 0.65, delay: reduce ? 0 : 0.1, ease: DAWN_EASE }}
           style={{ transform: imageTransform }}
           className="relative overflow-hidden rounded-[2rem] border border-white/15 bg-white/[0.04] p-2 shadow-[0_30px_80px_rgba(0,0,0,0.42)]"
         >

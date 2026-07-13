@@ -5,7 +5,6 @@ import type { ReactNode } from "react";
 
 export const DAWN_EASE = [0.22, 1, 0.36, 1] as const;
 
-// Content remains visible before hydration; whileInView only keeps the settled state.
 export function Reveal({
   children,
   delay = 0,
@@ -17,14 +16,15 @@ export function Reveal({
   className?: string;
   as?: "div" | "section" | "li" | "span";
 }) {
+  const reduce = useReducedMotion();
   const MotionTag = motion[as] as typeof motion.div;
   return (
     <MotionTag
       className={className}
-      initial={false}
+      initial={reduce ? { opacity: 0 } : { opacity: 0, transform: "translateY(20px)" }}
       whileInView={{ opacity: 1, transform: "translateY(0px)" }}
       viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.6, ease: DAWN_EASE, delay }}
+      transition={{ duration: reduce ? 0.3 : 0.6, ease: DAWN_EASE, delay: reduce ? 0 : delay }}
     >
       {children}
     </MotionTag>
@@ -50,7 +50,7 @@ export function Stagger({
     <motion.div
       className={className}
       variants={container}
-      initial={false}
+      initial="hidden"
       whileInView="show"
       viewport={{ once: true, margin: "-80px" }}
     >

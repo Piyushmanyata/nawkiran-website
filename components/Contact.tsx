@@ -14,7 +14,7 @@ export function Contact() {
   const [monthlyQuantity, setMonthlyQuantity] = useState("");
   const primary = PHONES.find((p) => p.primary) ?? PHONES[0];
   const requestedQuantity = Number(monthlyQuantity);
-  const hasValidQuantity = /^(?:\d+(?:\.\d*)?|\.\d+)$/.test(monthlyQuantity) && Number.isFinite(requestedQuantity);
+  const hasValidQuantity = /^(?:\d+(?:\.\d*)?|\.\d+)$/.test(monthlyQuantity) && Number.isFinite(requestedQuantity) && requestedQuantity > 0;
   const quantityText = hasValidQuantity ? monthlyQuantity : "to be discussed";
 
   const waText = `Hi Nawkiran,${name ? ` this is ${name}.` : ""} I'm interested in ${family || "PET"} preforms. ${spec ? `Neck / weight: ${spec}. ` : ""}Approx. monthly quantity: ${quantityText}${hasValidQuantity ? " kg" : "."}`;

@@ -31,7 +31,7 @@ export function AnimatedArc({ className, pulse = true }: { className?: string; p
     >
       {ARCS.map((a, i) => (
         <motion.path
-          key={i}
+          key={a.r}
           d={`M ${CX - a.r} ${CY} A ${a.r} ${a.r} 0 0 1 ${CX + a.r} ${CY}`}
           stroke={a.color}
           strokeWidth={4.6}
@@ -49,9 +49,9 @@ export function AnimatedArc({ className, pulse = true }: { className?: string; p
 export function MiniArc({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 100 54" className={className} fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      {ARCS.map((a, i) => (
+      {ARCS.map((a) => (
         <path
-          key={i}
+          key={a.r}
           d={`M ${CX - a.r} ${CY} A ${a.r} ${a.r} 0 0 1 ${CX + a.r} ${CY}`}
           stroke={a.color}
           strokeWidth={4.6}
