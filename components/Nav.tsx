@@ -74,7 +74,7 @@ export function Nav() {
       >
         <nav
           aria-label="Primary"
-          className={`shell flex items-center justify-between gap-4 ${scrolled ? "py-2.5" : "py-4"}`}
+          className={`shell flex flex-wrap items-center justify-between gap-4 sm:flex-nowrap ${scrolled ? "py-2.5" : "py-4"}`}
         >
           {/* Brand lockup */}
           <Link href="/" className="flex items-center gap-2.5" aria-label="Nawkiran Polyplast — home">
@@ -85,7 +85,7 @@ export function Nav() {
             </span>
           </Link>
 
-          <div>
+          <div className="order-3 basis-full sm:order-none sm:basis-auto">
             <CompanySwitcher current="nawkiran" />
           </div>
 
